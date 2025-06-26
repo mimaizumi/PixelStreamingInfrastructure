@@ -128,6 +128,28 @@ export class ConfigUI {
      * @param settingsElem - - The element that contains all the individual settings sections, flags, and so on.
      */
     populateSettingsElement(settingsElem: HTMLElement, settingsConfig: SettingsPanelConfiguration): void {
+        if (isSectionEnabled(settingsConfig, SettingsSections.RDesign)) {
+            /* Setup all RDesign specific settings */
+            const rDesignSettingsSection = this.buildSectionWithHeading(
+                settingsElem,
+                SettingsSections.RDesign
+            );
+
+            // make settings show up in DOM
+            if (isSettingEnabled(settingsConfig, TextParameters.RoomDesignId))
+                this.addSettingText(
+                    rDesignSettingsSection,
+                    this.textParametersUi.get(TextParameters.RoomDesignId)
+                );
+            if (isSettingEnabled(settingsConfig, TextParameters.OneTimeToken))
+                this.addSettingText(
+                    rDesignSettingsSection,
+                    this.textParametersUi.get(TextParameters.OneTimeToken)
+                );
+            if (isSettingEnabled(settingsConfig, Flags.Project))
+                this.addSettingFlag(rDesignSettingsSection, this.flagsUi.get(Flags.Project));
+        }
+
         if (isSectionEnabled(settingsConfig, SettingsSections.PixelStreaming)) {
             /* Setup all Pixel Streaming specific settings */
             const psSettingsSection = this.buildSectionWithHeading(

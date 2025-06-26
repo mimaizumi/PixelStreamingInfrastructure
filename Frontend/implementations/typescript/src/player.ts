@@ -14,7 +14,7 @@ declare global {
 }
 
 document.body.onload = function() {
-    Logger.InitLogging(LogLevel.Warning, true);
+    Logger.InitLogging(LogLevel.Debug, false);
 
 	// Create a config object
 	const config = new Config({ useUrlParams: true });
