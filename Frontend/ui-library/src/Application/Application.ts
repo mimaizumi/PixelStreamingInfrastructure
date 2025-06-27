@@ -650,11 +650,16 @@ export class Application {
         Logger.Info(`Room Design ID: ${roomDesignId}`);
         Logger.Info(`One Time Token: ${oneTimeToken}`);
         Logger.Info(`Project: ${project}`);
-        this.stream.emitCommand({
+        const results = this.stream.emitCommand({
             RoomDesignId: roomDesignId,
             OneTimeToken: oneTimeToken,
             Project: project
         });
+        if (!results) {
+            this.showErrorOverlay('Unable to emit command');
+        } else {
+            this.showTextOverlay('Command emitted successfully');
+        }
     }
 
     /**
