@@ -61,6 +61,7 @@ export type VideoQPIndicatorConfig = {
 export interface UIOptions {
     stream: PixelStreaming;
     onColorModeChanged?: (isLightMode: boolean) => void;
+    onHideControls?: (isHidden: boolean) => void;
     /** By default, a settings panel and associate visibility toggle button will be made.
      * If needed, this behaviour can be configured. */
     settingsPanelConfig?: SettingsPanelConfiguration;
@@ -107,6 +108,7 @@ export class Application {
     configUI: ConfigUI;
 
     onColorModeChanged: UIOptions['onColorModeChanged'];
+    onHideControls: UIOptions['onHideControls'];
 
     protected _options: UIOptions;
 
@@ -125,6 +127,7 @@ export class Application {
         this._rootElement = this.createRootElement(this.stream, this._uiFeatureElement);
 
         this.onColorModeChanged = options.onColorModeChanged;
+        this.onHideControls = options.onHideControls;
         this.configUI = new ConfigUI(this.stream.config);
 
         this.createOverlays();
@@ -155,6 +158,7 @@ export class Application {
         this.showConnectOrAutoConnectOverlays();
 
         this.setColorMode(this.configUI.isCustomFlagEnabled(ExtraFlags.LightMode));
+        this.setHideControls(this.configUI.isCustomFlagEnabled(ExtraFlags.HideControls));
 
         this.stream.config._addOnSettingChangedListener(Flags.HideUI, (isEnabled: boolean) => {
             this._uiFeatureElement.style.visibility = isEnabled ? 'hidden' : 'visible';
@@ -315,6 +319,10 @@ export class Application {
                 `Color Scheme: ${isLightMode ? 'Light' : 'Dark'} Mode`
             );
             this.setColorMode(isLightMode);
+        });
+
+        this.configUI.addCustomFlagOnSettingChangedListener(ExtraFlags.HideControls, (isHidden: boolean) => {
+            this.setHideControls(isHidden);
         });
     }
 
@@ -776,6 +784,12 @@ export class Application {
     setColorMode(isLightMode: boolean) {
         if (this.onColorModeChanged) {
             this.onColorModeChanged(isLightMode);
+        }
+    }
+
+    setHideControls(isHidden: boolean) {
+        if (this.onHideControls) {
+            this.onHideControls(isHidden);
         }
     }
 

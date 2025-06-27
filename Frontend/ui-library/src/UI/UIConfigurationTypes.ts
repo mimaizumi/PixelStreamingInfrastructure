@@ -4,6 +4,7 @@ import { FlagsIds, OptionIds } from '@epicgames-ps/lib-pixelstreamingfrontend-ue
 
 export class ExtraFlags {
     static LightMode = 'LightMode' as const;
+    static HideControls = 'HideControls' as const;
 }
 
 export type ExtraFlagsKeys = Exclude<keyof typeof ExtraFlags, 'prototype'>;

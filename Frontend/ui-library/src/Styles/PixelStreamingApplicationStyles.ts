@@ -51,7 +51,8 @@ export class PixelStreamingApplicationStyle {
             '--color8': '#41008c',
             '--color9': '#3e0070',
             '--color10': '#2e0052',
-            '--color11': 'rgba(65,0,139,1)'
+            '--color11': 'rgba(65,0,139,1)',
+            '--controlsDisplay': 'block'
         },
         '.noselect': {
             userSelect: 'none'
@@ -154,7 +155,7 @@ export class PixelStreamingApplicationStyle {
             left: '2%',
             fontFamily: "'Michroma', sans-serif",
             pointerEvents: 'all',
-            display: 'block'
+            display: 'var(--controlsDisplay)'
         },
         '#controls>*': {
             marginBottom: '0.5rem',
@@ -609,5 +610,10 @@ export class PixelStreamingApplicationStyle {
         } else {
             this.applyPalette(this.darkModePalette);
         }
+    }
+
+    setHideControls(isHidden: boolean) {
+        const rootElement = document.querySelector(':root') as HTMLElement;
+        rootElement.style.setProperty('--controlsDisplay', isHidden ? 'none' : 'block');
     }
 }

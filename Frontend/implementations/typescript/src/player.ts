@@ -3,7 +3,7 @@
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 import { Config, PixelStreaming, Logger, LogLevel } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
-import { Application, PixelStreamingApplicationStyle } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
+import { Application, PixelStreamingApplicationStyle, UIElementCreationMode } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 const PixelStreamingApplicationStyles =
     new PixelStreamingApplicationStyle();
 PixelStreamingApplicationStyles.applyStyleSheet();
@@ -14,7 +14,7 @@ declare global {
 }
 
 document.body.onload = function() {
-    Logger.InitLogging(LogLevel.Debug, false);
+  Logger.InitLogging(LogLevel.Debug, false);
 
 	// Create a config object
 	const config = new Config({ useUrlParams: true });
@@ -24,7 +24,9 @@ document.body.onload = function() {
 
 	const application = new Application({
 		stream,
-		onColorModeChanged: (isLightMode) => PixelStreamingApplicationStyles.setColorMode(isLightMode)
+		onColorModeChanged: (isLightMode) => PixelStreamingApplicationStyles.setColorMode(isLightMode),
+		onHideControls: (isHidden) => PixelStreamingApplicationStyles.setHideControls(isHidden),
+		hideControlsInFullscreen: true
 	});
 	document.body.appendChild(application.rootElement);
 
