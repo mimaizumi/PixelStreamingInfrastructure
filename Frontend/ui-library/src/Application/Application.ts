@@ -656,9 +656,9 @@ export class Application {
             Project: project
         });
         if (!results) {
-            this.showErrorOverlay('Unable to emit command');
+            Logger.Error('Unable to emit command');
         } else {
-            this.showTextOverlay('Command emitted successfully');
+            Logger.Info('Command emitted successfully');
         }
     }
 
