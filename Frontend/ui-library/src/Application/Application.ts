@@ -678,11 +678,16 @@ export class Application {
         this.statsPanel?.onVideoInitialized(this.stream);
 
         // emit default RDesign settings
-        this.stream.emitCommand({
+        const results = this.stream.emitCommand({
             RoomDesignId: this.stream.config.getTextSettingValue(TextParameters.RoomDesignId),
             OneTimeToken: this.stream.config.getTextSettingValue(TextParameters.OneTimeToken),
             Project: this.stream.config.isFlagEnabled(Flags.Project)
         });
+        if (!results) {
+            Logger.Error('Unable to emit command');
+        } else {
+            Logger.Info('Command emitted successfully');
+        }
     }
 
     /**
