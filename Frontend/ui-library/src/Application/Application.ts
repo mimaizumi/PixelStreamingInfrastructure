@@ -12,7 +12,8 @@ import {
     OptionParameters,
     SettingsChangedEvent,
     LatencyInfo,
-    ShowOnScreenKeyboardEvent
+    ShowOnScreenKeyboardEvent,
+    TextParameters
 } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { OverlayBase } from '../Overlay/BaseOverlay';
 import { ActionOverlay } from '../Overlay/ActionOverlay';
@@ -675,6 +676,12 @@ export class Application {
             this.showPlayOverlay();
         }
         this.statsPanel?.onVideoInitialized(this.stream);
+
+        this.stream.emitCommand({
+            RoomDesignId: this.stream.config.getTextSettingValue(TextParameters.RoomDesignId),
+            OneTimeToken: this.stream.config.getTextSettingValue(TextParameters.OneTimeToken),
+            Project: this.stream.config.isFlagEnabled(Flags.Project)
+        });
     }
 
     /**
