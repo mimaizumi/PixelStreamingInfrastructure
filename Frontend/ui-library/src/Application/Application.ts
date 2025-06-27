@@ -644,8 +644,12 @@ export class Application {
         this.showTextOverlay('WebRTC connected, waiting for video');
 
         // emit default RDesign settings
-        Logger.Info(this.stream.config.getTextSettingValue(TextParameters.RoomDesignId));
-        Logger.Info(this.stream.config.getTextSettingValue(TextParameters.OneTimeToken));
+        const roomDesignId = this.stream.config.getTextSettingValue(TextParameters.RoomDesignId);
+        const oneTimeToken = this.stream.config.getTextSettingValue(TextParameters.OneTimeToken);
+        const project = this.stream.config.isFlagEnabled(Flags.Project);
+        Logger.Info(`Room Design ID: ${roomDesignId}`);
+        Logger.Info(`One Time Token: ${oneTimeToken}`);
+        Logger.Info(`Project: ${project}`);
     }
 
     /**
