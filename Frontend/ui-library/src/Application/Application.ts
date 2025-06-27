@@ -642,24 +642,6 @@ export class Application {
      */
     onWebRtcConnected() {
         this.showTextOverlay('WebRTC connected, waiting for video');
-
-        // emit default RDesign settings
-        const roomDesignId = this.stream.config.getTextSettingValue(TextParameters.RoomDesignId);
-        const oneTimeToken = this.stream.config.getTextSettingValue(TextParameters.OneTimeToken);
-        const project = this.stream.config.isFlagEnabled(Flags.Project);
-        Logger.Info(`Room Design ID: ${roomDesignId}`);
-        Logger.Info(`One Time Token: ${oneTimeToken}`);
-        Logger.Info(`Project: ${project}`);
-        const results = this.stream.emitCommand({
-            RoomDesignId: roomDesignId,
-            OneTimeToken: oneTimeToken,
-            Project: project
-        });
-        if (!results) {
-            Logger.Error('Unable to emit command');
-        } else {
-            Logger.Info('Command emitted successfully');
-        }
     }
 
     /**
@@ -694,6 +676,13 @@ export class Application {
             this.showPlayOverlay();
         }
         this.statsPanel?.onVideoInitialized(this.stream);
+
+        // emit default RDesign settings
+        this.stream.emitCommand({
+            RoomDesignId: this.stream.config.getTextSettingValue(TextParameters.RoomDesignId),
+            OneTimeToken: this.stream.config.getTextSettingValue(TextParameters.OneTimeToken),
+            Project: this.stream.config.isFlagEnabled(Flags.Project)
+        });
     }
 
     /**
