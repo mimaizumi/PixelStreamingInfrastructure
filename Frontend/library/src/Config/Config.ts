@@ -366,7 +366,7 @@ export class Config {
                 'When video is ready automatically start playing it as opposed to showing a play button.',
                 settings && Object.prototype.hasOwnProperty.call(settings, Flags.AutoPlayVideo)
                     ? settings[Flags.AutoPlayVideo]
-                    : true,
+                    : false,
                 useUrlParams
             )
         );
@@ -509,7 +509,7 @@ export class Config {
                 'Either locked mouse, where the pointer is consumed by the video and locked to it, or hovering mouse, where the mouse is not consumed.',
                 settings && Object.prototype.hasOwnProperty.call(settings, Flags.HoveringMouseMode)
                     ? settings[Flags.HoveringMouseMode]
-                    : false,
+                    : true,
                 useUrlParams,
                 (isHoveringMouse: boolean, setting: SettingBase) => {
                     setting.label = `Control Scheme: ${isHoveringMouse ? 'Hovering' : 'Locked'} Mouse`;
