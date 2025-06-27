@@ -76,6 +76,17 @@ export class ConfigUI {
                 }
             )
         );
+
+        this.customFlags.set(
+            ExtraFlags.HideControls,
+            new SettingFlag<FlagsIdsExtended>(
+                ExtraFlags.HideControls,
+                'Hide Left Controls',
+                'Left controls will be hidden',
+                false,
+                useUrlParams
+            )
+        );
     }
 
     /**
@@ -230,6 +241,9 @@ export class ConfigUI {
 
             if (isSettingEnabled(settingsConfig, ExtraFlags.LightMode))
                 this.addSettingFlag(viewSettingsSection, this.flagsUi.get(ExtraFlags.LightMode));
+
+            if (isSettingEnabled(settingsConfig, ExtraFlags.HideControls))
+                this.addSettingFlag(viewSettingsSection, this.flagsUi.get(ExtraFlags.HideControls));
         }
 
         if (isSectionEnabled(settingsConfig, SettingsSections.Input)) {
