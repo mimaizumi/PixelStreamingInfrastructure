@@ -641,6 +641,9 @@ export class Application {
      */
     onWebRtcConnected() {
         this.showTextOverlay('WebRTC connected, waiting for video');
+        Logger.Info(
+            '..........................................WebRTC connected, waiting for video...........................'
+        );
     }
 
     /**
