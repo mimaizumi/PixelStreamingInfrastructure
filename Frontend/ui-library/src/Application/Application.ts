@@ -12,7 +12,8 @@ import {
     OptionParameters,
     SettingsChangedEvent,
     LatencyInfo,
-    ShowOnScreenKeyboardEvent
+    ShowOnScreenKeyboardEvent,
+    TextParameters
 } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { OverlayBase } from '../Overlay/BaseOverlay';
 import { ActionOverlay } from '../Overlay/ActionOverlay';
@@ -641,9 +642,10 @@ export class Application {
      */
     onWebRtcConnected() {
         this.showTextOverlay('WebRTC connected, waiting for video');
-        Logger.Info(
-            '..........................................WebRTC connected, waiting for video...........................'
-        );
+
+        // emit default RDesign settings
+        Logger.Info(this.stream.config.getTextSettingValue(TextParameters.RoomDesignId));
+        Logger.Info(this.stream.config.getTextSettingValue(TextParameters.OneTimeToken));
     }
 
     /**
