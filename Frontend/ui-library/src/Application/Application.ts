@@ -650,6 +650,11 @@ export class Application {
         Logger.Info(`Room Design ID: ${roomDesignId}`);
         Logger.Info(`One Time Token: ${oneTimeToken}`);
         Logger.Info(`Project: ${project}`);
+        this.stream.emitCommand({
+            RoomDesignId: roomDesignId,
+            OneTimeToken: oneTimeToken,
+            Project: project
+        });
     }
 
     /**
