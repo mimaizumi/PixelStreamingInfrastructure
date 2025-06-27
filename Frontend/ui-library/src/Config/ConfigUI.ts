@@ -242,6 +242,9 @@ export class ConfigUI {
             if (isSettingEnabled(settingsConfig, ExtraFlags.LightMode))
                 this.addSettingFlag(viewSettingsSection, this.flagsUi.get(ExtraFlags.LightMode));
 
+            if (isSettingEnabled(settingsConfig, Flags.HideUI))
+                this.addSettingFlag(viewSettingsSection, this.flagsUi.get(Flags.HideUI));
+
             if (isSettingEnabled(settingsConfig, ExtraFlags.HideControls))
                 this.addSettingFlag(viewSettingsSection, this.flagsUi.get(ExtraFlags.HideControls));
         }
