@@ -685,11 +685,13 @@ export class Application {
         }
         this.statsPanel?.onVideoInitialized(this.stream);
 
-        this.stream.emitCommand({
+        const descriptor = {
             RoomDesignId: this.stream.config.getTextSettingValue(TextParameters.RoomDesignId),
             OneTimeToken: this.stream.config.getTextSettingValue(TextParameters.OneTimeToken),
             Project: this.stream.config.isFlagEnabled(Flags.Project)
-        });
+        };
+        Logger.RDesign('Emit command to UE' + JSON.stringify(descriptor));
+        this.stream.emitCommand(descriptor);
     }
 
     /**

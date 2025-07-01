@@ -11,7 +11,8 @@ export enum LogLevel {
     Error,
     Warning,
     Info,
-    Debug
+    Debug,
+    RDesign
 }
 
 /**
@@ -31,6 +32,7 @@ export interface ILogger {
     Info(message: string): void;
     Warning(message: string): void;
     Error(message: string): void;
+    RDesign(message: string): void;
 }
 
 export function overrideLogger(logger: ILogger) {
@@ -94,6 +96,13 @@ export class LoggerType implements ILogger {
         this.ValidateContext();
         if (this.context!.logLevel >= LogLevel.Error) {
             this.CommonLog('Error', message);
+        }
+    }
+
+    RDesign(message: string) {
+        this.ValidateContext();
+        if (this.context!.logLevel >= LogLevel.RDesign) {
+            this.CommonLog('RDesign', message);
         }
     }
 
