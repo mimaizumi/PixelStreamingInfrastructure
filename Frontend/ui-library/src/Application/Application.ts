@@ -13,7 +13,8 @@ import {
     SettingsChangedEvent,
     LatencyInfo,
     ShowOnScreenKeyboardEvent,
-    TextParameters
+    TextParameters,
+    API
 } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { OverlayBase } from '../Overlay/BaseOverlay';
 import { ActionOverlay } from '../Overlay/ActionOverlay';
@@ -155,7 +156,8 @@ export class Application {
 
         this.registerCallbacks();
 
-        this.showConnectOrAutoConnectOverlays();
+        // this.showConnectOrAutoConnectOverlays();
+        this.showRDesignSettingWarning();
 
         this.setColorMode(this.configUI.isCustomFlagEnabled(ExtraFlags.LightMode));
         this.setHideControls(this.configUI.isCustomFlagEnabled(ExtraFlags.HideControls));
@@ -575,6 +577,31 @@ export class Application {
         this.afkOverlay.onAction(() => dismissAfk());
         this.afkOverlay.show();
         this.currentOverlay = this.afkOverlay;
+    }
+
+    /**
+     * Show RDesign setting warning overlay
+     */
+    async showRDesignSettingWarning() {
+        this.showTextOverlay('Verifying token');
+
+        const jwt = this.stream.config.getTextSettingValue(TextParameters.JWT);
+        if (!jwt) {
+            this.showErrorOverlay('No token found');
+            return;
+        }
+        const apiClient = new API({
+            endpoint: `streaming/token/verify`,
+            headers: { Authorization: `Token ${jwt}` },
+            method: 'POST'
+        });
+        const response = await apiClient.call();
+        const { error } = response;
+        if (error) {
+            this.showErrorOverlay(error);
+            return;
+        }
+        this.showConnectOrAutoConnectOverlays();
     }
 
     /**

@@ -84,6 +84,7 @@ export class TextParameters {
     static SignallingServerUrl = 'ss' as const;
     static OneTimeToken = 'OneTimeToken' as const;
     static RoomDesignId = 'RoomDesignId' as const;
+    static JWT = 'JWT' as const;
 }
 
 export type TextParametersKeys = Exclude<keyof typeof TextParameters, 'prototype'>;
@@ -186,6 +187,19 @@ export class Config {
         /**
          * Text Parameters
          */
+
+        this.textParameters.set(
+            TextParameters.JWT,
+            new SettingText(
+                TextParameters.JWT,
+                'JWT',
+                'Streaming session token is sent by community site',
+                settings && Object.prototype.hasOwnProperty.call(settings, TextParameters.JWT)
+                    ? settings[TextParameters.JWT]
+                    : null,
+                useUrlParams
+            )
+        );
 
         this.textParameters.set(
             TextParameters.RoomDesignId,
