@@ -712,6 +712,8 @@ export class Application {
         }
         this.statsPanel?.onVideoInitialized(this.stream);
 
+        this.stream.emitCommand({ JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) });
+
         const descriptor = {
             RoomDesignId: this.stream.config.getTextSettingValue(TextParameters.RoomDesignId),
             OneTimeToken: this.stream.config.getTextSettingValue(TextParameters.OneTimeToken),
