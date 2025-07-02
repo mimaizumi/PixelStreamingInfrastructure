@@ -9,10 +9,10 @@ declare global {
 export enum LogLevel {
     Disabled = 0,
     Error,
+    RDesign,
     Warning,
     Info,
-    Debug,
-    RDesign
+    Debug
 }
 
 /**
