@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+export { API } from './API/API';
 export { WebRtcPlayerController } from './WebRtcPlayer/WebRtcPlayerController';
 export { WebXRController } from './WebXR/WebXRController';
 export * from './Config/Config';

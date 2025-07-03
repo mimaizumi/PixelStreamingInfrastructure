@@ -13,7 +13,8 @@ import {
     SettingsChangedEvent,
     LatencyInfo,
     ShowOnScreenKeyboardEvent,
-    TextParameters
+    TextParameters,
+    API
 } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { OverlayBase } from '../Overlay/BaseOverlay';
 import { ActionOverlay } from '../Overlay/ActionOverlay';
@@ -155,7 +156,8 @@ export class Application {
 
         this.registerCallbacks();
 
-        this.showConnectOrAutoConnectOverlays();
+        // this.showConnectOrAutoConnectOverlays();
+        this.showRDesignSettingWarning();
 
         this.setColorMode(this.configUI.isCustomFlagEnabled(ExtraFlags.LightMode));
         this.setHideControls(this.configUI.isCustomFlagEnabled(ExtraFlags.HideControls));
@@ -578,6 +580,33 @@ export class Application {
     }
 
     /**
+     * Show RDesign setting warning overlay
+     */
+    async showRDesignSettingWarning() {
+        this.showTextOverlay('Verifying token');
+
+        const jwt = this.stream.config.getTextSettingValue(TextParameters.JWT);
+        if (!jwt) {
+            this.showErrorOverlay('No token found');
+            return;
+        }
+        const apiClient = new API({
+            endpoint: `streaming/token/verify`,
+            headers: { Authorization: `Token ${jwt}` },
+            method: 'POST'
+        });
+        const response = await apiClient.call();
+        const { error } = response;
+        if (error) {
+            this.showErrorOverlay(error);
+            return;
+        }
+
+        Logger.RDesign('Token verified - ' + JSON.stringify(response));
+        this.showConnectOrAutoConnectOverlays();
+    }
+
+    /**
      * Show the Connect Overlay or auto connect
      */
     showConnectOrAutoConnectOverlays() {
@@ -684,14 +713,7 @@ export class Application {
             this.showPlayOverlay();
         }
         this.statsPanel?.onVideoInitialized(this.stream);
-
-        const descriptor = {
-            RoomDesignId: this.stream.config.getTextSettingValue(TextParameters.RoomDesignId),
-            OneTimeToken: this.stream.config.getTextSettingValue(TextParameters.OneTimeToken),
-            Project: this.stream.config.isFlagEnabled(Flags.Project)
-        };
-        Logger.RDesign('Emit command to UE' + JSON.stringify(descriptor));
-        this.stream.emitCommand(descriptor);
+        this.stream.emitCommand({ JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) });
     }
 
     /**
