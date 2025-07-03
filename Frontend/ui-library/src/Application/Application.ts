@@ -601,6 +601,8 @@ export class Application {
             this.showErrorOverlay(error);
             return;
         }
+
+        Logger.RDesign('Token verified - ' + JSON.stringify(response));
         this.showConnectOrAutoConnectOverlays();
     }
 
