@@ -713,16 +713,7 @@ export class Application {
             this.showPlayOverlay();
         }
         this.statsPanel?.onVideoInitialized(this.stream);
-
         this.stream.emitCommand({ JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) });
-
-        const descriptor = {
-            RoomDesignId: this.stream.config.getTextSettingValue(TextParameters.RoomDesignId),
-            OneTimeToken: this.stream.config.getTextSettingValue(TextParameters.OneTimeToken),
-            Project: this.stream.config.isFlagEnabled(Flags.Project)
-        };
-        Logger.RDesign('Emit command to UE' + JSON.stringify(descriptor));
-        this.stream.emitCommand(descriptor);
     }
 
     /**
