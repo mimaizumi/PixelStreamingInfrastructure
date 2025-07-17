@@ -713,7 +713,9 @@ export class Application {
             this.showPlayOverlay();
         }
         this.statsPanel?.onVideoInitialized(this.stream);
-        this.stream.emitCommand({ JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) });
+        const payload = { JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) };
+        Logger.RDesign('EmitCommand: ' + JSON.stringify(payload));
+        this.stream.emitCommand(payload);
     }
 
     /**
