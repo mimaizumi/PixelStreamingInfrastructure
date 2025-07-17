@@ -714,8 +714,8 @@ export class Application {
         }
         this.statsPanel?.onVideoInitialized(this.stream);
         const payload = { JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) };
-        Logger.RDesign('EmitCommand: ' + JSON.stringify(payload));
-        this.stream.emitCommand(payload);
+        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
+        this.stream.emitUIInteraction(payload);
     }
 
     /**
