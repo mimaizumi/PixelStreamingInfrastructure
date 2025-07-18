@@ -23,6 +23,10 @@ document.body.onload = function() {
 	// Create the main Pixel Streaming object for interfacing with the web-API of Pixel Streaming
 	const stream = new PixelStreaming(config);
 
+	stream.addResponseEventListener("RDesign_Message", (response: string) => {
+		Logger.RDesign("Response received! " + response);
+	});
+
 	const application = new Application({
 		stream,
 		onColorModeChanged: (isLightMode) => PixelStreamingApplicationStyles.setColorMode(isLightMode),
