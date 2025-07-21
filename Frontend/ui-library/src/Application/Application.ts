@@ -665,6 +665,16 @@ export class Application {
         }
         // disable starting a latency checks
         this.statsPanel?.onDisconnect();
+
+        // send pause API
+        const apiClient = new API({
+            endpoint: `streaming/token/pause`,
+            headers: { Authorization: `Token ${this.stream.config.getTextSettingValue(TextParameters.JWT)}` },
+            method: 'POST'
+        });
+        apiClient.call().then((response) => {
+            Logger.RDesign('Token paused - ' + JSON.stringify(response));
+        });
     }
 
     /**
