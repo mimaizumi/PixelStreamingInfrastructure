@@ -28,6 +28,10 @@ document.body.onload = function() {
 		stream.disconnect();
 	});
 
+	window.addEventListener('beforeunload', () => {
+		stream.disconnect();
+	});
+
 	const application = new Application({
 		stream,
 		onColorModeChanged: (isLightMode) => PixelStreamingApplicationStyles.setColorMode(isLightMode),
