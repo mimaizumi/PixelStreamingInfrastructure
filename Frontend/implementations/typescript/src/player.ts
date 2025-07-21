@@ -2,7 +2,7 @@
 
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
-import { Config, PixelStreaming, Logger, LogLevel } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
+import { Config, PixelStreaming, Logger, LogLevel, API, TextParameters } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { Application, PixelStreamingApplicationStyle, UIElementCreationMode } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 const PixelStreamingApplicationStyles =
     new PixelStreamingApplicationStyle();
@@ -30,6 +30,15 @@ document.body.onload = function() {
 
 	window.addEventListener('beforeunload', () => {
 		stream.disconnect();
+		// send pause API
+		const apiClient = new API({
+				endpoint: `streaming/token/pause`,
+				headers: { Authorization: `Token ${stream.config.getTextSettingValue(TextParameters.JWT)}` },
+				method: 'POST'
+		});
+		apiClient.call().then((response) => {
+				Logger.RDesign('Token paused - ' + JSON.stringify(response));
+		});
 	});
 
 	const application = new Application({
