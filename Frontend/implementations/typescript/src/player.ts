@@ -25,6 +25,7 @@ document.body.onload = function() {
 
 	stream.addResponseEventListener("RDesign_Message", (response: string) => {
 		Logger.RDesign("Response received! " + response);
+		stream.disconnect();
 	});
 
 	const application = new Application({
