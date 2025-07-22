@@ -25,7 +25,7 @@ document.body.onload = function() {
 
 	stream.addResponseEventListener("RDesign_Message", (response: string) => {
 		Logger.RDesign("Response received! " + response);
-		stream.disconnect();
+		stream._onDisconnect("Your session was ended", false);
 	});
 
 	const application = new Application({

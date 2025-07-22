@@ -658,6 +658,7 @@ export class Application {
      */
     onDisconnect(eventString: string, allowClickToReconnect: boolean) {
         const overlayMessage = 'Disconnected' + (eventString ? `: ${eventString}` : '.');
+
         if (allowClickToReconnect) {
             this.showDisconnectOverlay(`${overlayMessage} Click To Restart.`);
         } else {
