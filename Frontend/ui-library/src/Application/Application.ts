@@ -724,6 +724,10 @@ export class Application {
             this.showPlayOverlay();
         }
         this.statsPanel?.onVideoInitialized(this.stream);
+
+        // Test
+        this.stream.emitUIInteraction('asd');
+
         const payload = { JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) };
         Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
         const result = this.stream.emitUIInteraction(payload);
