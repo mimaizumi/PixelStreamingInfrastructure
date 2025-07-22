@@ -28,19 +28,6 @@ document.body.onload = function() {
 		stream.disconnect();
 	});
 
-	// window.addEventListener('beforeunload', () => {
-	// 	stream.disconnect();
-	// 	// send pause API
-	// 	const apiClient = new API({
-	// 			endpoint: `streaming/token/pause`,
-	// 			headers: { Authorization: `Token ${stream.config.getTextSettingValue(TextParameters.JWT)}` },
-	// 			method: 'POST'
-	// 	});
-	// 	apiClient.call().then((response) => {
-	// 			Logger.RDesign('Token paused - ' + JSON.stringify(response));
-	// 	});
-	// });
-
 	const application = new Application({
 		stream,
 		onColorModeChanged: (isLightMode) => PixelStreamingApplicationStyles.setColorMode(isLightMode),

@@ -18,7 +18,6 @@ export type OptionIdsExtended = OptionIds | ExtraFlagsIds;
  * All the UI sections across all the panels.
  */
 export class SettingsSections {
-    static RDesign = 'RDesign' as const;
     static PixelStreaming = 'Pixel Streaming' as const;
     static UI = 'UI' as const;
     static Input = 'Input' as const;
