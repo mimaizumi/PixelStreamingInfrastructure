@@ -90,8 +90,6 @@ export class PixelStreaming {
      * returns the base Pixel streaming object
      */
     constructor(config: Config, overrides?: PixelStreamingOverrides) {
-        this.ID = 'stream-id';
-
         this.config = config;
 
         if (overrides?.videoElementParent) {
