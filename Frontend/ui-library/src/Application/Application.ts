@@ -725,13 +725,18 @@ export class Application {
         }
         this.statsPanel?.onVideoInitialized(this.stream);
 
-        // Test
-        this.stream.emitUIInteraction('asd');
+        console.log(this.stream);
 
-        const payload = { JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) };
-        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
-        const result = this.stream.emitUIInteraction(payload);
-        Logger.RDesign('EmitUIInteraction Result: ' + result);
+        setTimeout(() => {
+            Logger.RDesign('Emitting UI Interaction');
+            // Test
+            this.stream.emitUIInteraction('asd');
+
+            const payload = { JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) };
+            Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
+            const result = this.stream.emitUIInteraction(payload);
+            Logger.RDesign('EmitUIInteraction Result: ' + result);
+        }, 3000);
     }
 
     /**
