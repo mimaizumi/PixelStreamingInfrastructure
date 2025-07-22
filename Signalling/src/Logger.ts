@@ -59,6 +59,10 @@ class CommonLogger implements ILogger {
     Error(message: string): void {
         this.logger.error(message);
     }
+
+    RDesign(message: string): void {
+        this.logger.info('RDesign: ' + message);
+    }
 }
 
 /**
