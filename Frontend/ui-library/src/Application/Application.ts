@@ -720,19 +720,10 @@ export class Application {
     }
 
     onVideoInitialized() {
-        Logger.RDesign('onVideoInitialized');
         if (!this.stream.config.isFlagEnabled(Flags.AutoPlayVideo)) {
             this.showPlayOverlay();
         }
         this.statsPanel?.onVideoInitialized(this.stream);
-
-        setTimeout(() => {
-            Logger.RDesign('Emitting UI Interaction');
-            const payload = { JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) };
-            Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
-            const result = this.stream.emitUIInteraction(payload);
-            Logger.RDesign('EmitUIInteraction Result: ' + result);
-        }, 3000);
     }
 
     /**
@@ -747,9 +738,15 @@ export class Application {
     }
 
     onInitialSettings(settings: InitialSettings) {
+        Logger.RDesign('onInitialSettings');
         if (settings.PixelStreamingSettings) {
             this.statsPanel?.configure(settings.PixelStreamingSettings);
         }
+        Logger.RDesign('Emitting UI Interaction');
+        const payload = { JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) };
+        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
+        const result = this.stream.emitUIInteraction(payload);
+        Logger.RDesign('EmitUIInteraction Result: ' + result);
     }
 
     onStatsReceived(aggregatedStats: AggregatedStats) {
