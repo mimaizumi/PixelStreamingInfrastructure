@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-import { Config, OptionParameters } from '../Config/Config';
+import { Config, OptionParameters, TextParameters } from '../Config/Config';
 import { LatencyTestResults } from '../DataChannel/LatencyTestResults';
 import { AggregatedStats } from '../PeerConnectionController/AggregatedStats';
 import { WebRtcPlayerController } from '../WebRtcPlayer/WebRtcPlayerController';
@@ -654,6 +654,12 @@ export class PixelStreaming {
                     : settings.WebRTCSettings.FPS
             );
         }
+
+        Logger.RDesign('Emitting UI Interaction');
+        const payload = { JWT: this.config.getTextSettingValue(TextParameters.JWT) };
+        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
+        const result = this.emitUIInteraction(payload);
+        Logger.RDesign('EmitUIInteraction Result: ' + result);
     }
 
     /**

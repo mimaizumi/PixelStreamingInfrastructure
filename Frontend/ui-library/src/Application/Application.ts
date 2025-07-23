@@ -738,15 +738,9 @@ export class Application {
     }
 
     onInitialSettings(settings: InitialSettings) {
-        Logger.RDesign('onInitialSettings');
         if (settings.PixelStreamingSettings) {
             this.statsPanel?.configure(settings.PixelStreamingSettings);
         }
-        Logger.RDesign('Emitting UI Interaction');
-        const payload = { JWT: this.stream.config.getTextSettingValue(TextParameters.JWT) };
-        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
-        const result = this.stream.emitUIInteraction(payload);
-        Logger.RDesign('EmitUIInteraction Result: ' + result);
     }
 
     onStatsReceived(aggregatedStats: AggregatedStats) {
