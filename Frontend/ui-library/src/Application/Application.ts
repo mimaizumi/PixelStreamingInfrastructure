@@ -720,6 +720,7 @@ export class Application {
     }
 
     onVideoInitialized() {
+        Logger.RDesign('onVideoInitialized');
         if (!this.stream.config.isFlagEnabled(Flags.AutoPlayVideo)) {
             this.showPlayOverlay();
         }
