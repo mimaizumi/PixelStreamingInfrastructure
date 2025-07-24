@@ -520,6 +520,11 @@ export class PixelStreaming {
     _onVideoInitialized() {
         this._eventEmitter.dispatchEvent(new VideoInitializedEvent());
         this._videoStartTime = Date.now();
+
+        const payload = { JWT: this.config.getTextSettingValue(TextParameters.JWT) };
+        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
+        const result = this.emitUIInteraction(payload);
+        Logger.RDesign('EmitUIInteraction Result: ' + result);
     }
 
     /**
@@ -655,7 +660,6 @@ export class PixelStreaming {
             );
         }
 
-        Logger.RDesign('Emitting UI Interaction');
         const payload = { JWT: this.config.getTextSettingValue(TextParameters.JWT) };
         Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
         const result = this.emitUIInteraction(payload);
