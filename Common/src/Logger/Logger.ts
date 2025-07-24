@@ -10,8 +10,8 @@ export enum LogLevel {
     Disabled = 0,
     Error,
     Warning,
-    Info,
     RDesign,
+    Info,
     Debug
 }
 
