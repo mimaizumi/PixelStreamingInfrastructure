@@ -145,6 +145,7 @@ export class SignallingServer {
 
     private onPlayerConnected(ws: wslib.WebSocket, request: http.IncomingMessage) {
         Logger.info(`New player connection: %s (%s)`, request.socket.remoteAddress, request.url);
+        Logger.info(`log from RDesign`);
 
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);
 
