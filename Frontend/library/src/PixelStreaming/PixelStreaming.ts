@@ -518,6 +518,7 @@ export class PixelStreaming {
      * Handle when the Video has been Initialized
      */
     _onVideoInitialized() {
+        Logger.RDesign('VideoInitialized');
         this._eventEmitter.dispatchEvent(new VideoInitializedEvent());
         this._videoStartTime = Date.now();
 
@@ -570,6 +571,7 @@ export class PixelStreaming {
      * @param settings - initial UE app settings
      */
     _onInitialSettings(settings: InitialSettings) {
+        Logger.RDesign('InitialSettings');
         this._eventEmitter.dispatchEvent(new InitialSettingsEvent({ settings }));
         if (settings.PixelStreamingSettings) {
             this.allowConsoleCommands = settings.PixelStreamingSettings.AllowPixelStreamingCommands ?? false;
