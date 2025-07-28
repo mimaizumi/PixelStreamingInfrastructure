@@ -32,3 +32,11 @@ export function fetchHeartbeatAPI(jwt: string) {
         }
     });
 }
+
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+export function extractDataFromJWT(jwt: string): { memberId: string; sessionId: string } {
+    const token = jwt.split('.')[1];
+    const decoded = JSON.parse(Buffer.from(token, 'base64').toString('utf-8'));
+    return { memberId: decoded.member_id, sessionId: decoded.session_id };
+}

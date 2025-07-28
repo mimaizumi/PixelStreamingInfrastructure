@@ -9,7 +9,7 @@ import { Logger } from './Logger';
 import { StreamerRegistry } from './StreamerRegistry';
 import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
-import { fetchHeartbeatAPI, fetchPauseAPI, stringify } from './Utils';
+import { extractDataFromJWT, fetchHeartbeatAPI, fetchPauseAPI, stringify } from './Utils';
 
 /**
  * An interface describing the possible options to pass when creating
@@ -149,9 +149,12 @@ export class SignallingServer {
         const jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
 
         if (jwt) {
+            const { memberId, sessionId } = extractDataFromJWT(jwt);
             fetchHeartbeatAPI(jwt).catch((error) => {
                 Logger.error(`Error fetching %s: %s`, 'Heartbeat', error);
             });
+
+            Logger.info(`RDesign data %s (%s)`, memberId, sessionId);
         }
 
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);

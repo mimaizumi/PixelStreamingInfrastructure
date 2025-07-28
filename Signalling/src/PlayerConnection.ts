@@ -26,6 +26,7 @@ import { SignallingServer } from './SignallingServer';
  * subscribed to.
  */
 export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
+    memberId: string | undefined;
     // The unique id of this player connection.
     playerId: string;
     // The websocket transport used by this connection.

@@ -31,6 +31,7 @@ import { SignallingServer } from './SignallingServer';
  * streaming: True when the streamer is ready to accept subscriptions.
  */
 export class SFUConnection extends EventEmitter implements IPlayer, IStreamer, LogUtils.IMessageLogger {
+    memberId: string | undefined;
     // The player id related to this SFU connection.
     playerId: string;
     // The streamer id related to this SFU connection.
