@@ -11,7 +11,6 @@ import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
 import {
     extractDataFromJWT,
-    fetchHeartbeatAPI,
     fetchPauseAPI,
     fetchPlayerConnect,
     fetchPlayerDisconnect,
@@ -161,9 +160,9 @@ export class SignallingServer {
             memberId = extractDataFromJWT(jwt).memberId;
             sessionId = extractDataFromJWT(jwt).sessionId;
 
-            fetchHeartbeatAPI(jwt).catch((error) => {
-                Logger.error(`Error fetching %s: %s`, 'Heartbeat', error);
-            });
+            // fetchHeartbeatAPI(jwt).catch((error) => {
+            //     Logger.error(`Error fetching %s: %s`, 'Heartbeat', error);
+            // });
             fetchPlayerConnect(jwt, memberId, sessionId).catch((error) => {
                 Logger.error(`Error fetching %s: %s`, 'PlayerConnect', error);
             });
