@@ -146,8 +146,7 @@ export class SignallingServer {
     private onPlayerConnected(ws: wslib.WebSocket, request: http.IncomingMessage) {
         Logger.info(`New player connection: %s (%s)`, request.socket.remoteAddress, request.url);
 
-        const url = new URL(`http://localhost${request.url}`);
-        Logger.info(`JWT: ${url.searchParams.get('jwt')}`);
+        const jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
 
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);
 
@@ -156,6 +155,15 @@ export class SignallingServer {
         newPlayer.transport.on('close', () => {
             this.playerRegistry.remove(newPlayer);
             Logger.info(`Player %s (%s) disconnected.`, newPlayer.playerId, request.socket.remoteAddress);
+
+            fetch(`https://material-db.herokuapp.com/streaming/token/pause`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Token ${jwt}`
+                }
+            }).catch((error) => {
+                Logger.error(`Error fetching %s: %s`, request.url, error);
+            });
         });
 
         // because peer connection options is a general field with all optional fields
