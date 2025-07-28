@@ -146,8 +146,8 @@ export class SignallingServer {
     private onPlayerConnected(ws: wslib.WebSocket, request: http.IncomingMessage) {
         Logger.info(`New player connection: %s (%s)`, request.socket.remoteAddress, request.url);
 
-        const jwt = request.url?.split('?')[1];
-        Logger.info(`JWT: ${jwt}`);
+        const url = new URL(`http://localhost${request.url}`);
+        Logger.info(`JWT: ${url.searchParams.get('jwt')}`);
 
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);
 
