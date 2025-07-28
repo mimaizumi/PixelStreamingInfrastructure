@@ -33,6 +33,26 @@ export function fetchHeartbeatAPI(jwt: string) {
     });
 }
 
+export function fetchPlayerConnect(jwt: string, memberId: string, sessionId: string) {
+    return fetch(`https://material-db.herokuapp.com/streaming/player/connected`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Token ${jwt}`
+        },
+        body: JSON.stringify({ member_id: memberId, streaming_session_id: sessionId })
+    });
+}
+
+export function fetchPlayerDisconnect(jwt: string, memberId: string, sessionId: string) {
+    return fetch(`https://material-db.herokuapp.com/streaming/player/disconnected`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Token ${jwt}`
+        },
+        body: JSON.stringify({ member_id: memberId, streaming_session_id: sessionId })
+    });
+}
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 export function extractDataFromJWT(jwt: string): { memberId: string; sessionId: string } {

@@ -9,7 +9,14 @@ import { Logger } from './Logger';
 import { StreamerRegistry } from './StreamerRegistry';
 import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
-import { extractDataFromJWT, fetchHeartbeatAPI, fetchPauseAPI, stringify } from './Utils';
+import {
+    extractDataFromJWT,
+    fetchHeartbeatAPI,
+    fetchPauseAPI,
+    fetchPlayerConnect,
+    fetchPlayerDisconnect,
+    stringify
+} from './Utils';
 
 /**
  * An interface describing the possible options to pass when creating
@@ -157,6 +164,9 @@ export class SignallingServer {
             fetchHeartbeatAPI(jwt).catch((error) => {
                 Logger.error(`Error fetching %s: %s`, 'Heartbeat', error);
             });
+            fetchPlayerConnect(jwt, memberId, sessionId).catch((error) => {
+                Logger.error(`Error fetching %s: %s`, 'PlayerConnect', error);
+            });
 
             Logger.info(`RDesign data %s (%s)`, memberId, sessionId);
         }
@@ -170,10 +180,16 @@ export class SignallingServer {
             this.playerRegistry.remove(newPlayer);
             Logger.info(`Player %s (%s) disconnected.`, newPlayer.playerId, request.socket.remoteAddress);
 
-            if (jwt && this.playerRegistry.empty()) {
-                fetchPauseAPI(jwt).catch((error) => {
-                    Logger.error(`Error fetching %s: %s`, 'Pause', error);
+            if (jwt && memberId && sessionId) {
+                fetchPlayerDisconnect(jwt, memberId, sessionId).catch((error) => {
+                    Logger.error(`Error fetching %s: %s`, 'PlayerDisconnect', error);
                 });
+
+                if (this.playerRegistry.empty()) {
+                    fetchPauseAPI(jwt).catch((error) => {
+                        Logger.error(`Error fetching %s: %s`, 'Pause', error);
+                    });
+                }
             }
         });
 
