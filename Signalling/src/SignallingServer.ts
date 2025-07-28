@@ -147,9 +147,13 @@ export class SignallingServer {
         Logger.info(`New player connection: %s (%s)`, request.socket.remoteAddress, request.url);
 
         const jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
+        let memberId = null;
+        let sessionId = null;
 
         if (jwt) {
-            const { memberId, sessionId } = extractDataFromJWT(jwt);
+            memberId = extractDataFromJWT(jwt).memberId;
+            sessionId = extractDataFromJWT(jwt).sessionId;
+
             fetchHeartbeatAPI(jwt).catch((error) => {
                 Logger.error(`Error fetching %s: %s`, 'Heartbeat', error);
             });
@@ -158,6 +162,7 @@ export class SignallingServer {
         }
 
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);
+        newPlayer.memberId = memberId;
 
         // add it to the registry and when the transport closes, remove it
         this.playerRegistry.add(newPlayer);

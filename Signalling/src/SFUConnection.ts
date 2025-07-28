@@ -31,7 +31,7 @@ import { SignallingServer } from './SignallingServer';
  * streaming: True when the streamer is ready to accept subscriptions.
  */
 export class SFUConnection extends EventEmitter implements IPlayer, IStreamer, LogUtils.IMessageLogger {
-    memberId: string | undefined;
+    memberId: string | null;
     // The player id related to this SFU connection.
     playerId: string;
     // The streamer id related to this SFU connection.
@@ -70,6 +70,7 @@ export class SFUConnection extends EventEmitter implements IPlayer, IStreamer, L
         this.protocol = new SignallingProtocol(this.transport);
         this.playerId = '';
         this.streamerId = '';
+        this.memberId = null;
         this.streaming = false;
         this.remoteAddress = remoteAddress;
         this.subscribedStreamer = null;
@@ -127,6 +128,7 @@ export class SFUConnection extends EventEmitter implements IPlayer, IStreamer, L
     getPlayerInfo(): IPlayerInfo {
         return {
             playerId: this.playerId,
+            memberId: this.memberId,
             type: 'SFU',
             remoteAddress: this.remoteAddress,
             subscribedTo: this.subscribedStreamer?.streamerId

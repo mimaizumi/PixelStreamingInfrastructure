@@ -9,7 +9,7 @@ import { IStreamer } from './StreamerRegistry';
  * player registry.
  */
 export interface IPlayer extends IMessageLogger {
-    memberId: string | undefined;
+    memberId: string | null;
     playerId: string;
     protocol: SignallingProtocol;
     subscribedStreamer: IStreamer | null;
@@ -23,6 +23,7 @@ export interface IPlayer extends IMessageLogger {
  */
 export interface IPlayerInfo {
     playerId: string;
+    memberId: string | null;
     type: string;
     subscribedTo: string | undefined;
     remoteAddress: string | undefined;
@@ -51,9 +52,8 @@ export class PlayerRegistry extends EventEmitter {
     /**
      * Assigns a unique id to the player and adds it to the registry
      */
-    add(player: IPlayer, memberId?: string): void {
+    add(player: IPlayer): void {
         player.playerId = this.getUniquePlayerId();
-        player.memberId = memberId;
         this.players.set(player.playerId, player);
         this.playerCount++;
         this.emit('added', player.playerId);

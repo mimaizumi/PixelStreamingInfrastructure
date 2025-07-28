@@ -26,7 +26,7 @@ import { SignallingServer } from './SignallingServer';
  * subscribed to.
  */
 export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
-    memberId: string | undefined;
+    memberId: string | null;
     // The unique id of this player connection.
     playerId: string;
     // The websocket transport used by this connection.
@@ -52,6 +52,7 @@ export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
     constructor(server: SignallingServer, ws: WebSocket, remoteAddress?: string) {
         this.server = server;
         this.playerId = '';
+        this.memberId = null;
         this.subscribedStreamer = null;
         this.transport = new WebSocketTransportNJS(ws);
         this.protocol = new SignallingProtocol(this.transport);
@@ -90,6 +91,7 @@ export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
     getPlayerInfo(): IPlayerInfo {
         return {
             playerId: this.playerId,
+            memberId: this.memberId,
             type: 'Player',
             subscribedTo: this.subscribedStreamer?.streamerId,
             remoteAddress: this.remoteAddress
