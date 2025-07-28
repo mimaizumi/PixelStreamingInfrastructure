@@ -9,7 +9,7 @@ import { Logger } from './Logger';
 import { StreamerRegistry } from './StreamerRegistry';
 import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
-import { stringify } from './Utils';
+import { fetchHeartbeatAPI, fetchPauseAPI, stringify } from './Utils';
 
 /**
  * An interface describing the possible options to pass when creating
@@ -148,14 +148,11 @@ export class SignallingServer {
 
         const jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
 
-        fetch(`https://material-db.herokuapp.com/streaming/token/heartbeat`, {
-            method: 'POST',
-            headers: {
-                Authorization: `Token ${jwt}`
-            }
-        }).catch((error) => {
-            Logger.error(`Error fetching %s: %s`, request.url, error);
-        });
+        if (jwt) {
+            fetchHeartbeatAPI(jwt).catch((error) => {
+                Logger.error(`Error fetching %s: %s`, request.url, error);
+            });
+        }
 
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);
 
@@ -165,14 +162,11 @@ export class SignallingServer {
             this.playerRegistry.remove(newPlayer);
             Logger.info(`Player %s (%s) disconnected.`, newPlayer.playerId, request.socket.remoteAddress);
 
-            fetch(`https://material-db.herokuapp.com/streaming/token/pause`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Token ${jwt}`
-                }
-            }).catch((error) => {
-                Logger.error(`Error fetching %s: %s`, request.url, error);
-            });
+            if (jwt) {
+                fetchPauseAPI(jwt).catch((error) => {
+                    Logger.error(`Error fetching %s: %s`, request.url, error);
+                });
+            }
         });
 
         // because peer connection options is a general field with all optional fields
