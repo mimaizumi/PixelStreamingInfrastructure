@@ -170,7 +170,7 @@ export class SignallingServer {
             this.playerRegistry.remove(newPlayer);
             Logger.info(`Player %s (%s) disconnected.`, newPlayer.playerId, request.socket.remoteAddress);
 
-            if (jwt) {
+            if (jwt && this.playerRegistry.empty()) {
                 fetchPauseAPI(jwt).catch((error) => {
                     Logger.error(`Error fetching %s: %s`, 'Pause', error);
                 });
