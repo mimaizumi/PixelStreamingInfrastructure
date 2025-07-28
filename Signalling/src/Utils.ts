@@ -40,3 +40,5 @@ export function extractDataFromJWT(jwt: string): { memberId: string; sessionId: 
     const decoded = JSON.parse(Buffer.from(token, 'base64').toString('utf-8'));
     return { memberId: decoded.member_id, sessionId: decoded.session_id };
 }
+/* eslint-enable @typescript-eslint/no-unsafe-assignment */
+/* eslint-enable @typescript-eslint/no-unsafe-member-access */
