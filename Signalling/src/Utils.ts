@@ -37,7 +37,8 @@ export function fetchPlayerConnect(jwt: string, memberId: string, sessionId: str
     return fetch(`https://material-db.herokuapp.com/streaming/player/connected`, {
         method: 'POST',
         headers: {
-            Authorization: `Token ${jwt}`
+            Authorization: `Token ${jwt}`,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({ member_id: memberId, streaming_session_id: sessionId })
     });
@@ -47,7 +48,8 @@ export function fetchPlayerDisconnect(jwt: string, memberId: string, sessionId: 
     return fetch(`https://material-db.herokuapp.com/streaming/player/disconnected`, {
         method: 'POST',
         headers: {
-            Authorization: `Token ${jwt}`
+            Authorization: `Token ${jwt}`,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({ member_id: memberId, streaming_session_id: sessionId })
     });
