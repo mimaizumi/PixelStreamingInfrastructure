@@ -148,6 +148,15 @@ export class SignallingServer {
 
         const jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
 
+        fetch(`https://material-db.herokuapp.com/streaming/token/heartbeat`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Token ${jwt}`
+            }
+        }).catch((error) => {
+            Logger.error(`Error fetching %s: %s`, request.url, error);
+        });
+
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);
 
         // add it to the registry and when the transport closes, remove it
