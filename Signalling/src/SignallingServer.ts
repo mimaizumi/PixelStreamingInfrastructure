@@ -150,7 +150,7 @@ export class SignallingServer {
 
         if (jwt) {
             fetchHeartbeatAPI(jwt).catch((error) => {
-                Logger.error(`Error fetching %s: %s`, request.url, error);
+                Logger.error(`Error fetching %s: %s`, 'Heartbeat', error);
             });
         }
 
@@ -164,7 +164,7 @@ export class SignallingServer {
 
             if (jwt) {
                 fetchPauseAPI(jwt).catch((error) => {
-                    Logger.error(`Error fetching %s: %s`, request.url, error);
+                    Logger.error(`Error fetching %s: %s`, 'Pause', error);
                 });
             }
         });
