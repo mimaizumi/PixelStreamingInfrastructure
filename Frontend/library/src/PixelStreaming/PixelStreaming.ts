@@ -524,7 +524,13 @@ export class PixelStreaming {
 
         const payload = { JWT: this.config.getTextSettingValue(TextParameters.JWT) };
         Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
-        const result = this.emitUIInteraction(payload);
+        let result = false;
+        while (true) {
+            if (this._webRtcController.videoPlayer.isVideoReady()) {
+                result = this.emitUIInteraction(payload);
+                break;
+            }
+        }
         Logger.RDesign('EmitUIInteraction Result: ' + result);
     }
 
@@ -571,7 +577,6 @@ export class PixelStreaming {
      * @param settings - initial UE app settings
      */
     _onInitialSettings(settings: InitialSettings) {
-        Logger.RDesign('InitialSettings');
         this._eventEmitter.dispatchEvent(new InitialSettingsEvent({ settings }));
         if (settings.PixelStreamingSettings) {
             this.allowConsoleCommands = settings.PixelStreamingSettings.AllowPixelStreamingCommands ?? false;
@@ -661,11 +666,6 @@ export class PixelStreaming {
                     : settings.WebRTCSettings.FPS
             );
         }
-
-        const payload = { JWT: this.config.getTextSettingValue(TextParameters.JWT) };
-        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
-        const result = this.emitUIInteraction(payload);
-        Logger.RDesign('EmitUIInteraction Result: ' + result);
     }
 
     /**
