@@ -29,6 +29,12 @@ document.body.onload = function() {
 			case "Stop":
 				stream._onDisconnect("Your session was ended", false);
 				break;
+			case "Ready":
+				const payload = { JWT: config.getTextSettingValue(TextParameters.JWT) };
+        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
+        const result = stream.emitUIInteraction(payload);
+        Logger.RDesign('EmitUIInteraction Result: ' + result);
+				break;
 			default:
 				break;
 		}
