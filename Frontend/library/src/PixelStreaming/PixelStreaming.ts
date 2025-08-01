@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-import { Config, OptionParameters, TextParameters } from '../Config/Config';
+import { Config, OptionParameters } from '../Config/Config';
 import { LatencyTestResults } from '../DataChannel/LatencyTestResults';
 import { AggregatedStats } from '../PeerConnectionController/AggregatedStats';
 import { WebRtcPlayerController } from '../WebRtcPlayer/WebRtcPlayerController';
@@ -518,20 +518,8 @@ export class PixelStreaming {
      * Handle when the Video has been Initialized
      */
     _onVideoInitialized() {
-        Logger.RDesign('VideoInitialized');
         this._eventEmitter.dispatchEvent(new VideoInitializedEvent());
         this._videoStartTime = Date.now();
-
-        const payload = { JWT: this.config.getTextSettingValue(TextParameters.JWT) };
-        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
-        let result = false;
-        while (true) {
-            if (this._webRtcController.videoPlayer.isVideoReady()) {
-                result = this.emitUIInteraction(payload);
-                break;
-            }
-        }
-        Logger.RDesign('EmitUIInteraction Result: ' + result);
     }
 
     /**

@@ -2,8 +2,8 @@
 
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
-import { Config, PixelStreaming, Logger, LogLevel, API, TextParameters } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
-import { Application, PixelStreamingApplicationStyle, UIElementCreationMode } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
+import { Config, PixelStreaming, Logger, LogLevel, TextParameters } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
+import { Application, PixelStreamingApplicationStyle } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 const PixelStreamingApplicationStyles =
     new PixelStreamingApplicationStyle();
 PixelStreamingApplicationStyles.applyStyleSheet();
@@ -15,7 +15,7 @@ declare global {
 
 document.body.onload = function() {
   Logger.InitLogging(LogLevel.RDesign, false);
-	Logger.RDesign("Welcome! Pixel Streaming V0722");
+	Logger.RDesign("Welcome! Pixel Streaming V0801");
 
 	// Create a config object
 	const config = new Config({ useUrlParams: true });
