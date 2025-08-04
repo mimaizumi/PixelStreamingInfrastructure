@@ -134,6 +134,12 @@ export class WebRtcPlayerController {
         );
         this.afkController.onAFKTimedOutCallback = () => {
             this.closeSignalingServer('You have been disconnected due to inactivity.', false);
+
+            const descriptor = {
+                event: 'AFK'
+            };
+            Logger.RDesign('Sending AFK event to UE ' + JSON.stringify(descriptor));
+            this.emitUIInteraction(descriptor);
         };
 
         this.freezeFrameController = new FreezeFrameController(this.pixelStreaming.videoElementParent);
