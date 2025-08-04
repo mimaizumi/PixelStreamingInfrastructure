@@ -160,12 +160,13 @@ export class SignallingServer {
             memberId = extractDataFromJWT(jwt).memberId;
             sessionId = extractDataFromJWT(jwt).sessionId;
 
-            // fetchHeartbeatAPI(jwt).catch((error) => {
-            //     Logger.error(`Error fetching %s: %s`, 'Heartbeat', error);
-            // });
-            fetchPlayerConnect(jwt, memberId, sessionId).catch((error) => {
-                Logger.error(`Error fetching %s: %s`, 'PlayerConnect', error);
-            });
+            fetchPlayerConnect(jwt, memberId, sessionId)
+                .then(() => {
+                    Logger.info(`RDesign: Player connected.`);
+                })
+                .catch((error) => {
+                    Logger.error(`Error fetching %s: %s`, 'PlayerConnect', error);
+                });
 
             Logger.info(`RDesign data %s (%s)`, memberId, sessionId);
         }
@@ -180,9 +181,13 @@ export class SignallingServer {
             Logger.info(`Player %s (%s) disconnected.`, newPlayer.playerId, request.socket.remoteAddress);
 
             if (jwt && memberId && sessionId) {
-                fetchPlayerDisconnect(jwt, memberId, sessionId).catch((error) => {
-                    Logger.error(`Error fetching %s: %s`, 'PlayerDisconnect', error);
-                });
+                fetchPlayerDisconnect(jwt, memberId, sessionId)
+                    .then(() => {
+                        Logger.info(`RDesign: Player disconnected.`);
+                    })
+                    .catch((error) => {
+                        Logger.error(`Error fetching %s: %s`, 'PlayerDisconnect', error);
+                    });
 
                 if (this.playerRegistry.empty()) {
                     fetchPauseAPI(jwt).catch((error) => {
