@@ -68,6 +68,7 @@ export class SignallingServer {
     streamerRegistry: StreamerRegistry;
     playerRegistry: PlayerRegistry;
     startTime: Date;
+    jwt: string;
 
     /**
      * Initializes the server object and sets up listening sockets for streamers
@@ -85,6 +86,7 @@ export class SignallingServer {
             peerConnectionOptions: this.config.peerOptions || {}
         };
         this.startTime = new Date();
+        this.jwt = '';
 
         if (!config.playerPort && !config.httpServer && !config.httpsServer) {
             Logger.error('No player port, http server or https server supplied to SignallingServer.');
@@ -134,12 +136,17 @@ export class SignallingServer {
         this.streamerRegistry.add(newStreamer);
         newStreamer.transport.on('close', () => {
             this.streamerRegistry.remove(newStreamer);
-            Logger.info('RDesign: Streamer disconnected. Subscribers: ' + newStreamer.subscribers.size);
             Logger.info(
                 `Streamer %s (%s) disconnected.`,
                 newStreamer.streamerId,
                 request.socket.remoteAddress
             );
+
+            if (this.jwt) {
+                fetchPauseAPI(this.jwt).catch((error) => {
+                    Logger.error(`Error fetching %s: %s`, 'Pause', error);
+                });
+            }
         });
 
         // because peer connection options is a general field with all optional fields
@@ -158,6 +165,7 @@ export class SignallingServer {
         let sessionId = null;
 
         if (jwt) {
+            this.jwt = jwt;
             memberId = extractDataFromJWT(jwt).memberId;
             sessionId = extractDataFromJWT(jwt).sessionId;
 
