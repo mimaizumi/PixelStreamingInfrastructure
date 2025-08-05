@@ -9,13 +9,7 @@ import { Logger } from './Logger';
 import { StreamerRegistry } from './StreamerRegistry';
 import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
-import {
-    extractDataFromJWT,
-    fetchPauseAPI,
-    fetchPlayerConnect,
-    fetchPlayerDisconnect,
-    stringify
-} from './Utils';
+import { extractDataFromJWT, fetchPlayerConnect, fetchPlayerDisconnect, stringify } from './Utils';
 
 /**
  * An interface describing the possible options to pass when creating
@@ -141,13 +135,6 @@ export class SignallingServer {
                 newStreamer.streamerId,
                 request.socket.remoteAddress
             );
-
-            if (this.jwt.length) {
-                Logger.info(`RDesign: Call pause API`);
-                fetchPauseAPI(this.jwt).catch((error) => {
-                    Logger.error(`Error fetching %s: %s`, 'Pause', error);
-                });
-            }
         });
 
         // because peer connection options is a general field with all optional fields
@@ -172,7 +159,7 @@ export class SignallingServer {
 
             fetchPlayerConnect(jwt, memberId, sessionId)
                 .then(() => {
-                    Logger.info(`RDesign: Player connected.`);
+                    Logger.info(`RDesign: Player connected. %s`, memberId);
                 })
                 .catch((error) => {
                     Logger.error(`Error fetching %s: %s`, 'PlayerConnect', error);
@@ -193,17 +180,11 @@ export class SignallingServer {
             if (jwt && memberId && sessionId) {
                 fetchPlayerDisconnect(jwt, memberId, sessionId)
                     .then(() => {
-                        Logger.info(`RDesign: Player disconnected.`);
+                        Logger.info(`RDesign: Player disconnected. %s`, memberId);
                     })
                     .catch((error) => {
                         Logger.error(`Error fetching %s: %s`, 'PlayerDisconnect', error);
                     });
-
-                if (this.playerRegistry.empty()) {
-                    fetchPauseAPI(jwt).catch((error) => {
-                        Logger.error(`Error fetching %s: %s`, 'Pause', error);
-                    });
-                }
             }
         });
 

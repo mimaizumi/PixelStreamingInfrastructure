@@ -15,24 +15,6 @@ export function beautify(obj: any): string {
     return jsonc.stringify(obj, undefined, '\t');
 }
 
-export function fetchPauseAPI(jwt: string) {
-    return fetch(`https://material-db.herokuapp.com/streaming/token/pause`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Token ${jwt}`
-        }
-    });
-}
-
-export function fetchHeartbeatAPI(jwt: string) {
-    return fetch(`https://material-db.herokuapp.com/streaming/token/heartbeat`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Token ${jwt}`
-        }
-    });
-}
-
 export function fetchPlayerConnect(jwt: string, memberId: string, sessionId: string) {
     return fetch(`https://material-db.herokuapp.com/streaming/player/connected`, {
         method: 'POST',
