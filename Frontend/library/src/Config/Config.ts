@@ -650,7 +650,7 @@ export class Config {
                 'The time (in seconds) for a user to respond before the stream is ended after an AFK timeout.',
                 10 /*min*/,
                 null /*max*/,
-                10 /*value*/,
+                30 /*value*/,
                 useUrlParams
             )
         );
