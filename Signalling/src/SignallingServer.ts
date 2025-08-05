@@ -125,7 +125,7 @@ export class SignallingServer {
     }
 
     private onStreamerConnected(ws: wslib.WebSocket, request: http.IncomingMessage) {
-        Logger.info(`New streamer connection: %s (%s)`, request.socket.remoteAddress, request.url);
+        Logger.info(`New streamer connection: %s`, request.socket.remoteAddress);
 
         const newStreamer = new StreamerConnection(this, ws, request.socket.remoteAddress);
         newStreamer.maxSubscribers = this.config.maxSubscribers || 0;
@@ -134,6 +134,7 @@ export class SignallingServer {
         this.streamerRegistry.add(newStreamer);
         newStreamer.transport.on('close', () => {
             this.streamerRegistry.remove(newStreamer);
+            Logger.info('RDesign: Streamer disconnected. Subscribers: ' + newStreamer.subscribers.size);
             Logger.info(
                 `Streamer %s (%s) disconnected.`,
                 newStreamer.streamerId,
