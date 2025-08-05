@@ -125,7 +125,7 @@ export class SignallingServer {
     }
 
     private onStreamerConnected(ws: wslib.WebSocket, request: http.IncomingMessage) {
-        Logger.info(`New streamer connection: %s`, request.socket.remoteAddress);
+        Logger.info(`New streamer connection: %s (%s)`, request.socket.remoteAddress, request.url);
 
         const newStreamer = new StreamerConnection(this, ws, request.socket.remoteAddress);
         newStreamer.maxSubscribers = this.config.maxSubscribers || 0;
