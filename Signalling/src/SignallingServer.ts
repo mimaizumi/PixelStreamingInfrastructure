@@ -142,7 +142,8 @@ export class SignallingServer {
                 request.socket.remoteAddress
             );
 
-            if (this.jwt) {
+            if (this.jwt.length) {
+                Logger.info(`RDesign: Call pause API`);
                 fetchPauseAPI(this.jwt).catch((error) => {
                     Logger.error(`Error fetching %s: %s`, 'Pause', error);
                 });
