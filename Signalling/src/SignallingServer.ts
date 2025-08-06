@@ -149,8 +149,8 @@ export class SignallingServer {
         Logger.info(`New player connection: %s (%s)`, request.socket.remoteAddress, request.url);
 
         const jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
-        let memberId = null;
-        let sessionId = null;
+        let memberId = '';
+        let sessionId = '';
 
         if (jwt) {
             this.jwt = jwt;
