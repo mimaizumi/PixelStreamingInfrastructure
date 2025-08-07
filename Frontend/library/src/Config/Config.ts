@@ -741,7 +741,7 @@ export class Config {
                 100 /*max*/,
                 settings && Object.prototype.hasOwnProperty.call(settings, NumericParameters.CompatQualityMin)
                     ? settings[NumericParameters.CompatQualityMin]
-                    : 0 /*value*/,
+                    : 40 /*value*/,
                 useUrlParams
             )
         );
@@ -786,7 +786,7 @@ export class Config {
                 500000 /*max*/,
                 settings && Object.prototype.hasOwnProperty.call(settings, NumericParameters.WebRTCMinBitrate)
                     ? settings[NumericParameters.WebRTCMinBitrate]
-                    : 0 /*value*/,
+                    : 100000 /*value*/,
                 useUrlParams
             )
         );
@@ -798,10 +798,10 @@ export class Config {
                 'Max Bitrate (kbps)',
                 'The maximum bitrate that WebRTC should use.',
                 0 /*min*/,
-                500000 /*max*/,
+                4000000 /*max*/,
                 settings && Object.prototype.hasOwnProperty.call(settings, NumericParameters.WebRTCMaxBitrate)
                     ? settings[NumericParameters.WebRTCMaxBitrate]
-                    : 0 /*value*/,
+                    : 4000000 /*value*/,
                 useUrlParams
             )
         );
