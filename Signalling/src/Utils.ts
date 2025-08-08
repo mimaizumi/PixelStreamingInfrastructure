@@ -37,6 +37,16 @@ export function fetchPlayerDisconnect(jwt: string, memberId: string, sessionId: 
     });
 }
 
+export function fetchPauseToken(jwt: string) {
+    return fetch(`https://material-db.herokuapp.com/streaming/token/pause`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Token ${jwt}`,
+            'Content-Type': 'application/json'
+        }
+    });
+}
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 export function extractDataFromJWT(jwt: string): { memberId: string; sessionId: string } {

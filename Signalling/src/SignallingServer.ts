@@ -9,7 +9,13 @@ import { Logger } from './Logger';
 import { StreamerRegistry } from './StreamerRegistry';
 import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
-import { extractDataFromJWT, fetchPlayerConnect, fetchPlayerDisconnect, stringify } from './Utils';
+import {
+    extractDataFromJWT,
+    fetchPauseToken,
+    fetchPlayerConnect,
+    fetchPlayerDisconnect,
+    stringify
+} from './Utils';
 
 /**
  * An interface describing the possible options to pass when creating
@@ -184,6 +190,14 @@ export class SignallingServer {
                     })
                     .catch((error) => {
                         Logger.error(`Error fetching %s: %s`, 'PlayerDisconnect', error);
+                    });
+
+                fetchPauseToken(jwt)
+                    .then(() => {
+                        Logger.info(`RDesign: Pause token fetched.`);
+                    })
+                    .catch((error) => {
+                        Logger.error(`Error fetching %s: %s`, 'PauseToken', error);
                     });
             }
         });
