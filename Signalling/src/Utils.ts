@@ -47,6 +47,17 @@ export function fetchPauseToken(jwt: string) {
     });
 }
 
+export function fetchPlayersCount(jwt: string, count: number) {
+    return fetch(`https://material-db.herokuapp.com/streaming/token/count_player`, {
+        method: 'GET',
+        headers: {
+            Authorization: `Token ${jwt}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ count: count })
+    });
+}
+
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 export function extractDataFromJWT(jwt: string): { memberId: string; sessionId: string } {

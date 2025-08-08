@@ -9,13 +9,7 @@ import { Logger } from './Logger';
 import { StreamerRegistry } from './StreamerRegistry';
 import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
-import {
-    extractDataFromJWT,
-    fetchPauseToken,
-    fetchPlayerConnect,
-    fetchPlayerDisconnect,
-    stringify
-} from './Utils';
+import { extractDataFromJWT, fetchPauseToken, fetchPlayersCount, stringify } from './Utils';
 
 /**
  * An interface describing the possible options to pass when creating
@@ -68,7 +62,7 @@ export class SignallingServer {
     streamerRegistry: StreamerRegistry;
     playerRegistry: PlayerRegistry;
     startTime: Date;
-    jwt: string;
+    jwt: string | null;
 
     /**
      * Initializes the server object and sets up listening sockets for streamers
@@ -86,7 +80,7 @@ export class SignallingServer {
             peerConnectionOptions: this.config.peerOptions || {}
         };
         this.startTime = new Date();
-        this.jwt = '';
+        this.jwt = null;
 
         if (!config.playerPort && !config.httpServer && !config.httpsServer) {
             Logger.error('No player port, http server or https server supplied to SignallingServer.');
@@ -154,25 +148,9 @@ export class SignallingServer {
     private onPlayerConnected(ws: wslib.WebSocket, request: http.IncomingMessage) {
         Logger.info(`New player connection: %s (%s)`, request.socket.remoteAddress, request.url);
 
-        const jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
+        this.jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
         let memberId = '';
         let sessionId = '';
-
-        if (jwt) {
-            this.jwt = jwt;
-            memberId = extractDataFromJWT(jwt).memberId;
-            sessionId = extractDataFromJWT(jwt).sessionId;
-
-            fetchPlayerConnect(jwt, memberId, sessionId)
-                .then(() => {
-                    Logger.info(`RDesign: Player connected. %s`, memberId);
-                })
-                .catch((error) => {
-                    Logger.error(`Error fetching %s: %s`, 'PlayerConnect', error);
-                });
-
-            Logger.info(`RDesign data %s (%s)`, memberId, sessionId);
-        }
 
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);
         newPlayer.memberId = memberId;
@@ -183,24 +161,55 @@ export class SignallingServer {
             this.playerRegistry.remove(newPlayer);
             Logger.info(`Player %s (%s) disconnected.`, newPlayer.playerId, request.socket.remoteAddress);
 
-            if (jwt && memberId && sessionId) {
-                fetchPlayerDisconnect(jwt, memberId, sessionId)
-                    .then(() => {
-                        Logger.info(`RDesign: Player disconnected. %s`, memberId);
-                    })
-                    .catch((error) => {
-                        Logger.error(`Error fetching %s: %s`, 'PlayerDisconnect', error);
-                    });
+            if (this.jwt && memberId && sessionId) {
+                // fetchPlayerDisconnect(this.jwt, memberId, sessionId)
+                //     .then(() => {
+                //         Logger.info(`RDesign: Player disconnected. %s`, memberId);
+                //     })
+                //     .catch((error) => {
+                //         Logger.error(`Error fetching %s: %s`, 'PlayerDisconnect', error);
+                //     });
 
-                fetchPauseToken(jwt)
+                fetchPauseToken(this.jwt)
                     .then(() => {
                         Logger.info(`RDesign: Pause token fetched.`);
                     })
                     .catch((error) => {
                         Logger.error(`Error fetching %s: %s`, 'PauseToken', error);
                     });
+
+                fetchPlayersCount(this.jwt, this.playerRegistry.count())
+                    .then(() => {
+                        Logger.info(`RDesign: Players count fetched.`);
+                    })
+                    .catch((error) => {
+                        Logger.error(`Error fetching %s: %s`, 'PlayersCount', error);
+                    });
             }
         });
+
+        if (this.jwt) {
+            memberId = extractDataFromJWT(this.jwt).memberId;
+            sessionId = extractDataFromJWT(this.jwt).sessionId;
+
+            // fetchPlayerConnect(this.jwt, memberId, sessionId)
+            //     .then(() => {
+            //         Logger.info(`RDesign: Player connected. %s`, memberId);
+            //     })
+            //     .catch((error) => {
+            //         Logger.error(`Error fetching %s: %s`, 'PlayerConnect', error);
+            //     });
+
+            fetchPlayersCount(this.jwt, this.playerRegistry.count())
+                .then(() => {
+                    Logger.info(`RDesign: Players count fetched.`);
+                })
+                .catch((error) => {
+                    Logger.error(`Error fetching %s: %s`, 'PlayersCount', error);
+                });
+
+            Logger.info(`RDesign data %s (%s)`, memberId, sessionId);
+        }
 
         // because peer connection options is a general field with all optional fields
         // it doesnt play nice with mergePartial so we just add it verbatim
