@@ -162,14 +162,6 @@ export class SignallingServer {
             Logger.info(`Player %s (%s) disconnected.`, newPlayer.playerId, request.socket.remoteAddress);
 
             if (this.jwt && memberId && sessionId) {
-                // fetchPlayerDisconnect(this.jwt, memberId, sessionId)
-                //     .then(() => {
-                //         Logger.info(`RDesign: Player disconnected. %s`, memberId);
-                //     })
-                //     .catch((error) => {
-                //         Logger.error(`Error fetching %s: %s`, 'PlayerDisconnect', error);
-                //     });
-
                 fetchPauseToken(this.jwt)
                     .then(() => {
                         Logger.info(`RDesign: Pause token fetched.`);
@@ -191,14 +183,6 @@ export class SignallingServer {
         if (this.jwt) {
             memberId = extractDataFromJWT(this.jwt).memberId;
             sessionId = extractDataFromJWT(this.jwt).sessionId;
-
-            // fetchPlayerConnect(this.jwt, memberId, sessionId)
-            //     .then(() => {
-            //         Logger.info(`RDesign: Player connected. %s`, memberId);
-            //     })
-            //     .catch((error) => {
-            //         Logger.error(`Error fetching %s: %s`, 'PlayerConnect', error);
-            //     });
 
             fetchPlayersCount(this.jwt, this.playerRegistry.count())
                 .then(() => {
