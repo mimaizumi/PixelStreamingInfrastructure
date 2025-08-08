@@ -49,7 +49,7 @@ export function fetchPauseToken(jwt: string) {
 
 export function fetchPlayersCount(jwt: string, count: number) {
     return fetch(`https://material-db.herokuapp.com/streaming/token/count_player`, {
-        method: 'GET',
+        method: 'POST',
         headers: {
             Authorization: `Token ${jwt}`,
             'Content-Type': 'application/json'
