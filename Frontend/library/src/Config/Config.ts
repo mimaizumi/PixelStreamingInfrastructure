@@ -355,7 +355,7 @@ export class Config {
                 'When entering input into a streamed UE text widget, use an input modal.',
                 settings && Object.prototype.hasOwnProperty.call(settings, Flags.UseModalForTextInput)
                     ? settings[Flags.UseModalForTextInput]
-                    : true,
+                    : false,
                 useUrlParams
             )
         );
