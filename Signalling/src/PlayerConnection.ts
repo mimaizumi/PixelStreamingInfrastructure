@@ -172,8 +172,12 @@ export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
             Logger.error(
                 `subscribe: Player ${this.playerId} could not subscribe to ${streamerId}. Max players (${streamer.maxSubscribers}) reached.`
             );
+            // const failureMessage = MessageHelpers.createMessage(Messages.subscribeFailed, {
+            //     message: `Streamer ${streamerId} is full. Max players = ${streamer.maxSubscribers}.`
+            // });
+            // 只今サーバーを立ち上げています。（現ベータ版では）5分以上要することがありますので、ブラウザーのタブを閉じないでお待ちください。
             const failureMessage = MessageHelpers.createMessage(Messages.subscribeFailed, {
-                message: `Streamer ${streamerId} is full. Max players = ${streamer.maxSubscribers}.`
+                message: `We are initializing a server for you. it could take more than 5 minutes. please wait without closing the browser tab`
             });
             this.protocol.sendMessage(failureMessage);
             return;
