@@ -798,7 +798,8 @@ export class Application {
     }
 
     handleSubscribeFailedMessage(message: string) {
-        this.showDisconnectOverlay(`Subscribe failed: "${message}" Click to try again`);
+        // this.showDisconnectOverlay(`Subscribe failed: "${message}" Click to try again`);
+        this.showDisconnectOverlay(message);
         document.cookie = 'SERVERID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
 
