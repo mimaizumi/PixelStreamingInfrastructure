@@ -714,7 +714,7 @@ export class Application {
             this.showPlayOverlay();
         }
         this.statsPanel?.onVideoInitialized(this.stream);
-        this.stream.videoElementParent.style.background = 'black';
+        this.stream.videoElementParent.classList.add('bg-black');
     }
 
     /**
