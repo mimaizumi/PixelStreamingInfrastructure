@@ -30,6 +30,7 @@ import { LabelledButton } from '../UI/LabelledButton';
 import { SettingsPanel } from '../UI/SettingsPanel';
 import { StatsPanel } from '../UI/StatsPanel';
 import { VideoQpIndicator } from '../UI/VideoQpIndicator';
+import { VideoQuality } from '../UI/VideoQuality';
 import { ConfigUI } from '../Config/ConfigUI';
 import { EditConfirmedEvent, EditTextModal } from '../UI/EditTextModal';
 import {
@@ -104,6 +105,7 @@ export class Application {
     settingsPanel: SettingsPanel;
     statsPanel: StatsPanel;
     videoQpIndicator: VideoQpIndicator;
+    videoQuality: VideoQuality;
     editTextModal: EditTextModal | null = null;
 
     configUI: ConfigUI;
@@ -151,6 +153,9 @@ export class Application {
             this.videoQpIndicator = new VideoQpIndicator(options.videoQpIndicatorConfig);
             this.uiFeaturesElement.appendChild(this.videoQpIndicator.rootElement);
         }
+
+        this.videoQuality = new VideoQuality();
+        this.uiFeaturesElement.appendChild(this.videoQuality.rootElement);
 
         this.createButtons();
 
@@ -737,6 +742,18 @@ export class Application {
     onStatsReceived(aggregatedStats: AggregatedStats) {
         // Grab all stats we can off the aggregated stats
         this.statsPanel?.handleStats(aggregatedStats);
+
+        let videoQuality =
+            aggregatedStats.inboundVideoStats.frameWidth !== undefined &&
+            aggregatedStats.inboundVideoStats.frameWidth > 0 &&
+            aggregatedStats.inboundVideoStats.frameHeight !== undefined &&
+            aggregatedStats.inboundVideoStats.frameHeight > 0
+                ? aggregatedStats.inboundVideoStats.frameWidth +
+                  'x' +
+                  aggregatedStats.inboundVideoStats.frameHeight
+                : 'Chrome only';
+        videoQuality += ' - ' + aggregatedStats.inboundVideoStats.framesPerSecond.toString() + 'fps';
+        this.videoQuality.updateQualityText(videoQuality);
     }
 
     onLatencyUpdate(latencyInfo: LatencyInfo) {

@@ -107,6 +107,19 @@ export class PixelStreamingApplicationStyle {
             zIndex: '20',
             padding: '5px 10px'
         },
+        '#videoQuality': {
+            position: 'absolute',
+            top: '3%',
+            right: '3%',
+            pointerEvents: 'all',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '5px',
+            borderRadius: '5px',
+            backgroundColor: 'var(--color0)',
+            fontSize: '0.75rem'
+        },
         '#connection': {
             position: 'absolute',
             bottom: '3%',
