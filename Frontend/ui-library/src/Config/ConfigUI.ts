@@ -83,7 +83,7 @@ export class ConfigUI {
                 ExtraFlags.HideControls,
                 'Hide Left Controls',
                 'Left controls will be hidden',
-                false,
+                true,
                 useUrlParams
             )
         );
