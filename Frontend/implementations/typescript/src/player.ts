@@ -10,7 +10,7 @@ PixelStreamingApplicationStyles.applyStyleSheet();
 
 // expose the pixel streaming object for hooking into. tests etc.
 declare global {
-    interface Window { pixelStreaming: PixelStreaming; }
+    interface Window { pixelStreaming: PixelStreaming; rdesign: any; }
 }
 
 document.body.onload = function() {
@@ -49,4 +49,13 @@ document.body.onload = function() {
 	document.body.appendChild(application.rootElement);
 
 	window.pixelStreaming = stream;
+	// helper
+	window.rdesign = {
+		emitReady: () => {
+			const payload = { JWT: config.getTextSettingValue(TextParameters.JWT) };
+			Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
+			const result = stream.emitUIInteraction(payload);
+			Logger.RDesign('EmitUIInteraction Result: ' + result);
+		}
+	}
 }
