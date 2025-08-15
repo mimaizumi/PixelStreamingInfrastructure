@@ -62,7 +62,7 @@ export class VideoQpIndicator {
         if (!this._qualityText) {
             this._qualityText = document.createElement('span');
             this._qualityText.id = 'qualityText';
-            this._qualityText.classList.add('tooltiptext');
+            // this._qualityText.classList.add('tooltiptext');
         }
         return this._qualityText;
     }
