@@ -57,6 +57,9 @@ export class PixelStreamingApplicationStyle {
         '.noselect': {
             userSelect: 'none'
         },
+        '.bg-black': {
+            background: 'black'
+        },
         '#playerUI': {
             width: '100%',
             height: '100%',
