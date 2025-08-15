@@ -29,7 +29,7 @@ export class PixelStreamingApplicationStyle {
 
     defaultDarkModePalette: ColorPalette = {
         '--color0': '#1d1f22e0',
-        '--color1': '#000000',
+        '--color1': 'linear-gradient(135deg, #232d4d 0%, #4b286d 100%)',
         '--color2': '#FFFFFF',
         '--color3': '#0585fe',
         '--color4': '#35b350',
@@ -66,7 +66,7 @@ export class PixelStreamingApplicationStyle {
             width: '100%',
             height: '100%',
             position: 'absolute',
-            backgroundColor: 'var(--color1)'
+            background: 'var(--color1)'
         },
         '#uiFeatures': {
             width: '100%',
@@ -106,12 +106,22 @@ export class PixelStreamingApplicationStyle {
         },
         '#connection': {
             position: 'absolute',
-            bottom: '8%',
-            left: '5%',
-            fontFamily: "'Michroma', sans-serif",
-            height: '3rem',
-            width: '3rem',
-            pointerEvents: 'all'
+            bottom: '3%',
+            left: '3%',
+            pointerEvents: 'all',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '5px',
+            borderRadius: '5px',
+            backgroundColor: 'var(--color0)'
+        },
+        '#connectionStrength': {
+            height: '20px',
+            width: '20px'
+        },
+        '#qualityText': {
+            fontSize: '0.75rem'
         },
         '#settings-panel .tooltiptext': {
             display: 'block',
