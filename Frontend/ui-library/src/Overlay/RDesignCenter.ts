@@ -88,24 +88,22 @@ export class RDesignCenter {
         const infoList = document.createElement('ul');
         infoList.className = 'connectionInfoList';
         infoList.innerHTML = `
-      <li><span>Resolution:</span> <span id="resolution">-</span></li>
-      <li><span>Frame Rate:</span> <span id="frameRate">-</span></li>
-      <li><span>Bitrate:</span> <span id="bitrate">-</span></li>
-      <li><span>Latency:</span> <span id="latency">-</span></li>
-    `;
+          <li><span>Resolution:</span> <span id="resolution">-</span></li>
+          <li><span>Frame Rate:</span> <span id="frameRate">-</span></li>
+          <li><span>Bitrate:</span> <span id="bitrate">-</span></li>
+          <li><span>Latency:</span> <span id="latency">-</span></li>
+        `;
         return infoList;
     }
 
-    public updateInfoList(resolution: string, frameRate: string, bitrate: string, latency: string) {
+    public updateStats(resolution: string, frameRate: string, bitrate: string) {
         this._resolution = resolution;
         this._frameRate = frameRate;
         this._bitrate = bitrate;
-        this._latency = latency;
 
         const resolutionSpan = document.getElementById('resolution');
         const frameRateSpan = document.getElementById('frameRate');
         const bitrateSpan = document.getElementById('bitrate');
-        const latencySpan = document.getElementById('latency');
 
         if (resolutionSpan) {
             resolutionSpan.innerText = this._resolution;
@@ -116,6 +114,12 @@ export class RDesignCenter {
         if (bitrateSpan) {
             bitrateSpan.innerText = this._bitrate;
         }
+    }
+
+    public updateLatency(latency: string) {
+        this._latency = latency;
+
+        const latencySpan = document.getElementById('latency');
         if (latencySpan) {
             latencySpan.innerText = this._latency;
         }

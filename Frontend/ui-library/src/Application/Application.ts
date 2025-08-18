@@ -770,11 +770,15 @@ export class Application {
         }
         this.videoQuality.updateQualityText(videoQuantityResult);
 
-        this.rdesignCenter.updateInfoList(resolution, frameRate, 'kbps', 'ms');
+        const bitrate = aggregatedStats.inboundVideoStats.bitrate.toString();
+
+        this.rdesignCenter.updateStats(resolution, frameRate, bitrate);
     }
 
     onLatencyUpdate(latencyInfo: LatencyInfo) {
         this.statsPanel?.handleLatencyInfo(latencyInfo);
+
+        this.rdesignCenter.updateLatency(Math.ceil(latencyInfo.averageE2ELatency).toString() + 'ms');
     }
 
     onLatencyTestResults(latencyTimings: LatencyTestResults) {
