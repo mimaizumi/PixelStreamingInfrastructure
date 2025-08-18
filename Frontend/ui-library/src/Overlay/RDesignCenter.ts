@@ -78,6 +78,9 @@ export class RDesignCenter {
         stopBtn.className = 'stopStreamingBtn';
         stopBtn.innerHTML = '<i class="fa-solid fa-stop"></i> Stop Streaming';
         rdesignCenterHtmlInner.appendChild(stopBtn);
+        stopBtn.addEventListener('click', () => {
+            window.location.reload();
+        });
 
         rdesignCenterHtmlInner.style.display = 'none';
 
