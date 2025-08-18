@@ -58,6 +58,22 @@ export class RDesignCenter {
         fullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i> Fullscreen';
         controlsSection.appendChild(fullscreenBtn);
 
+        fullscreenBtn.addEventListener('click', () => {
+            const element = document.getElementById('playerUI');
+
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullscreen) {
+                element.mozRequestFullscreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            } else if (element.webkitEnterFullscreen) {
+                element.webkitEnterFullscreen(); //for iphone this code worked
+            }
+        });
+
         rdesignCenterHtmlInner.appendChild(controlsSection);
 
         // Connection Info Section
