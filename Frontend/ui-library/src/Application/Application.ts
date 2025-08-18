@@ -42,6 +42,7 @@ import {
     ExtraFlags
 } from '../UI/UIConfigurationTypes';
 import { FullScreenIconBase, FullScreenIconExternal } from '../UI/FullscreenIcon';
+import { RDesignCenter } from '../Overlay/RDesignCenter';
 
 /**
  * Configuration of the internal video QP indicator element.
@@ -107,6 +108,7 @@ export class Application {
     videoQpIndicator: VideoQpIndicator;
     videoQuality: VideoQuality;
     editTextModal: EditTextModal | null = null;
+    rdesignCenter: RDesignCenter;
 
     configUI: ConfigUI;
 
@@ -148,11 +150,18 @@ export class Application {
             this.configureSettings();
         }
 
+        const rdesignWrapperHtml = document.createElement('div');
+        rdesignWrapperHtml.id = 'rdesignWrapper';
+        this.uiFeaturesElement.appendChild(rdesignWrapperHtml);
+
         if (!options.videoQpIndicatorConfig || !options.videoQpIndicatorConfig.disableIndicator) {
             // Add the video stream QP indicator
             this.videoQpIndicator = new VideoQpIndicator(options.videoQpIndicatorConfig);
-            this.uiFeaturesElement.appendChild(this.videoQpIndicator.rootElement);
+            rdesignWrapperHtml.appendChild(this.videoQpIndicator.rootElement);
         }
+
+        this.rdesignCenter = new RDesignCenter();
+        rdesignWrapperHtml.appendChild(this.rdesignCenter.rootElement);
 
         this.videoQuality = new VideoQuality();
         this.uiFeaturesElement.appendChild(this.videoQuality.rootElement);
@@ -743,7 +752,9 @@ export class Application {
         // Grab all stats we can off the aggregated stats
         this.statsPanel?.handleStats(aggregatedStats);
 
-        let resolution =
+        let videoQuantityResult = '';
+        let frameRate = '';
+        const resolution =
             aggregatedStats.inboundVideoStats.frameWidth !== undefined &&
             aggregatedStats.inboundVideoStats.frameWidth > 0 &&
             aggregatedStats.inboundVideoStats.frameHeight !== undefined &&
@@ -752,10 +763,14 @@ export class Application {
                   'x' +
                   aggregatedStats.inboundVideoStats.frameHeight
                 : 'Chrome only';
+        videoQuantityResult = resolution;
         if (aggregatedStats.inboundVideoStats.framesPerSecond !== undefined) {
-            resolution += ' - ' + aggregatedStats.inboundVideoStats.framesPerSecond.toString() + 'fps';
+            frameRate = aggregatedStats.inboundVideoStats.framesPerSecond.toString() + 'fps';
+            videoQuantityResult += ' - ' + frameRate;
         }
-        this.videoQuality.updateQualityText(resolution);
+        this.videoQuality.updateQualityText(videoQuantityResult);
+
+        this.rdesignCenter.updateInfoList(resolution, frameRate, 'kbps', 'ms');
     }
 
     onLatencyUpdate(latencyInfo: LatencyInfo) {

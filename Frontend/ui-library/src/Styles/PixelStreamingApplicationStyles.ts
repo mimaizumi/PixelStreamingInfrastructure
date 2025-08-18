@@ -120,11 +120,108 @@ export class PixelStreamingApplicationStyle {
             backgroundColor: 'var(--color0)',
             fontSize: '0.75rem'
         },
-        '#connection': {
+        '#rdesignWrapper': {
             position: 'absolute',
             bottom: '3%',
             left: '3%',
             pointerEvents: 'all',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem'
+        },
+        '#rdesignCenter': {
+            position: 'relative'
+        },
+        '#rdesignCenterButton': {
+            padding: '5px',
+            borderRadius: '5px',
+            backgroundColor: 'var(--color0)',
+            cursor: 'pointer',
+            color: '#b0b0b0'
+        },
+        '#rdesignCenterMenu': {
+            position: 'absolute',
+            bottom: '100%',
+            left: '0',
+            backgroundColor: 'var(--color0)',
+            borderRadius: '8px',
+            marginBottom: '5px',
+            width: '210px',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+            fontFamily: 'inherit',
+            overflow: 'hidden',
+            zIndex: 10
+        },
+        '.menuSection': {
+            padding: '0',
+            margin: '0 0 10px 0',
+            background: 'none',
+            boxShadow: 'none'
+        },
+        '.menuHeader': {
+            fontSize: '0.85rem',
+            fontWeight: 'bold',
+            padding: '12px 16px',
+            borderBottom: '1px solid var(--color7)',
+            background: 'none',
+            color: '#ffffff'
+        },
+        '.menuBtn': {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            width: '100%',
+            padding: '10px 16px',
+            background: 'none',
+            border: 'none',
+            outline: 'none',
+            color: '#b0b0b0',
+            fontSize: '13px',
+            cursor: 'pointer',
+            transition: 'background 0.15s',
+            borderRadius: '0'
+        },
+        '.menuBtn:hover': {
+            background: '#000000'
+        },
+        '.connectionInfoList': {
+            listStyle: 'none',
+            margin: '0',
+            padding: '10px 16px',
+            color: '#b0b0b0',
+            fontSize: '13px'
+        },
+        '.connectionInfoList li': {
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '4px'
+        },
+        '.connectionInfoList li span': {
+            color: '#b0b0b0',
+            fontWeight: '500',
+            marginRight: '10px'
+        },
+        '.stopStreamingBtn': {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            width: 'calc(100% - 32px)',
+            margin: '12px 16px',
+            padding: '10px 0',
+            background: '#B71C1C',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            fontWeight: 'bold',
+            fontSize: '13px',
+            cursor: 'pointer',
+            justifyContent: 'center',
+            transition: 'background 0.15s'
+        },
+        '.stopStreamingBtn:hover': {
+            background: '#D32F2F'
+        },
+        '#connection': {
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
