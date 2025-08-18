@@ -40,17 +40,17 @@ export class RDesignCenter {
         controlsHeader.innerText = 'Streaming Controls';
         controlsSection.appendChild(controlsHeader);
 
-        // Quality Settings Button
-        const qualityBtn = document.createElement('div');
-        qualityBtn.className = 'menuBtn';
-        qualityBtn.innerHTML = '<i class="fa-solid fa-cog"></i> Quality Settings';
-        controlsSection.appendChild(qualityBtn);
+        // // Quality Settings Button
+        // const qualityBtn = document.createElement('div');
+        // qualityBtn.className = 'menuBtn';
+        // qualityBtn.innerHTML = '<i class="fa-solid fa-cog"></i> Quality Settings';
+        // controlsSection.appendChild(qualityBtn);
 
-        // Audio Settings Button
-        const audioBtn = document.createElement('div');
-        audioBtn.className = 'menuBtn';
-        audioBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Audio Settings';
-        controlsSection.appendChild(audioBtn);
+        // // Audio Settings Button
+        // const audioBtn = document.createElement('div');
+        // audioBtn.className = 'menuBtn';
+        // audioBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Audio Settings';
+        // controlsSection.appendChild(audioBtn);
 
         // Fullscreen Button
         const fullscreenBtn = document.createElement('div');
