@@ -743,7 +743,7 @@ export class Application {
         // Grab all stats we can off the aggregated stats
         this.statsPanel?.handleStats(aggregatedStats);
 
-        let videoQuality =
+        let resolution =
             aggregatedStats.inboundVideoStats.frameWidth !== undefined &&
             aggregatedStats.inboundVideoStats.frameWidth > 0 &&
             aggregatedStats.inboundVideoStats.frameHeight !== undefined &&
@@ -752,8 +752,10 @@ export class Application {
                   'x' +
                   aggregatedStats.inboundVideoStats.frameHeight
                 : 'Chrome only';
-        videoQuality += ' - ' + aggregatedStats.inboundVideoStats.framesPerSecond.toString() + 'fps';
-        this.videoQuality.updateQualityText(videoQuality);
+        if (aggregatedStats.inboundVideoStats.framesPerSecond !== undefined) {
+            resolution += ' - ' + aggregatedStats.inboundVideoStats.framesPerSecond.toString() + 'fps';
+        }
+        this.videoQuality.updateQualityText(resolution);
     }
 
     onLatencyUpdate(latencyInfo: LatencyInfo) {
