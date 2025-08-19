@@ -644,7 +644,7 @@ export class Application {
      * Show the webRtcAutoConnect Overlay and connect
      */
     onWebRtcAutoConnect() {
-        this.showTextOverlay('Auto Connecting Now');
+        this.showLoadingWithText('Auto Connecting Now');
     }
 
     /**
