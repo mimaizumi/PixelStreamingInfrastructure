@@ -43,6 +43,7 @@ import {
 } from '../UI/UIConfigurationTypes';
 import { FullScreenIconBase, FullScreenIconExternal } from '../UI/FullscreenIcon';
 import { RDesignCenter } from '../Overlay/RDesignCenter';
+import { LoadingWithTextOverlay } from '../Overlay/LoadingWithTextOverlay';
 
 /**
  * Configuration of the internal video QP indicator element.
@@ -100,6 +101,7 @@ export class Application {
     infoOverlay: TextOverlay;
     errorOverlay: TextOverlay;
     afkOverlay: AFKOverlay;
+    loadingOverlay: LoadingWithTextOverlay;
 
     controls: Controls;
 
@@ -193,6 +195,7 @@ export class Application {
         this.infoOverlay = new InfoOverlay(this.stream.videoElementParent);
         this.errorOverlay = new ErrorOverlay(this.stream.videoElementParent);
         this.afkOverlay = new AFKOverlay(this.stream.videoElementParent);
+        this.loadingOverlay = new LoadingWithTextOverlay(this.stream.videoElementParent);
 
         this.disconnectOverlay.onAction(() => this.stream.reconnect());
 
@@ -540,6 +543,13 @@ export class Application {
         this.currentOverlay = this.infoOverlay;
     }
 
+    showLoadingWithText(text: string) {
+        this.hideCurrentOverlay();
+        this.loadingOverlay.update(text);
+        this.loadingOverlay.show();
+        this.currentOverlay = this.loadingOverlay;
+    }
+
     /**
      * Shows the error overlay
      * @param text - the text that will be shown in the overlay
@@ -597,7 +607,7 @@ export class Application {
      * Show RDesign setting warning overlay
      */
     async showRDesignSettingWarning() {
-        this.showTextOverlay('Verifying token');
+        this.showLoadingWithText('Verifying token');
 
         const jwt = this.stream.config.getTextSettingValue(TextParameters.JWT);
         if (!jwt) {
@@ -686,14 +696,14 @@ export class Application {
      * Handles when Web Rtc is connecting
      */
     onWebRtcConnecting() {
-        this.showTextOverlay('Starting connection to server, please wait');
+        this.showLoadingWithText('Starting connection to server, please wait');
     }
 
     /**
      * Handles when Web Rtc has connected
      */
     onWebRtcConnected() {
-        this.showTextOverlay('WebRTC connected, waiting for video');
+        this.showLoadingWithText('WebRTC connected, waiting for video');
     }
 
     /**

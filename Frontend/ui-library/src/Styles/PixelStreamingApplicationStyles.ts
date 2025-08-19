@@ -426,17 +426,40 @@ export class PixelStreamingApplicationStyle {
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap'
         },
-        '#connectOverlay, #playOverlay, #infoOverlay, #errorOverlay, #afkOverlay, #disconnectOverlay': {
-            zIndex: '30',
-            position: 'absolute',
-            color: 'var(--color2)',
-            fontSize: '1.8em',
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'var(--color1)',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textTransform: 'uppercase'
+        '#connectOverlay, #playOverlay, #infoOverlay, #errorOverlay, #afkOverlay, #disconnectOverlay, #loadingOverlay':
+            {
+                zIndex: '30',
+                position: 'absolute',
+                color: 'var(--color2)',
+                fontSize: '1.8em',
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'var(--color1)',
+                alignItems: 'center',
+                justifyContent: 'center'
+            },
+        '#loadingOverlay': {
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        '@keyframes spin': {
+            to: {
+                transform: 'rotate(360deg)'
+            }
+        },
+        '.loadingIcon': {
+            animation: 'spin 1s linear infinite',
+            borderLeft: '3px solid var(--color2)',
+            borderRight: '3px solid var(--color2)',
+            borderBottom: '3px solid var(--color2)',
+            borderTop: '3px solid var(--color2)',
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            marginBottom: '20px'
+        },
+        '.loadingText': {
+            marginBottom: '10px'
         },
         '.clickableState': {
             alignItems: 'center',
@@ -448,7 +471,7 @@ export class PixelStreamingApplicationStyle {
             display: 'flex'
         },
         '.hiddenState': {
-            display: 'none'
+            display: 'none !important'
         },
         '#playButton, #connectButton': {
             display: 'inline-block',
