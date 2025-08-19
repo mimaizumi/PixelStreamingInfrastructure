@@ -449,9 +449,9 @@ export class PixelStreamingApplicationStyle {
         },
         '.loadingIcon': {
             animation: 'spin 1s linear infinite',
-            borderLeft: '3px solid var(--color2)',
-            borderRight: '3px solid var(--color2)',
-            borderBottom: '3px solid var(--color2)',
+            borderLeft: '3px solid var(--color7)',
+            borderRight: '3px solid var(--color7)',
+            borderBottom: '3px solid var(--color7)',
             borderTop: '3px solid var(--color2)',
             width: '80px',
             height: '80px',
