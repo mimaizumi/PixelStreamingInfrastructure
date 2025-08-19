@@ -177,7 +177,7 @@ export class VideoQpIndicator {
         if (QP > this.redQP) {
             this.color = 'red';
             this.blinkVideoQualityStatus(2);
-            this.statsText = `<div style="color: ${this.color}">Poor encoding quality</div>`;
+            this.statsText = `<div style="color: ${this.color}">Poor</div>`;
             this.outer.setAttributeNS(null, 'fill', '#3c3b40');
             this.middle.setAttributeNS(null, 'fill', '#3c3b40');
             this.inner.setAttributeNS(null, 'fill', this.color);
@@ -185,7 +185,7 @@ export class VideoQpIndicator {
         } else if (QP > this.orangeQP) {
             this.color = 'orange';
             this.blinkVideoQualityStatus(1);
-            this.statsText = `<div style="color: ${this.color}">Blocky encoding quality</div>`;
+            this.statsText = `<div style="color: ${this.color}">Blocky</div>`;
             this.outer.setAttributeNS(null, 'fill', '#3c3b40');
             this.middle.setAttributeNS(null, 'fill', this.color);
             this.inner.setAttributeNS(null, 'fill', this.color);
@@ -200,7 +200,7 @@ export class VideoQpIndicator {
         } else {
             this.color = 'lime';
             this.qualityStatus.style.opacity = this.config?.hideWhenGood == true ? '0' : '1';
-            this.statsText = `<div style="color: ${this.color}">Clear encoding quality</div>`;
+            this.statsText = `<div style="color: ${this.color}">Good</div>`;
             this.outer.setAttributeNS(null, 'fill', this.color);
             this.middle.setAttributeNS(null, 'fill', this.color);
             this.inner.setAttributeNS(null, 'fill', this.color);
