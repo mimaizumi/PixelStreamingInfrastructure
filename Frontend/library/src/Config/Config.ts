@@ -741,7 +741,7 @@ export class Config {
                 100 /*max*/,
                 settings && Object.prototype.hasOwnProperty.call(settings, NumericParameters.CompatQualityMin)
                     ? settings[NumericParameters.CompatQualityMin]
-                    : 40 /*value*/,
+                    : 1 /*value*/,
                 useUrlParams
             )
         );
