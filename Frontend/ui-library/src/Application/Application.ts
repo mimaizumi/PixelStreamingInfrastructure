@@ -651,7 +651,7 @@ export class Application {
      * Set up functionality to happen when receiving a webRTC answer
      */
     onWebRtcSdp() {
-        this.showTextOverlay('WebRTC Connection Negotiated');
+        this.showLoadingWithText('WebRTC Connection Negotiated');
     }
 
     /**
