@@ -44,6 +44,7 @@ import {
 import { FullScreenIconBase, FullScreenIconExternal } from '../UI/FullscreenIcon';
 import { RDesignCenter } from '../Overlay/RDesignCenter';
 import { LoadingWithTextOverlay } from '../Overlay/LoadingWithTextOverlay';
+import { StopIcon } from '../UI/StopIcon';
 
 /**
  * Configuration of the internal video QP indicator element.
@@ -111,6 +112,7 @@ export class Application {
     videoQuality: VideoQuality;
     editTextModal: EditTextModal | null = null;
     rdesignCenter: RDesignCenter;
+    stopIcon: StopIcon;
 
     configUI: ConfigUI;
 
@@ -155,6 +157,9 @@ export class Application {
         const rdesignWrapperHtml = document.createElement('div');
         rdesignWrapperHtml.id = 'rdesignWrapper';
         this.uiFeaturesElement.appendChild(rdesignWrapperHtml);
+
+        this.stopIcon = new StopIcon();
+        rdesignWrapperHtml.appendChild(this.stopIcon.rootElement);
 
         if (!options.videoQpIndicatorConfig || !options.videoQpIndicatorConfig.disableIndicator) {
             // Add the video stream QP indicator

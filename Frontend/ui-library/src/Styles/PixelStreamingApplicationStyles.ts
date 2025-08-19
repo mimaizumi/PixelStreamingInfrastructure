@@ -410,6 +410,14 @@ export class PixelStreamingApplicationStyle {
             marginLeft: '2rem',
             marginRight: '2rem'
         },
+        '#stopBtn': {
+            borderRadius: '50%',
+            backgroundColor: '#B71C1C !important'
+        },
+        '#stopBtn:hover': {
+            padding: '0 !important',
+            border: '0 !important'
+        },
         '.setting': {
             display: 'flex',
             flexDirection: 'row',
