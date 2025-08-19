@@ -329,7 +329,7 @@ export class Config {
                 'When video is ready automatically start playing it as opposed to showing a play button.',
                 settings && Object.prototype.hasOwnProperty.call(settings, Flags.AutoPlayVideo)
                     ? settings[Flags.AutoPlayVideo]
-                    : false,
+                    : true,
                 useUrlParams
             )
         );
