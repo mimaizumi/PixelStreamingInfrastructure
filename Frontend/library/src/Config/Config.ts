@@ -892,6 +892,7 @@ export class Config {
      */
     setNumericSetting(id: NumericParametersIds, value: number): void {
         if (this.numericParameters.has(id)) {
+            Logger.RDesign(`setNumericSetting ${id} to ${value}`);
             this.numericParameters.get(id).number = value;
         } else {
             throw new Error(`There is no numeric setting with the id of ${id}`);
