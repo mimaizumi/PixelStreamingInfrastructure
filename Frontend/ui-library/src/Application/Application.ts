@@ -174,17 +174,21 @@ export class Application {
         this.rdesignCenter = new RDesignCenter();
         rdesignWrapperHtml.appendChild(this.rdesignCenter.rootElement);
 
+        this.guidePanel = new GuidePanel();
+        this.uiFeaturesElement.appendChild(this.guidePanel.rootElement);
+
         this.questionIcon = new QuestionIcon();
         this.questionIcon.onClick = () => {
-            Logger.RDesign('Question Icon Clicked');
+            if (this.guidePanel.visible()) {
+                this.guidePanel.hide();
+            } else {
+                this.guidePanel.show();
+            }
         };
         rdesignWrapperHtml.appendChild(this.questionIcon.rootElement);
 
         this.videoQuality = new VideoQuality();
         this.uiFeaturesElement.appendChild(this.videoQuality.rootElement);
-
-        this.guidePanel = new GuidePanel();
-        this.uiFeaturesElement.appendChild(this.guidePanel.rootElement);
 
         this.createButtons();
 

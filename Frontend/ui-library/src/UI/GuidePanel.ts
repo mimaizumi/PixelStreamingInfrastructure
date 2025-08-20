@@ -97,6 +97,14 @@ export class GuidePanel {
     }
 
     public visible(): boolean {
-        return this._rootElement.classList.contains('d-block');
+        return !this._rootElement.classList.contains('d-none');
+    }
+
+    public show(): void {
+        this._rootElement.classList.remove('d-none');
+    }
+
+    public hide(): void {
+        this._rootElement.classList.add('d-none');
     }
 }
