@@ -565,6 +565,10 @@ export class PixelStreaming {
      * @param settings - initial UE app settings
      */
     _onInitialSettings(settings: InitialSettings) {
+        Logger.RDesign('_onInitialSettings');
+        Logger.RDesign(
+            'Set up functionality to happen when receiving and handling initial settings for the UE app'
+        );
         this._eventEmitter.dispatchEvent(new InitialSettingsEvent({ settings }));
         if (settings.PixelStreamingSettings) {
             this.allowConsoleCommands = settings.PixelStreamingSettings.AllowPixelStreamingCommands ?? false;
@@ -579,6 +583,7 @@ export class PixelStreaming {
         const urlParams = new IURLSearchParams(window.location.search);
         Logger.Info(`using URL parameters ${useUrlParams}`);
         if (settings.EncoderSettings) {
+            Logger.RDesign(`settings.EncoderSettings ${JSON.stringify(settings.EncoderSettings)}`);
             // here we should either get Min/MaxQP from PS1
             // or Min/MaxQuality from PS2
             // we only want to set one set or the other as they converge in CompatQualityMin/Max and
