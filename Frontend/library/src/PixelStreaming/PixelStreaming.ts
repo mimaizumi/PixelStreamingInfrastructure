@@ -578,9 +578,8 @@ export class PixelStreaming {
         const useUrlParams = this.config.useUrlParams;
         const urlParams = new IURLSearchParams(window.location.search);
         Logger.Info(`using URL parameters ${useUrlParams}`);
-        Logger.RDesign(`settings ${JSON.stringify(settings)}`);
-
         if (settings.EncoderSettings) {
+            Logger.RDesign(`settings.EncoderSettings ${JSON.stringify(settings.EncoderSettings)}`);
             // here we should either get Min/MaxQP from PS1
             // or Min/MaxQuality from PS2
             // we only want to set one set or the other as they converge in CompatQualityMin/Max and
