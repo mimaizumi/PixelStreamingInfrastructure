@@ -60,6 +60,12 @@ export class PixelStreamingApplicationStyle {
         '.bg-black': {
             background: 'black !important'
         },
+        '.d-block': {
+            display: 'block'
+        },
+        '.d-none': {
+            display: 'none'
+        },
         '#playerUI': {
             width: '100%',
             height: '100%',
@@ -79,6 +85,57 @@ export class PixelStreamingApplicationStyle {
             color: 'var(--color2)',
             pointerEvents: 'none',
             overflow: 'hidden'
+        },
+        '#guide-panel': {
+            backgroundColor: 'var(--color2)',
+            padding: '20px',
+            width: '750px',
+            borderRadius: '5px',
+            position: 'absolute',
+            top: '50%',
+            right: '35px',
+            transform: 'translateY(-50%)',
+            zIndex: '40',
+            color: 'var(--color0)',
+            pointerEvents: 'all'
+        },
+        '#guide-panel-title': {
+            fontSize: '19px',
+            marginBottom: '12px',
+            color: 'black'
+        },
+        '#guide-panel-subtitle': {
+            color: '#999999',
+            fontSize: '14px'
+        },
+        '#guide-panel-movement': {
+            margin: '30px 0 10px',
+            fontSize: '14px',
+            color: 'black'
+        },
+        '#guide-panel-move-forward, #guide-panel-move-around, #guide-panel-move-up-down': {
+            display: 'flex',
+            gap: '1.2rem',
+            alignItems: 'center',
+            margin: '15px 0'
+        },
+        '.key-icon': {
+            color: 'black',
+            border: '1px solid var(--color7)',
+            borderRadius: '5px',
+            width: '30px',
+            height: '30px',
+            textAlign: 'center',
+            lineHeight: '30px'
+        },
+        '.key-text': {
+            fontSize: '14px',
+            color: 'var(--color0)'
+        },
+        '#guide-panel-moving-keys, #guide-panel-move-up-down-icons': {
+            display: 'flex',
+            gap: '0.5rem',
+            alignItems: 'center'
         },
         '.UiTool .tooltiptext': {
             visibility: 'hidden',

@@ -46,6 +46,7 @@ import { RDesignCenter } from '../Overlay/RDesignCenter';
 import { LoadingWithTextOverlay } from '../Overlay/LoadingWithTextOverlay';
 import { StopIcon } from '../UI/StopIcon';
 import { QuestionIcon } from '../UI/QuestionIcon';
+import { GuidePanel } from '../UI/GuidePanel';
 
 /**
  * Configuration of the internal video QP indicator element.
@@ -115,6 +116,7 @@ export class Application {
     rdesignCenter: RDesignCenter;
     stopIcon: StopIcon;
     questionIcon: QuestionIcon;
+    guidePanel: GuidePanel;
 
     configUI: ConfigUI;
 
@@ -180,6 +182,9 @@ export class Application {
 
         this.videoQuality = new VideoQuality();
         this.uiFeaturesElement.appendChild(this.videoQuality.rootElement);
+
+        this.guidePanel = new GuidePanel();
+        this.uiFeaturesElement.appendChild(this.guidePanel.rootElement);
 
         this.createButtons();
 
