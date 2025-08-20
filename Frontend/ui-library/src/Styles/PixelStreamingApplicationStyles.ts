@@ -132,7 +132,7 @@ export class PixelStreamingApplicationStyle {
         '#rdesignCenter': {
             position: 'relative'
         },
-        '#rdesignCenterButton': {
+        '.rdesignCenterButton': {
             padding: '5px',
             borderRadius: '5px',
             backgroundColor: 'var(--color0)',

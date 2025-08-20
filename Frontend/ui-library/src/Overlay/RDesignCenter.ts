@@ -15,7 +15,7 @@ export class RDesignCenter {
 
     public static createMainButton(): HTMLElement {
         const rdesignCenterButton = document.createElement('div');
-        rdesignCenterButton.id = 'rdesignCenterButton';
+        rdesignCenterButton.classList.add('rdesignCenterButton');
         rdesignCenterButton.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
 
         rdesignCenterButton.addEventListener('click', () => {

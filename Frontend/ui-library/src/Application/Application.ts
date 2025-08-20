@@ -45,6 +45,7 @@ import { FullScreenIconBase, FullScreenIconExternal } from '../UI/FullscreenIcon
 import { RDesignCenter } from '../Overlay/RDesignCenter';
 import { LoadingWithTextOverlay } from '../Overlay/LoadingWithTextOverlay';
 import { StopIcon } from '../UI/StopIcon';
+import { QuestionIcon } from '../UI/QuestionIcon';
 
 /**
  * Configuration of the internal video QP indicator element.
@@ -113,6 +114,7 @@ export class Application {
     editTextModal: EditTextModal | null = null;
     rdesignCenter: RDesignCenter;
     stopIcon: StopIcon;
+    questionIcon: QuestionIcon;
 
     configUI: ConfigUI;
 
@@ -169,6 +171,12 @@ export class Application {
 
         this.rdesignCenter = new RDesignCenter();
         rdesignWrapperHtml.appendChild(this.rdesignCenter.rootElement);
+
+        this.questionIcon = new QuestionIcon();
+        this.questionIcon.onClick = () => {
+            Logger.RDesign('Question Icon Clicked');
+        };
+        rdesignWrapperHtml.appendChild(this.questionIcon.rootElement);
 
         this.videoQuality = new VideoQuality();
         this.uiFeaturesElement.appendChild(this.videoQuality.rootElement);
@@ -785,9 +793,10 @@ export class Application {
         }
         this.videoQuality.updateQualityText(videoQuantityResult);
 
-        const bitrate = aggregatedStats.inboundVideoStats.bitrate.toString();
-
-        this.rdesignCenter.updateStats(resolution, frameRate, bitrate);
+        if (aggregatedStats.inboundVideoStats.bitrate !== undefined) {
+            const bitrate = aggregatedStats.inboundVideoStats.bitrate.toString();
+            this.rdesignCenter.updateStats(resolution, frameRate, bitrate);
+        }
     }
 
     onLatencyUpdate(latencyInfo: LatencyInfo) {
