@@ -108,10 +108,15 @@ export class PixelStreamingApplicationStyle {
             color: '#999999',
             fontSize: '14px'
         },
-        '#guide-panel-movement': {
+        '#guide-panel-movement, #guide-panel-mouse': {
             margin: '30px 0 10px',
             fontSize: '14px',
             color: 'black'
+        },
+        '#guide-panel-footer': {
+            textAlign: 'center',
+            color: '#999999',
+            padding: '20px 0 0'
         },
         '#guide-panel-move-forward, #guide-panel-move-around, #guide-panel-move-up-down': {
             display: 'flex',

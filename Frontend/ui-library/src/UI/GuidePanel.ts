@@ -92,6 +92,30 @@ export class GuidePanel {
             moveUpDown.appendChild(moveUpDownText);
 
             this._rootElement.appendChild(moveUpDown);
+
+            const mouse = document.createElement('div');
+            mouse.id = 'guide-panel-mouse';
+            mouse.textContent = 'Mouse';
+            this._rootElement.appendChild(mouse);
+
+            const mouseModes = document.createElement('div');
+            mouseModes.id = 'guide-panel-mouse-modes';
+
+            const mouseLeftMode = document.createElement('div');
+            mouseLeftMode.id = 'guide-panel-mouse-left-mode';
+
+            mouseModes.appendChild(mouseLeftMode);
+
+            this._rootElement.appendChild(mouseModes);
+
+            const divide = document.createElement('div');
+            divide.style.borderBottom = '1px solid #d1d1d1';
+            this._rootElement.appendChild(divide);
+
+            const footer = document.createElement('div');
+            footer.id = 'guide-panel-footer';
+            footer.textContent = 'Press and hold keys for continuous movement';
+            this._rootElement.appendChild(footer);
         }
         return this._rootElement;
     }
