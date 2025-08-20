@@ -1860,8 +1860,6 @@ export class WebRtcPlayerController {
      * @param message - Initial Encoder and Web RTC Settings
      */
     handleInitialSettings(message: ArrayBuffer) {
-        Logger.RDesign('DataChannelReceiveMessageType.InitialSettings');
-        Logger.RDesign('Handles when the Encoder and Web RTC Settings are received from the UE Instance');
         Logger.Info('DataChannelReceiveMessageType.InitialSettings');
         const payloadAsString = new TextDecoder('utf-16').decode(message.slice(1));
         const parsedInitialSettings = JSON.parse(payloadAsString);

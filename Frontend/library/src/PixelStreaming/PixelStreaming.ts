@@ -565,10 +565,6 @@ export class PixelStreaming {
      * @param settings - initial UE app settings
      */
     _onInitialSettings(settings: InitialSettings) {
-        Logger.RDesign('_onInitialSettings');
-        Logger.RDesign(
-            'Set up functionality to happen when receiving and handling initial settings for the UE app'
-        );
         this._eventEmitter.dispatchEvent(new InitialSettingsEvent({ settings }));
         if (settings.PixelStreamingSettings) {
             this.allowConsoleCommands = settings.PixelStreamingSettings.AllowPixelStreamingCommands ?? false;
