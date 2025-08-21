@@ -441,8 +441,8 @@ export class PixelStreamingApplicationStyle {
             right: '20px',
             cursor: 'pointer'
         },
-        '.mouse-mode-icon': {
-            width: '40px',
+        '#guide-panel img.mouse-mode-icon': {
+            width: 'auto',
             height: '50px',
             marginBottom: '10px'
         },
