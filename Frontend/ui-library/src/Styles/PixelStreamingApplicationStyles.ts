@@ -441,6 +441,11 @@ export class PixelStreamingApplicationStyle {
             right: '20px',
             cursor: 'pointer'
         },
+        '.mouse-mode-icon': {
+            width: '40px',
+            height: '50px',
+            marginBottom: '10px'
+        },
         '.panel-wrap': {
             position: 'absolute',
             top: '0',

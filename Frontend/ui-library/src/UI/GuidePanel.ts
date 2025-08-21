@@ -115,6 +115,12 @@ export class GuidePanel {
             mouseLeftMode.id = 'guide-panel-mouse-left-mode';
             mouseLeftMode.classList.add('mouse-mode');
 
+            const mouseLeftModeIcon = document.createElement('img');
+            mouseLeftModeIcon.classList.add('mouse-mode-icon');
+            mouseLeftModeIcon.src =
+                'https://res.cloudinary.com/hsfhjza4k/image/upload/v1755768109/assets/1.png';
+            mouseLeftMode.appendChild(mouseLeftModeIcon);
+
             const mouseLeftModeStrongText = document.createElement('div');
             mouseLeftModeStrongText.classList.add('mouse-head-text');
             mouseLeftModeStrongText.textContent = 'Specify an Item';
@@ -130,6 +136,12 @@ export class GuidePanel {
             const mouseMoveMode = document.createElement('div');
             mouseMoveMode.id = 'guide-panel-mouse-move-mode';
             mouseMoveMode.classList.add('mouse-mode');
+
+            const mouseMoveModeIcon = document.createElement('img');
+            mouseMoveModeIcon.classList.add('mouse-mode-icon');
+            mouseMoveModeIcon.src =
+                'https://res.cloudinary.com/hsfhjza4k/image/upload/v1755768109/assets/4.png';
+            mouseMoveMode.appendChild(mouseMoveModeIcon);
 
             const mouseMoveModeStrongText = document.createElement('div');
             mouseMoveModeStrongText.classList.add('mouse-head-text');
@@ -147,6 +159,12 @@ export class GuidePanel {
             mousePanMode.id = 'guide-panel-mouse-pan-mode';
             mousePanMode.classList.add('mouse-mode');
 
+            const mousePanModeIcon = document.createElement('img');
+            mousePanModeIcon.classList.add('mouse-mode-icon');
+            mousePanModeIcon.src =
+                'https://res.cloudinary.com/hsfhjza4k/image/upload/v1755768109/assets/2.png';
+            mousePanMode.appendChild(mousePanModeIcon);
+
             const mousePanModeStrongText = document.createElement('div');
             mousePanModeStrongText.classList.add('mouse-head-text');
             mousePanModeStrongText.textContent = 'Pan';
@@ -162,6 +180,12 @@ export class GuidePanel {
             const mouseRightMode = document.createElement('div');
             mouseRightMode.id = 'guide-panel-mouse-right-mode';
             mouseRightMode.classList.add('mouse-mode');
+
+            const mouseRightModeIcon = document.createElement('img');
+            mouseRightModeIcon.classList.add('mouse-mode-icon');
+            mouseRightModeIcon.src =
+                'https://res.cloudinary.com/hsfhjza4k/image/upload/v1755768108/assets/3.png';
+            mouseRightMode.appendChild(mouseRightModeIcon);
 
             const mouseRightModeStrongText = document.createElement('div');
             mouseRightModeStrongText.classList.add('mouse-head-text');
