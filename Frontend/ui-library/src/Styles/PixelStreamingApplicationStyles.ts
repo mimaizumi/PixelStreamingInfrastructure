@@ -125,6 +125,22 @@ export class PixelStreamingApplicationStyle {
             alignItems: 'center',
             margin: '15px 0'
         },
+        '#guide-panel-mouse-modes': {
+            display: 'flex',
+            alignItems: 'stretch'
+        },
+        '.mouse-head-text': {
+            marginBottom: '15px'
+        },
+        '.mouse-text': {
+            fontSize: '12px',
+            color: '#9d9d9d'
+        },
+        '.mouse-mode': {
+            flex: '1',
+            textAlign: 'center',
+            margin: '15px 0'
+        },
         '.key-icon': {
             color: 'black',
             border: '1px solid var(--color7)',

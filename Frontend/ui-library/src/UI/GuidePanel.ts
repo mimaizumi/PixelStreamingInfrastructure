@@ -103,8 +103,67 @@ export class GuidePanel {
 
             const mouseLeftMode = document.createElement('div');
             mouseLeftMode.id = 'guide-panel-mouse-left-mode';
+            mouseLeftMode.classList.add('mouse-mode');
+
+            const mouseLeftModeStrongText = document.createElement('div');
+            mouseLeftModeStrongText.classList.add('mouse-head-text');
+            mouseLeftModeStrongText.textContent = 'Specify an Item';
+            mouseLeftMode.appendChild(mouseLeftModeStrongText);
+
+            const mouseLeftModeText = document.createElement('div');
+            mouseLeftModeText.classList.add('mouse-text');
+            mouseLeftModeText.textContent = 'Left Click';
+            mouseLeftMode.appendChild(mouseLeftModeText);
 
             mouseModes.appendChild(mouseLeftMode);
+
+            const mouseMoveMode = document.createElement('div');
+            mouseMoveMode.id = 'guide-panel-mouse-move-mode';
+            mouseMoveMode.classList.add('mouse-mode');
+
+            const mouseMoveModeStrongText = document.createElement('div');
+            mouseMoveModeStrongText.classList.add('mouse-head-text');
+            mouseMoveModeStrongText.textContent = 'Move';
+            mouseMoveMode.appendChild(mouseMoveModeStrongText);
+
+            const mouseMoveModeText = document.createElement('div');
+            mouseMoveModeText.classList.add('mouse-text');
+            mouseMoveModeText.textContent = 'Scroll Wheel';
+            mouseMoveMode.appendChild(mouseMoveModeText);
+
+            mouseModes.appendChild(mouseMoveMode);
+
+            const mousePanMode = document.createElement('div');
+            mousePanMode.id = 'guide-panel-mouse-pan-mode';
+            mousePanMode.classList.add('mouse-mode');
+
+            const mousePanModeStrongText = document.createElement('div');
+            mousePanModeStrongText.classList.add('mouse-head-text');
+            mousePanModeStrongText.textContent = 'Pan';
+            mousePanMode.appendChild(mousePanModeStrongText);
+
+            const mousePanModeText = document.createElement('div');
+            mousePanModeText.classList.add('mouse-text');
+            mousePanModeText.textContent = 'Middle Press & Drag';
+            mousePanMode.appendChild(mousePanModeText);
+
+            mouseModes.appendChild(mousePanMode);
+
+            const mouseRightMode = document.createElement('div');
+            mouseRightMode.id = 'guide-panel-mouse-right-mode';
+            mouseRightMode.classList.add('mouse-mode');
+
+            const mouseRightModeStrongText = document.createElement('div');
+            mouseRightModeStrongText.classList.add('mouse-head-text');
+            mouseRightModeStrongText.textContent = 'Look Around';
+            mouseRightMode.appendChild(mouseRightModeStrongText);
+
+            const mouseRightModeText = document.createElement('div');
+            mouseRightModeText.classList.add('mouse-text');
+            mouseRightModeText.textContent = 'Right Click & Drag';
+            mouseRightMode.appendChild(mouseRightModeText);
+
+            mouseModes.appendChild(mouseRightMode);
 
             this._rootElement.appendChild(mouseModes);
 
