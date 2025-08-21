@@ -436,6 +436,11 @@ export class PixelStreamingApplicationStyle {
             width: '100%',
             height: '100%'
         },
+        '#guide-panel-close': {
+            position: 'absolute',
+            right: '20px',
+            cursor: 'pointer'
+        },
         '.panel-wrap': {
             position: 'absolute',
             top: '0',

@@ -8,6 +8,16 @@ export class GuidePanel {
             this._rootElement.id = 'guide-panel';
             this._rootElement.classList.add('d-none');
 
+            const closeButton = document.createElement('div');
+            closeButton.id = 'guide-panel-close';
+            const closeIcon = document.createElement('i');
+            closeIcon.classList.add('fa-solid', 'fa-xmark');
+            closeButton.appendChild(closeIcon);
+            closeButton.addEventListener('click', () => {
+                this.hide();
+            });
+            this._rootElement.appendChild(closeButton);
+
             const title = document.createElement('div');
             title.id = 'guide-panel-title';
             title.textContent = 'Controls Guide';
