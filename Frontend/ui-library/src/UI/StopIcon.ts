@@ -50,4 +50,12 @@ export class StopIcon {
         }
         return this._stopIcon;
     }
+
+    public hide(): void {
+        this.rootElement.classList.add('d-none');
+    }
+
+    public show(): void {
+        this.rootElement.classList.remove('d-none');
+    }
 }

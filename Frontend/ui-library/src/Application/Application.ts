@@ -164,6 +164,7 @@ export class Application {
 
         this.stopIcon = new StopIcon();
         rdesignWrapperHtml.appendChild(this.stopIcon.rootElement);
+        this.stopIcon.hide();
 
         if (!options.videoQpIndicatorConfig || !options.videoQpIndicatorConfig.disableIndicator) {
             // Add the video stream QP indicator
@@ -744,6 +745,7 @@ export class Application {
 
     onPlayStream() {
         this.hideCurrentOverlay();
+        this.stopIcon.show();
     }
 
     onPlayStreamError(message: string) {
