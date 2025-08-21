@@ -797,7 +797,7 @@ export class Application {
                   'x' +
                   aggregatedStats.inboundVideoStats.frameHeight
                 : 'Chrome only';
-        videoQuantityResult = resolution;
+        videoQuantityResult = this.videoQuality.displayResolution(resolution);
         if (aggregatedStats.inboundVideoStats.framesPerSecond !== undefined) {
             frameRate = aggregatedStats.inboundVideoStats.framesPerSecond.toString() + 'fps';
             videoQuantityResult += ' - ' + frameRate;

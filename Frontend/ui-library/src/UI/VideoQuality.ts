@@ -14,7 +14,7 @@ export class VideoQuality {
     }
 
     public updateQualityText(text: string) {
-        this._rootElement.textContent = this.displayText(text);
+        this._rootElement.textContent = text;
         if (text.length > 0) {
             this._rootElement.style.display = 'block';
         } else {
@@ -22,7 +22,7 @@ export class VideoQuality {
         }
     }
 
-    private displayText(text: string): string {
+    public displayResolution(text: string): string {
         switch (text) {
             case '2560x1440':
             case '2560x1600':
