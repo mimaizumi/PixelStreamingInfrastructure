@@ -89,7 +89,8 @@ export class PixelStreamingApplicationStyle {
         '#guide-panel': {
             backgroundColor: 'var(--color2)',
             padding: '20px',
-            width: '750px',
+            width: '50%',
+            maxWidth: '550px',
             borderRadius: '5px',
             position: 'absolute',
             top: '50%',
