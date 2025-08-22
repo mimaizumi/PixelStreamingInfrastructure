@@ -98,7 +98,8 @@ export class PixelStreamingApplicationStyle {
             transform: 'translateY(-50%)',
             zIndex: '40',
             color: 'var(--color0)',
-            pointerEvents: 'all'
+            pointerEvents: 'all',
+            border: '1px solid black'
         },
         '#guide-panel-title': {
             fontSize: '19px',
