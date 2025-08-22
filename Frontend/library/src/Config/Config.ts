@@ -83,6 +83,7 @@ export const isNumericId = (id: string): id is NumericParametersIds =>
 export class TextParameters {
     static SignallingServerUrl = 'ss' as const;
     static JWT = 'JWT' as const;
+    static Lang = 'lang' as const;
 }
 
 export type TextParametersKeys = Exclude<keyof typeof TextParameters, 'prototype'>;
@@ -195,6 +196,19 @@ export class Config {
                 settings && Object.prototype.hasOwnProperty.call(settings, TextParameters.JWT)
                     ? settings[TextParameters.JWT]
                     : null,
+                useUrlParams
+            )
+        );
+
+        this.textParameters.set(
+            TextParameters.Lang,
+            new SettingText(
+                TextParameters.Lang,
+                'Language',
+                'Language of the application',
+                settings && Object.prototype.hasOwnProperty.call(settings, TextParameters.Lang)
+                    ? settings[TextParameters.Lang]
+                    : 'ja',
                 useUrlParams
             )
         );
@@ -381,7 +395,7 @@ export class Config {
                 'Video will start muted if true.',
                 settings && Object.prototype.hasOwnProperty.call(settings, Flags.StartVideoMuted)
                     ? settings[Flags.StartVideoMuted]
-                    : false,
+                    : true,
                 useUrlParams
             )
         );
