@@ -347,7 +347,12 @@ export class WebRtcPlayerController {
             const signallingServerUrl = this.config.getTextSettingValue(TextParameters.SignallingServerUrl);
             const jwt = this.config.getTextSettingValue(TextParameters.JWT);
 
-            return `${signallingServerUrl}?jwt=${jwt}`;
+            let result = signallingServerUrl;
+            if (jwt) {
+                result = `${signallingServerUrl}?jwt=${jwt}`;
+            }
+
+            return result;
         };
     }
 
