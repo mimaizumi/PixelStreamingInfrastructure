@@ -15,7 +15,7 @@ declare global {
 
 document.body.onload = function() {
   Logger.InitLogging(LogLevel.RDesign, false);
-	Logger.RDesign("Welcome! Pixel Streaming V0801");
+	Logger.RDesign("Welcome! Pixel Streaming");
 
 	// Create a config object
 	const config = new Config({ useUrlParams: true });
@@ -31,9 +31,7 @@ document.body.onload = function() {
 				break;
 			case "Ready":
 				const payload = { JWT: config.getTextSettingValue(TextParameters.JWT) };
-        Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
-        const result = stream.emitUIInteraction(payload);
-        Logger.RDesign('EmitUIInteraction Result: ' + result);
+        stream.emitUIInteraction(payload);
 				break;
 			default:
 				break;
