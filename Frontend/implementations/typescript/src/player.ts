@@ -27,7 +27,7 @@ document.body.onload = function() {
 		Logger.RDesign("Response received! " + response);
 		switch (response) {
 			case "Stop":
-				stream._onDisconnect("Your session was ended", false);
+				stream._onDisconnect("Your session was ended", true);
 				break;
 			case "Ready":
 				const payload = { JWT: config.getTextSettingValue(TextParameters.JWT) };
