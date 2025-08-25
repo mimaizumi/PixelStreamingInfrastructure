@@ -2,7 +2,7 @@
 
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
-import { Config, PixelStreaming, Logger, LogLevel, TextParameters } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
+import { Config, PixelStreaming, Logger, LogLevel, TextParameters, Flags } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { Application, PixelStreamingApplicationStyle } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 const PixelStreamingApplicationStyles =
     new PixelStreamingApplicationStyle();
@@ -27,7 +27,7 @@ document.body.onload = function() {
 		Logger.RDesign("Response received! " + response);
 		switch (response) {
 			case "Stop":
-				stream._onDisconnect("Your session was ended", true);
+				stream.stop("Streamer stopped the stream", 4001);
 				break;
 			case "Ready":
 				const payload = { JWT: config.getTextSettingValue(TextParameters.JWT) };

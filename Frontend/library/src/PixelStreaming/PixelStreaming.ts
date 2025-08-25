@@ -1,6 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-import { Config, OptionParameters } from '../Config/Config';
+import { Config, OptionParameters, TextParameters } from '../Config/Config';
 import { LatencyTestResults } from '../DataChannel/LatencyTestResults';
 import { AggregatedStats } from '../PeerConnectionController/AggregatedStats';
 import { WebRtcPlayerController } from '../WebRtcPlayer/WebRtcPlayerController';
@@ -32,7 +32,9 @@ import {
     WebRtcTCPRelayDetectedEvent,
     SubscribeFailedEvent,
     WebRtcSdpOfferEvent,
-    WebRtcSdpAnswerEvent
+    WebRtcSdpAnswerEvent,
+    PlayStreamErrorEvent,
+    StreamStopEvent
 } from '../Util/EventEmitter';
 import { WebXRController } from '../WebXR/WebXRController';
 import { MessageDirection } from '../UeInstanceMessage/StreamMessageController';
@@ -47,6 +49,7 @@ import {
 import { RTCUtils } from '../Util/RTCUtils';
 import { IURLSearchParams } from '../Util/IURLSearchParams';
 import { LatencyInfo } from '../PeerConnectionController/LatencyCalculator';
+import { API } from '../pixelstreamingfrontend';
 
 export interface PixelStreamingOverrides {
     /** The DOM element where Pixel Streaming video and user input event handlers are attached to.
@@ -290,7 +293,9 @@ export class PixelStreaming {
         this._webRtcController.resizePlayerStyle();
 
         // connect if auto connect flag is enabled
-        this.checkForAutoConnect();
+        setTimeout(() => {
+            this.checkForAutoConnect();
+        }, 500);
     }
 
     /**
@@ -326,14 +331,31 @@ export class PixelStreaming {
         this._webRtcController.playStream();
     }
 
+    public stop(reason: string, closeEventCode: number = 4000) {
+        this._webRtcController.stop(reason, closeEventCode);
+        this._eventEmitter.dispatchEvent(new StreamStopEvent({ message: reason }));
+    }
+
     /**
      * Auto connect if AutoConnect flag is enabled
      */
-    private checkForAutoConnect() {
+    private async checkForAutoConnect() {
         // set up if the auto play will be used or regular click to start
         if (this.config.isFlagEnabled(Flags.AutoConnect)) {
+            const jwt = this.config.getTextSettingValue(TextParameters.JWT);
+            if (!jwt) {
+                return;
+            }
+
             // if autoplaying show an info overlay while while waiting for the connection to begin
             this._onWebRtcAutoConnect();
+
+            const [isValid, error] = await API.verifyJWT(jwt);
+            if (!isValid) {
+                this._eventEmitter.dispatchEvent(new PlayStreamErrorEvent({ message: error }));
+                return;
+            }
+
             this._webRtcController.connectToSignallingServer();
         }
     }
@@ -579,7 +601,6 @@ export class PixelStreaming {
         const urlParams = new IURLSearchParams(window.location.search);
         Logger.Info(`using URL parameters ${useUrlParams}`);
         if (settings.EncoderSettings) {
-            Logger.RDesign(`settings.EncoderSettings ${JSON.stringify(settings.EncoderSettings)}`);
             // here we should either get Min/MaxQP from PS1
             // or Min/MaxQuality from PS2
             // we only want to set one set or the other as they converge in CompatQualityMin/Max and

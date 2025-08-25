@@ -8,6 +8,8 @@ export class StopIcon {
     _stopIcon: HTMLElement;
     _tooltipText: HTMLElement;
 
+    public onClick: () => void;
+
     /**
      * Get the button containing the stop icon.
      */
@@ -21,7 +23,7 @@ export class StopIcon {
             this._rootElement.appendChild(this.tooltipText);
 
             this._rootElement.addEventListener('click', () => {
-                window.location.reload();
+                this.onClick();
             });
         }
         return this._rootElement;

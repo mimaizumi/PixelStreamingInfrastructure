@@ -29,4 +29,18 @@ export class API {
         });
         return response.json();
     }
+
+    public static async verifyJWT(jwt: string): Promise<[boolean, string]> {
+        const apiClient = new API({
+            endpoint: `streaming/token/verify`,
+            headers: { Authorization: `Token ${jwt}` },
+            method: 'POST'
+        });
+        const response = await apiClient.call();
+        const { error } = response;
+        if (error) {
+            return [false, error];
+        }
+        return [true, ''];
+    }
 }

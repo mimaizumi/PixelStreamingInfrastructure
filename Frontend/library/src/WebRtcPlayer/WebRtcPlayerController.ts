@@ -230,6 +230,7 @@ export class WebRtcPlayerController {
             // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
             // lists all the codes.
             const CODE_GOING_AWAY = 1001;
+            const CODE_RDESIGN_STOP = 4000;
 
             const maxReconnectAttempts = this.config.getNumericSettingValue(
                 NumericParameters.MaxReconnectAttempts
@@ -237,7 +238,8 @@ export class WebRtcPlayerController {
             const attemptsLeft = this.reconnectAttempt < maxReconnectAttempts;
             const reconnectEnabled =
                 this.forceReconnect || (this.enableAutoReconnect && maxReconnectAttempts > 0 && attemptsLeft);
-            const willTryReconnect = reconnectEnabled && event.code != CODE_GOING_AWAY;
+            const willTryReconnect =
+                reconnectEnabled && event.code != CODE_GOING_AWAY && event.code != CODE_RDESIGN_STOP;
             const allowClickToReconnect = !willTryReconnect;
             const disconnectMessage = this.disconnectMessage ? this.disconnectMessage : event.reason;
 
@@ -1567,11 +1569,11 @@ export class WebRtcPlayerController {
     /**
      * Close the Connection to the signaling server
      */
-    closeSignalingServer(message: string, allowReconnect: boolean) {
+    closeSignalingServer(message: string, allowReconnect: boolean, closeEventCode: number = 1000) {
         this.locallyClosed = true;
         this.enableAutoReconnect = allowReconnect;
         this.disconnectMessage = message;
-        this.protocol?.disconnect(1000, message);
+        this.protocol?.disconnect(closeEventCode, message);
     }
 
     /**
@@ -1586,6 +1588,11 @@ export class WebRtcPlayerController {
      */
     close() {
         this.closeSignalingServer('', false);
+        this.closePeerConnection();
+    }
+
+    stop(reason: string, closeEventCode: number = 4000) {
+        this.closeSignalingServer(reason, false, closeEventCode);
         this.closePeerConnection();
     }
 

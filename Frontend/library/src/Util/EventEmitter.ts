@@ -280,6 +280,18 @@ export class StreamReconnectEvent extends Event {
     }
 }
 
+export class StreamStopEvent extends Event {
+    override readonly type: 'streamStop';
+    readonly data: {
+        /** Error message */
+        message: string;
+    };
+    constructor(data: StreamStopEvent['data']) {
+        super('streamStop');
+        this.data = data;
+    }
+}
+
 /**
  * An event that is emitted if there are errors loading the video stream.
  */
@@ -639,6 +651,7 @@ export type PixelStreamingEvent =
     | StreamPreConnectEvent
     | StreamReconnectEvent
     | StreamPreDisconnectEvent
+    | StreamStopEvent
     | PlayStreamErrorEvent
     | PlayStreamEvent
     | PlayStreamRejectedEvent

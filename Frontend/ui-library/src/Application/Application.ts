@@ -165,6 +165,9 @@ export class Application {
         this.stopIcon = new StopIcon();
         rdesignWrapperHtml.appendChild(this.stopIcon.rootElement);
         this.stopIcon.hide();
+        this.stopIcon.onClick = () => {
+            this.stream.stop('User stopped the stream');
+        };
 
         if (!options.videoQpIndicatorConfig || !options.videoQpIndicatorConfig.disableIndicator) {
             // Add the video stream QP indicator
@@ -631,25 +634,20 @@ export class Application {
      */
     async showRDesignSettingWarning() {
         this.showLoadingWithText('Verifying token');
-
         const jwt = this.stream.config.getTextSettingValue(TextParameters.JWT);
         if (!jwt) {
             this.showErrorOverlay('No token found');
             return;
         }
-        const apiClient = new API({
-            endpoint: `streaming/token/verify`,
-            headers: { Authorization: `Token ${jwt}` },
-            method: 'POST'
-        });
-        const response = await apiClient.call();
-        const { error } = response;
-        if (error) {
-            this.showErrorOverlay(error);
-            return;
+
+        if (!this.stream.config.isFlagEnabled(Flags.AutoConnect)) {
+            const [isValid, error] = await API.verifyJWT(jwt);
+            if (!isValid) {
+                this.showErrorOverlay(error);
+                return;
+            }
         }
 
-        Logger.RDesign('Token verified - ' + JSON.stringify(response));
         this.showConnectOrAutoConnectOverlays();
     }
 
