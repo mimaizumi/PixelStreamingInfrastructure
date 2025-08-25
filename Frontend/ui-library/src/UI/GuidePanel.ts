@@ -145,7 +145,7 @@ export class GuidePanel {
 
             const mouseMoveModeStrongText = document.createElement('div');
             mouseMoveModeStrongText.classList.add('mouse-head-text');
-            mouseMoveModeStrongText.textContent = 'Move';
+            mouseMoveModeStrongText.textContent = 'Zoom In/Out';
             mouseMoveMode.appendChild(mouseMoveModeStrongText);
 
             const mouseMoveModeText = document.createElement('div');
