@@ -230,6 +230,7 @@ export class WebRtcPlayerController {
             // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
             // lists all the codes.
             const CODE_GOING_AWAY = 1001;
+            const CODE_ERROR = 1006;
             const CODE_RDESIGN_PLAYER_STOP = 4000;
             const CODE_RDESIGN_STREAMER_STOP = 4001;
 
@@ -242,7 +243,10 @@ export class WebRtcPlayerController {
             const willTryReconnect =
                 reconnectEnabled && event.code != CODE_GOING_AWAY && event.code != CODE_RDESIGN_PLAYER_STOP;
             const allowClickToReconnect = event.code !== CODE_RDESIGN_STREAMER_STOP || !willTryReconnect;
-            const disconnectMessage = this.disconnectMessage ? this.disconnectMessage : event.reason;
+            let disconnectMessage = this.disconnectMessage ? this.disconnectMessage : event.reason;
+            if (event.code === CODE_ERROR) {
+                disconnectMessage = 'Server unreachable';
+            }
 
             this.forceReconnect = false;
 
