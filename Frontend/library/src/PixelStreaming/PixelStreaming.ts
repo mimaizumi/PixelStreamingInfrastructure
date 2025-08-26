@@ -331,9 +331,10 @@ export class PixelStreaming {
         this._webRtcController.playStream();
     }
 
-    public stop(reason: string, closeEventCode: number = 4000) {
+    public stop(reason: string, allowRestart: boolean) {
+        const closeEventCode = allowRestart ? 4000 : 4001;
         this._webRtcController.stop(reason, closeEventCode);
-        this._eventEmitter.dispatchEvent(new StreamStopEvent({ message: reason }));
+        this._eventEmitter.dispatchEvent(new StreamStopEvent({ message: reason, allowRestart }));
     }
 
     /**

@@ -166,8 +166,12 @@ export class Application {
         rdesignWrapperHtml.appendChild(this.stopIcon.rootElement);
         this.stopIcon.hide();
         this.stopIcon.onClick = () => {
-            this.stream.stop('User stopped the stream');
+            this.stream.stop('Player stopped the stream', true);
         };
+
+        this.stream.addEventListener('streamStop', () => {
+            this.stopIcon.hide();
+        });
 
         if (!options.videoQpIndicatorConfig || !options.videoQpIndicatorConfig.disableIndicator) {
             // Add the video stream QP indicator

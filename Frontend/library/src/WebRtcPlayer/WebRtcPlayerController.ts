@@ -230,7 +230,8 @@ export class WebRtcPlayerController {
             // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code
             // lists all the codes.
             const CODE_GOING_AWAY = 1001;
-            const CODE_RDESIGN_STOP = 4000;
+            const CODE_RDESIGN_PLAYER_STOP = 4000;
+            const CODE_RDESIGN_STREAMER_STOP = 4001;
 
             const maxReconnectAttempts = this.config.getNumericSettingValue(
                 NumericParameters.MaxReconnectAttempts
@@ -239,8 +240,8 @@ export class WebRtcPlayerController {
             const reconnectEnabled =
                 this.forceReconnect || (this.enableAutoReconnect && maxReconnectAttempts > 0 && attemptsLeft);
             const willTryReconnect =
-                reconnectEnabled && event.code != CODE_GOING_AWAY && event.code != CODE_RDESIGN_STOP;
-            const allowClickToReconnect = !willTryReconnect;
+                reconnectEnabled && event.code != CODE_GOING_AWAY && event.code != CODE_RDESIGN_PLAYER_STOP;
+            const allowClickToReconnect = event.code !== CODE_RDESIGN_STREAMER_STOP || !willTryReconnect;
             const disconnectMessage = this.disconnectMessage ? this.disconnectMessage : event.reason;
 
             this.forceReconnect = false;
@@ -268,7 +269,7 @@ export class WebRtcPlayerController {
             this.setKeyboardInputEnabled(false);
             this.setGamePadInputEnabled(false);
 
-            if (willTryReconnect) {
+            if (willTryReconnect && event.code !== CODE_RDESIGN_STREAMER_STOP) {
                 // need a small delay here to prevent reconnect spamming
                 setTimeout(() => {
                     this.reconnectAttempt++;

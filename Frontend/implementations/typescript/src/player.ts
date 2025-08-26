@@ -27,7 +27,7 @@ document.body.onload = function() {
 		Logger.RDesign("Response received! " + response);
 		switch (response) {
 			case "Stop":
-				stream.stop("Streamer stopped the stream", 4001);
+				stream.stop("Streamer stopped the stream", false);
 				break;
 			case "Ready":
 				const payload = { JWT: config.getTextSettingValue(TextParameters.JWT) };

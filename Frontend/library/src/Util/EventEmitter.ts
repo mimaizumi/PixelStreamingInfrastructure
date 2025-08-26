@@ -285,6 +285,7 @@ export class StreamStopEvent extends Event {
     readonly data: {
         /** Error message */
         message: string;
+        allowRestart: boolean;
     };
     constructor(data: StreamStopEvent['data']) {
         super('streamStop');
