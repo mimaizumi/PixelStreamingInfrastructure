@@ -149,11 +149,13 @@ export class SignallingServer {
         Logger.info(`New player connection: %s (%s)`, request.socket.remoteAddress, request.url);
 
         this.jwt = new URL(`http://localhost${request.url}`).searchParams.get('jwt');
+        const lang = new URL(`http://localhost${request.url}`).searchParams.get('lang') || 'ja';
         let memberId = '';
         let sessionId = '';
 
         const newPlayer = new PlayerConnection(this, ws, request.socket.remoteAddress);
         newPlayer.memberId = memberId;
+        newPlayer.lang = lang;
 
         // add it to the registry and when the transport closes, remove it
         this.playerRegistry.add(newPlayer);

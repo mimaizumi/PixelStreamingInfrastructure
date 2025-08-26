@@ -12,3 +12,4 @@ export * as Messages from './Messages/signalling_messages';
 export * as MessageHelpers from './Messages/message_helpers';
 export { KeepaliveMonitor } from './Protocol/KeepaliveMonitor';
 export * from './Util/SdpUtils';
+export { I18n } from './Util/I18n';

@@ -6,7 +6,8 @@ import {
     SignallingProtocol,
     MessageHelpers,
     Messages,
-    BaseMessage
+    BaseMessage,
+    I18n
 } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
 import { IPlayer, IPlayerInfo } from './PlayerRegistry';
 import { IStreamer } from './StreamerRegistry';
@@ -27,6 +28,7 @@ import { SignallingServer } from './SignallingServer';
  */
 export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
     memberId: string | null;
+    lang: string = 'ja';
     // The unique id of this player connection.
     playerId: string;
     // The websocket transport used by this connection.
@@ -177,7 +179,7 @@ export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
             // });
             // We are initializing a server for you. it could take more than 5 minutes. please wait without closing the browser tab
             const failureMessage = MessageHelpers.createMessage(Messages.subscribeFailed, {
-                message: `只今サーバーを立ち上げています。（現ベータ版では）5分以上要することがありますので、ブラウザーのタブを閉じないでお待ちください。`
+                message: I18n.t('maxPlayerMessage', this.lang)
             });
             this.protocol.sendMessage(failureMessage);
             return;
