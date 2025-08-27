@@ -54,6 +54,7 @@ document.body.onload = function() {
 			Logger.RDesign('EmitUIInteraction: ' + JSON.stringify(payload));
 			const result = stream.emitUIInteraction(payload);
 			Logger.RDesign('EmitUIInteraction Result: ' + result);
-		}
+		},
+		locale: () => new URLSearchParams(window.location.search).get('lang') || 'ja'
 	}
 }
