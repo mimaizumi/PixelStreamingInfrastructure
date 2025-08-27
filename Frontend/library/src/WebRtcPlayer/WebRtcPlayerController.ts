@@ -245,7 +245,10 @@ export class WebRtcPlayerController {
                 this.forceReconnect || (this.enableAutoReconnect && maxReconnectAttempts > 0 && attemptsLeft);
             const willTryReconnect =
                 reconnectEnabled && event.code != CODE_GOING_AWAY && event.code != CODE_RDESIGN_PLAYER_STOP;
-            const allowClickToReconnect = event.code !== CODE_RDESIGN_STREAMER_STOP || !willTryReconnect;
+            let allowClickToReconnect = !willTryReconnect;
+            if (event.code === CODE_RDESIGN_STREAMER_STOP) {
+                allowClickToReconnect = false;
+            }
             let disconnectMessage = this.disconnectMessage ? this.disconnectMessage : event.reason;
             if (event.code === CODE_ERROR) {
                 disconnectMessage = 'Server unreachable';
