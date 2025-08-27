@@ -171,6 +171,8 @@ export class Application {
 
         this.stream.addEventListener('streamStop', () => {
             this.stopIcon.hide();
+            this.stream.videoElementParent.classList.remove('bg-black');
+            this.stream.hideVideo();
         });
 
         if (!options.videoQpIndicatorConfig || !options.videoQpIndicatorConfig.disableIndicator) {
@@ -227,7 +229,7 @@ export class Application {
         this.afkOverlay = new AFKOverlay(this.stream.videoElementParent);
         this.loadingOverlay = new LoadingWithTextOverlay(this.stream.videoElementParent);
 
-        this.disconnectOverlay.onAction(() => this.stream.reconnect());
+        this.disconnectOverlay.onAction(() => void this.stream.reconnect());
 
         // Build the webRtc connect overlay Event Listener and show the connect overlay
         this.connectOverlay.onAction(() => this.stream.connect());
@@ -383,7 +385,10 @@ export class Application {
             this.afkOverlay.updateCountdown(countDown)
         );
         this.stream.addEventListener('afkWarningDeactivate', () => this.afkOverlay.hide());
-        this.stream.addEventListener('afkTimedOut', () => this.afkOverlay.hide());
+        this.stream.addEventListener('afkTimedOut', () => {
+            this.afkOverlay.hide();
+            this.stopIcon.hide();
+        });
         this.stream.addEventListener('videoEncoderAvgQP', ({ data: { avgQP } }) =>
             this.onVideoEncoderAvgQP(avgQP)
         );
@@ -444,6 +449,9 @@ export class Application {
             if (evtData.showOnScreenKeyboard) {
                 this.showEditTextModal(evtData.contents);
             }
+        });
+        this.stream.addEventListener('verifyingToken', () => {
+            this.showLoadingWithText('Verifying token');
         });
     }
 
@@ -640,14 +648,14 @@ export class Application {
         this.showLoadingWithText('Verifying token');
         const jwt = this.stream.config.getTextSettingValue(TextParameters.JWT);
         if (!jwt) {
-            this.showErrorOverlay('No token found');
+            this.showErrorOverlay('No token found, please refresh the page.');
             return;
         }
 
         if (!this.stream.config.isFlagEnabled(Flags.AutoConnect)) {
             const [isValid, error] = await API.verifyJWT(jwt);
             if (!isValid) {
-                this.showErrorOverlay(error);
+                this.showErrorOverlay(`${error}, please refresh the page.`);
                 return;
             }
         }
@@ -748,6 +756,7 @@ export class Application {
     onPlayStream() {
         this.hideCurrentOverlay();
         this.stopIcon.show();
+        this.stream.videoElementParent.classList.add('bg-black');
     }
 
     onPlayStreamError(message: string) {

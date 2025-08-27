@@ -234,4 +234,12 @@ export class VideoPlayer {
             this.resizeTimeoutHandle = window.setTimeout(() => this.updateVideoStreamSize(), 100);
         }
     }
+
+    hideVideo() {
+        this.videoElement.style.display = 'none';
+    }
+
+    showVideo() {
+        this.videoElement.style.display = 'block';
+    }
 }

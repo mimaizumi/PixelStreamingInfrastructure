@@ -140,6 +140,9 @@ export class WebRtcPlayerController {
             };
             Logger.RDesign('Sending AFK event to UE ' + JSON.stringify(descriptor));
             this.emitUIInteraction(descriptor);
+
+            this.videoPlayer.hideVideo();
+            this.pixelStreaming.videoElementParent.classList.remove('bg-black');
         };
 
         this.freezeFrameController = new FreezeFrameController(this.pixelStreaming.videoElementParent);
@@ -273,7 +276,7 @@ export class WebRtcPlayerController {
             this.setKeyboardInputEnabled(false);
             this.setGamePadInputEnabled(false);
 
-            if (willTryReconnect && event.code !== CODE_RDESIGN_STREAMER_STOP) {
+            if (willTryReconnect && event.code !== CODE_RDESIGN_STREAMER_STOP && event.code !== 1000) {
                 // need a small delay here to prevent reconnect spamming
                 setTimeout(() => {
                     this.reconnectAttempt++;
@@ -984,6 +987,7 @@ export class WebRtcPlayerController {
      * Plays the stream audio and video source and sets up other pieces while the stream starts
      */
     playStream() {
+        this.videoPlayer.showVideo();
         if (!this.videoPlayer.getVideoElement()) {
             const message =
                 'Could not play video stream because the video player was not initialized correctly.';

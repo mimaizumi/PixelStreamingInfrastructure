@@ -34,7 +34,8 @@ import {
     WebRtcSdpOfferEvent,
     WebRtcSdpAnswerEvent,
     PlayStreamErrorEvent,
-    StreamStopEvent
+    StreamStopEvent,
+    VerifyingTokenEvent
 } from '../Util/EventEmitter';
 import { WebXRController } from '../WebXR/WebXRController';
 import { MessageDirection } from '../UeInstanceMessage/StreamMessageController';
@@ -310,7 +311,12 @@ export class PixelStreaming {
      * Reconnects to the signaling server. If connection is up, disconnects first
      * before establishing a new connection
      */
-    public reconnect() {
+    public async reconnect() {
+        this._eventEmitter.dispatchEvent(new VerifyingTokenEvent());
+        const validToken = await this.verifyToken();
+        if (!validToken) {
+            return;
+        }
         this._eventEmitter.dispatchEvent(new StreamReconnectEvent());
         this._webRtcController.tryReconnect('Reconnecting...');
     }
@@ -343,22 +349,38 @@ export class PixelStreaming {
     private async checkForAutoConnect() {
         // set up if the auto play will be used or regular click to start
         if (this.config.isFlagEnabled(Flags.AutoConnect)) {
-            const jwt = this.config.getTextSettingValue(TextParameters.JWT);
-            if (!jwt) {
+            const validToken = await this.verifyToken();
+            if (!validToken) {
                 return;
             }
 
             // if autoplaying show an info overlay while while waiting for the connection to begin
             this._onWebRtcAutoConnect();
-
-            const [isValid, error] = await API.verifyJWT(jwt);
-            if (!isValid) {
-                this._eventEmitter.dispatchEvent(new PlayStreamErrorEvent({ message: error }));
-                return;
-            }
-
             this._webRtcController.connectToSignallingServer();
         }
+    }
+
+    private async verifyToken() {
+        const jwt = this.config.getTextSettingValue(TextParameters.JWT);
+        if (!jwt) {
+            this._eventEmitter.dispatchEvent(
+                new PlayStreamErrorEvent({ message: 'No token found, please refresh the page' })
+            );
+            return false;
+        }
+
+        const [isValid, error] = await API.verifyJWT(jwt);
+        if (!isValid) {
+            this._eventEmitter.dispatchEvent(
+                new PlayStreamErrorEvent({ message: `${error}, please refresh the page` })
+            );
+            return false;
+        }
+        return true;
+    }
+
+    public hideVideo() {
+        this._webRtcController.videoPlayer.hideVideo();
     }
 
     /**

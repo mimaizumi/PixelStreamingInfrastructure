@@ -293,6 +293,13 @@ export class StreamStopEvent extends Event {
     }
 }
 
+export class VerifyingTokenEvent extends Event {
+    override readonly type: 'verifyingToken';
+    constructor() {
+        super('verifyingToken');
+    }
+}
+
 /**
  * An event that is emitted if there are errors loading the video stream.
  */
@@ -653,6 +660,7 @@ export type PixelStreamingEvent =
     | StreamReconnectEvent
     | StreamPreDisconnectEvent
     | StreamStopEvent
+    | VerifyingTokenEvent
     | PlayStreamErrorEvent
     | PlayStreamEvent
     | PlayStreamRejectedEvent
