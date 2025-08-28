@@ -1,6 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
+import { I18n } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
+
 export class GuidePanel {
     _rootElement: HTMLElement;
+
+    lang: string;
+
+    constructor(lang: string) {
+        this.lang = lang;
+    }
 
     public get rootElement(): HTMLElement {
         if (!this._rootElement) {
@@ -20,12 +28,12 @@ export class GuidePanel {
 
             const title = document.createElement('div');
             title.id = 'guide-panel-title';
-            title.textContent = 'Controls Guide';
+            title.textContent = I18n.t('controlsGuide', this.lang);
             this._rootElement.appendChild(title);
 
             const subtitle = document.createElement('div');
             subtitle.id = 'guide-panel-subtitle';
-            subtitle.textContent = 'Navigate the 3D room using these controls';
+            subtitle.textContent = I18n.t('navidate3D', this.lang);
             this._rootElement.appendChild(subtitle);
 
             const movement = document.createElement('div');
@@ -43,7 +51,7 @@ export class GuidePanel {
 
             const moveForwardText = document.createElement('div');
             moveForwardText.classList.add('key-text');
-            moveForwardText.textContent = 'Move Forward';
+            moveForwardText.textContent = I18n.t('moveForward', this.lang);
             moveForward.appendChild(moveForwardText);
 
             this._rootElement.appendChild(moveForward);
@@ -73,7 +81,7 @@ export class GuidePanel {
 
             const moveAroundText = document.createElement('div');
             moveAroundText.classList.add('key-text');
-            moveAroundText.textContent = 'Left / Back / Right';
+            moveAroundText.textContent = I18n.t('leftRightBack', this.lang);
             moveAround.appendChild(moveAroundText);
 
             this._rootElement.appendChild(moveAround);
@@ -98,7 +106,7 @@ export class GuidePanel {
 
             const moveUpDownText = document.createElement('div');
             moveUpDownText.classList.add('key-text');
-            moveUpDownText.textContent = 'Up / Down';
+            moveUpDownText.textContent = I18n.t('upDown', this.lang);
             moveUpDown.appendChild(moveUpDownText);
 
             this._rootElement.appendChild(moveUpDown);
@@ -123,12 +131,12 @@ export class GuidePanel {
 
             const mouseLeftModeStrongText = document.createElement('div');
             mouseLeftModeStrongText.classList.add('mouse-head-text');
-            mouseLeftModeStrongText.textContent = 'Specify an Item';
+            mouseLeftModeStrongText.textContent = I18n.t('specifyItem', this.lang);
             mouseLeftMode.appendChild(mouseLeftModeStrongText);
 
             const mouseLeftModeText = document.createElement('div');
             mouseLeftModeText.classList.add('mouse-text');
-            mouseLeftModeText.textContent = 'Left Click';
+            mouseLeftModeText.textContent = I18n.t('leftClick', this.lang);
             mouseLeftMode.appendChild(mouseLeftModeText);
 
             mouseModes.appendChild(mouseLeftMode);
@@ -145,12 +153,12 @@ export class GuidePanel {
 
             const mouseMoveModeStrongText = document.createElement('div');
             mouseMoveModeStrongText.classList.add('mouse-head-text');
-            mouseMoveModeStrongText.textContent = 'Zoom In/Out';
+            mouseMoveModeStrongText.textContent = I18n.t('zoomInOut', this.lang);
             mouseMoveMode.appendChild(mouseMoveModeStrongText);
 
             const mouseMoveModeText = document.createElement('div');
             mouseMoveModeText.classList.add('mouse-text');
-            mouseMoveModeText.textContent = 'Scroll Wheel';
+            mouseMoveModeText.textContent = I18n.t('scrollWheel', this.lang);
             mouseMoveMode.appendChild(mouseMoveModeText);
 
             mouseModes.appendChild(mouseMoveMode);
@@ -167,12 +175,12 @@ export class GuidePanel {
 
             const mousePanModeStrongText = document.createElement('div');
             mousePanModeStrongText.classList.add('mouse-head-text');
-            mousePanModeStrongText.textContent = 'Pan';
+            mousePanModeStrongText.textContent = I18n.t('pan', this.lang);
             mousePanMode.appendChild(mousePanModeStrongText);
 
             const mousePanModeText = document.createElement('div');
             mousePanModeText.classList.add('mouse-text');
-            mousePanModeText.textContent = 'Middle Press & Drag';
+            mousePanModeText.textContent = I18n.t('middlePressDrag', this.lang);
             mousePanMode.appendChild(mousePanModeText);
 
             mouseModes.appendChild(mousePanMode);
@@ -189,12 +197,12 @@ export class GuidePanel {
 
             const mouseRightModeStrongText = document.createElement('div');
             mouseRightModeStrongText.classList.add('mouse-head-text');
-            mouseRightModeStrongText.textContent = 'Look Around';
+            mouseRightModeStrongText.textContent = I18n.t('lookAround', this.lang);
             mouseRightMode.appendChild(mouseRightModeStrongText);
 
             const mouseRightModeText = document.createElement('div');
             mouseRightModeText.classList.add('mouse-text');
-            mouseRightModeText.textContent = 'Right Click & Drag';
+            mouseRightModeText.textContent = I18n.t('rightClickDrag', this.lang);
             mouseRightMode.appendChild(mouseRightModeText);
 
             mouseModes.appendChild(mouseRightMode);
@@ -207,7 +215,7 @@ export class GuidePanel {
 
             const footer = document.createElement('div');
             footer.id = 'guide-panel-footer';
-            footer.textContent = 'Press and hold keys for continuous movement';
+            footer.textContent = I18n.t('pressAndHold', this.lang);
             this._rootElement.appendChild(footer);
         }
         return this._rootElement;

@@ -184,7 +184,7 @@ export class Application {
         this.rdesignCenter = new RDesignCenter();
         rdesignWrapperHtml.appendChild(this.rdesignCenter.rootElement);
 
-        this.guidePanel = new GuidePanel();
+        this.guidePanel = new GuidePanel(this.stream.config.getTextSettingValue(TextParameters.Lang));
         this.uiFeaturesElement.appendChild(this.guidePanel.rootElement);
 
         this.questionIcon = new QuestionIcon();
