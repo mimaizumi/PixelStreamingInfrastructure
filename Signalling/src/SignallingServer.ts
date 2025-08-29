@@ -9,7 +9,14 @@ import { Logger } from './Logger';
 import { StreamerRegistry } from './StreamerRegistry';
 import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
-import { extractDataFromJWT, fetchPauseToken, fetchPlayersCount, stringify } from './Utils';
+import {
+    extractDataFromJWT,
+    fetchPauseToken,
+    fetchPlayersCount,
+    stringify,
+    fetchPlayerDisconnect,
+    fetchPlayerConnect
+} from './Utils';
 
 /**
  * An interface describing the possible options to pass when creating
@@ -179,6 +186,14 @@ export class SignallingServer {
                     .catch((error) => {
                         Logger.error(`Error fetching %s: %s`, 'PlayersCount', error);
                     });
+
+                fetchPlayerDisconnect(this.jwt)
+                    .then(() => {
+                        Logger.info(`RDesign: fetchPlayerDisconnect`);
+                    })
+                    .catch(() => {
+                        Logger.error(`Error fetching %s: %s`, 'fetchPlayerDisconnect');
+                    });
             }
         });
 
@@ -195,6 +210,14 @@ export class SignallingServer {
                 });
 
             Logger.info(`RDesign data %s (%s)`, memberId, sessionId);
+
+            fetchPlayerConnect(this.jwt)
+                .then(() => {
+                    Logger.info(`RDesign: fetchPlayerConnect`);
+                })
+                .catch(() => {
+                    Logger.error(`Error fetching %s: %s`, 'fetchPlayerConnect');
+                });
         }
 
         // because peer connection options is a general field with all optional fields
