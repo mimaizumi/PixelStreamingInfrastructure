@@ -133,7 +133,7 @@ export class WebRtcPlayerController {
             this.onAfkTriggered.bind(this)
         );
         this.afkController.onAFKTimedOutCallback = () => {
-            this.closeSignalingServer('You have been disconnected due to inactivity.', false);
+            this.closeSignalingServer('You have been disconnected due to inactivity.', false, 4000);
 
             const descriptor = {
                 event: 'AFK'
@@ -245,7 +245,7 @@ export class WebRtcPlayerController {
             const attemptsLeft = this.reconnectAttempt < maxReconnectAttempts;
             const reconnectEnabled =
                 this.forceReconnect || (this.enableAutoReconnect && maxReconnectAttempts > 0 && attemptsLeft);
-            const willTryReconnect =
+            let willTryReconnect =
                 reconnectEnabled && event.code != CODE_GOING_AWAY && event.code != CODE_RDESIGN_PLAYER_STOP;
             let allowClickToReconnect = !willTryReconnect;
             if (event.code === CODE_RDESIGN_STREAMER_STOP) {
