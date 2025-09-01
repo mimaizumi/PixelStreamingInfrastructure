@@ -16,6 +16,7 @@ import {
     TextParameters,
     API
 } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
+import { I18n } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
 import { OverlayBase } from '../Overlay/BaseOverlay';
 import { ActionOverlay } from '../Overlay/ActionOverlay';
 import { TextOverlay } from '../Overlay/TextOverlay';
@@ -431,16 +432,16 @@ export class Application {
             ({ data: { messageStreamerList, autoSelectedStreamerId, wantedStreamerId } }) =>
                 this.handleStreamerListMessage(messageStreamerList, autoSelectedStreamerId, wantedStreamerId)
         );
-        this.stream.addEventListener('subscribeFailed', ({ data: { message, error } }) => {
-            Logger.RDesign('subscribeFailed error: ' + error);
-            Logger.RDesign('subscribeFailed message: ' + message);
-            if (error) {
+        this.stream.addEventListener('subscribeFailed', ({ data: { message } }) => {
+            let translatedMessage = message;
+            if (translatedMessage === 'maxPlayerMessage') {
+                translatedMessage = I18n.t(translatedMessage);
                 const url = new URL(window.location.href);
                 url.searchParams.set('streaming_time', Date.now().toString());
                 window.location.href = url.toString();
                 return;
             }
-            this.handleSubscribeFailedMessage(message);
+            this.handleSubscribeFailedMessage(translatedMessage);
         });
         this.stream.addEventListener('settingsChanged', (event) => this.onSettingsChanged(event));
         this.stream.addEventListener('playerCount', ({ data: { count } }) => this.onPlayerCount(count));

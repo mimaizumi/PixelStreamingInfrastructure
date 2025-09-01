@@ -6,8 +6,7 @@ import {
     SignallingProtocol,
     MessageHelpers,
     Messages,
-    BaseMessage,
-    I18n
+    BaseMessage
 } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
 import { IPlayer, IPlayerInfo } from './PlayerRegistry';
 import { IStreamer } from './StreamerRegistry';
@@ -179,8 +178,7 @@ export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
             // });
             // We are initializing a server for you. it could take more than 5 minutes. please wait without closing the browser tab
             const failureMessage = MessageHelpers.createMessage(Messages.subscribeFailed, {
-                message: I18n.t('maxPlayerMessage', this.lang),
-                error: 'maxPlayer'
+                message: 'maxPlayerMessage'
             });
             this.protocol.sendMessage(failureMessage);
             return;

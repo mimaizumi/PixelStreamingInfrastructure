@@ -10,7 +10,8 @@ export class I18n {
 
 const translations: Record<string, Record<string, string>> = {
     en: {
-        maxPlayerMessage: 'Streamer is full.',
+        maxPlayerMessage:
+            '只今サーバーを立ち上げています。（現ベータ版では）5分以上要することがありますので、ブラウザーのタブを閉じないでお待ちください。',
         controlsGuide: 'Controls Guide',
         navidate3D: 'Navigate the 3D room using these controls',
         moveForward: 'Move Forward',
