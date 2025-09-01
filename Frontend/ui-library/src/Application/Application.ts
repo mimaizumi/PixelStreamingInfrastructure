@@ -436,10 +436,11 @@ export class Application {
             let translatedMessage = message;
             if (translatedMessage === 'maxPlayerMessage') {
                 translatedMessage = I18n.t(translatedMessage);
-                const url = new URL(window.location.href);
-                url.searchParams.set('streaming_time', Date.now().toString());
-                window.location.href = url.toString();
-                return;
+                setTimeout(() => {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('streaming_time', Date.now().toString());
+                    window.location.href = url.toString();
+                }, 5000);
             }
             this.handleSubscribeFailedMessage(translatedMessage);
         });
