@@ -432,9 +432,9 @@ export class Application {
                 this.handleStreamerListMessage(messageStreamerList, autoSelectedStreamerId, wantedStreamerId)
         );
         this.stream.addEventListener('subscribeFailed', ({ data: { message, error } }) => {
-            Logger.RDesign('subscribeFailed: ' + message);
+            Logger.RDesign('subscribeFailed error: ' + error);
+            Logger.RDesign('subscribeFailed message: ' + message);
             if (error) {
-                Logger.RDesign('Error: ' + error);
                 const url = new URL(window.location.href);
                 url.searchParams.set('streaming_time', Date.now().toString());
                 window.location.href = url.toString();
