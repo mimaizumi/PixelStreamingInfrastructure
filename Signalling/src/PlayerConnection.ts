@@ -179,7 +179,8 @@ export class PlayerConnection implements IPlayer, LogUtils.IMessageLogger {
             // });
             // We are initializing a server for you. it could take more than 5 minutes. please wait without closing the browser tab
             const failureMessage = MessageHelpers.createMessage(Messages.subscribeFailed, {
-                message: I18n.t('maxPlayerMessage', this.lang)
+                message: I18n.t('maxPlayerMessage', this.lang),
+                error: 'maxPlayer'
             });
             this.protocol.sendMessage(failureMessage);
             return;

@@ -431,9 +431,16 @@ export class Application {
             ({ data: { messageStreamerList, autoSelectedStreamerId, wantedStreamerId } }) =>
                 this.handleStreamerListMessage(messageStreamerList, autoSelectedStreamerId, wantedStreamerId)
         );
-        this.stream.addEventListener('subscribeFailed', ({ data: { message } }) =>
-            this.handleSubscribeFailedMessage(message)
-        );
+        this.stream.addEventListener('subscribeFailed', ({ data: { message, error } }) => {
+            if (error) {
+                Logger.RDesign('Error: ' + error);
+                const url = new URL(window.location.href);
+                url.searchParams.set('streaming_time', Date.now().toString());
+                window.location.href = url;
+                return;
+            }
+            this.handleSubscribeFailedMessage(message);
+        });
         this.stream.addEventListener('settingsChanged', (event) => this.onSettingsChanged(event));
         this.stream.addEventListener('playerCount', ({ data: { count } }) => this.onPlayerCount(count));
         this.stream.addEventListener('webRtcTCPRelayDetected', () =>
