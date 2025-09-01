@@ -432,6 +432,7 @@ export class Application {
                 this.handleStreamerListMessage(messageStreamerList, autoSelectedStreamerId, wantedStreamerId)
         );
         this.stream.addEventListener('subscribeFailed', ({ data: { message, error } }) => {
+            Logger.RDesign('subscribeFailed: ' + message);
             if (error) {
                 Logger.RDesign('Error: ' + error);
                 const url = new URL(window.location.href);
