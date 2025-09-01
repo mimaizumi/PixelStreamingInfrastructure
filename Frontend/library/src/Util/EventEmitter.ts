@@ -500,6 +500,7 @@ export class SubscribeFailedEvent extends Event {
     override readonly type: 'subscribeFailed';
     readonly data: {
         message: string;
+        error?: string;
     };
     constructor(data: SubscribeFailedEvent['data']) {
         super('subscribeFailed');

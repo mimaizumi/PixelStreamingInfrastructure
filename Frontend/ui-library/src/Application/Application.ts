@@ -436,7 +436,7 @@ export class Application {
                 Logger.RDesign('Error: ' + error);
                 const url = new URL(window.location.href);
                 url.searchParams.set('streaming_time', Date.now().toString());
-                window.location.href = url;
+                window.location.href = url.toString();
                 return;
             }
             this.handleSubscribeFailedMessage(message);
