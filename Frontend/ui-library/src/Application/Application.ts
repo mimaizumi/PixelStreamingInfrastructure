@@ -885,13 +885,15 @@ export class Application {
         if (!autoSelectedStreamerId) {
             if (waitForStreamer && wantedStreamerId) {
                 if (isReconnecting) {
-                    message = `Waiting for ${wantedStreamerId} to become available.`;
+                    // message = `Waiting for ${wantedStreamerId} to become available.`;
+                    message = I18n.t('waitingForStreamer', this.lang);
                     allowRestart = false;
                 } else {
-                    message = `Gave up waiting for ${wantedStreamerId} to become available. Click to try again`;
-                    if (messageStreamingList.ids.length > 0) {
-                        message += ` or select a streamer from the settings menu.`;
-                    }
+                    // message = `Gave up waiting for ${wantedStreamerId} to become available. Click to try again`;
+                    // if (messageStreamingList.ids.length > 0) {
+                    //     message += ` or select a streamer from the settings menu.`;
+                    // }
+                    message = I18n.t('gaveUpWaitingForStreamer', this.lang);
                     allowRestart = true;
                 }
             } else if (messageStreamingList.ids.length == 0) {

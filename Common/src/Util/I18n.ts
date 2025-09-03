@@ -28,7 +28,9 @@ const translations: Record<string, Record<string, string>> = {
         autoConnectingNow: 'Running connection checks… Almost there',
         typically1Minute: 'Typically ~1 minute (times can vary).',
         serverUnreachable: 'Your server is still starting (~1 minute to come online)',
-        clickRestartToCheck: '"Click to Restart" to check again.'
+        clickRestartToCheck: 'Click here to check again.',
+        waitingForStreamer: 'The server is ready; starting the app. You’ll be connected automatically.',
+        gaveUpWaitingForStreamer: 'The server is ready, but the app didn’t start in time. Click to try again.'
     },
     ja: {
         maxPlayerMessage: 'Preparing your session (allocating resources)…',
@@ -46,9 +48,12 @@ const translations: Record<string, Record<string, string>> = {
         lookAround: '見回す',
         rightClickDrag: '右クリック＋ドラッグ',
         pressAndHold: 'キーを押し続けると連続的に移動できます',
-        autoConnectingNow: 'Running connection checks… Almost there',
+        autoConnectingNow: '接続テスト中… まもなく開始します。',
         typically1Minute: 'Typically ~1 minute (times can vary).',
-        serverUnreachable: 'Your server is still starting (~1 minute to come online)',
-        clickRestartToCheck: '"Click to Restart" to check again.'
+        serverUnreachable: 'サーバーを起動中です。',
+        clickRestartToCheck: 'ここをクリックして再試行してください。',
+        waitingForStreamer: 'サーバー準備は完了し、アプリを起動中です。接続は自動で開始します。',
+        gaveUpWaitingForStreamer:
+            'サーバー準備は完了しましたが、アプリが正常に起動しませんでした。ここをクリックしてもう一度お試し下さい。'
     }
 };
