@@ -33,7 +33,7 @@ const translations: Record<string, Record<string, string>> = {
         gaveUpWaitingForStreamer: 'The server is ready, but the app didn’t start in time. Click to try again.'
     },
     ja: {
-        maxPlayerMessage: 'Preparing your session (allocating resources)…',
+        maxPlayerMessage: 'セッションを準備しています（リソースを確保中）…',
         controlsGuide: '操作ガイド',
         navidate3D: '以下の操作で3Dルームを移動できます',
         moveForward: '前進',
@@ -49,7 +49,7 @@ const translations: Record<string, Record<string, string>> = {
         rightClickDrag: '右クリック＋ドラッグ',
         pressAndHold: 'キーを押し続けると連続的に移動できます',
         autoConnectingNow: '接続テスト中… まもなく開始します。',
-        typically1Minute: 'Typically ~1 minute (times can vary).',
+        typically1Minute: '所要時間の目安：約1分',
         serverUnreachable: 'サーバーを起動中です。',
         clickRestartToCheck: 'ここをクリックして再試行してください。',
         waitingForStreamer: 'サーバー準備は完了し、アプリを起動中です。接続は自動で開始します。',
