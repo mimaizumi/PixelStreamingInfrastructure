@@ -10,7 +10,7 @@ export class I18n {
 
 const translations: Record<string, Record<string, string>> = {
     en: {
-        maxPlayerMessage: 'Preparing your session… (allocating resources)',
+        maxPlayerMessage: 'Preparing your session (allocating resources)…',
         controlsGuide: 'Controls Guide',
         navidate3D: 'Navigate the 3D room using these controls',
         moveForward: 'Move Forward',
@@ -25,10 +25,13 @@ const translations: Record<string, Record<string, string>> = {
         lookAround: 'Look Around',
         rightClickDrag: 'Right Click & Drag',
         pressAndHold: 'Press and hold keys for continuous movement',
-        autoConnectingNow: 'Running connection checks… Almost there'
+        autoConnectingNow: 'Running connection checks… Almost there',
+        typically1Minute: 'Typically ~1 minute (times can vary).',
+        serverUnreachable: 'Your server is still starting (~1 minute to come online)',
+        clickRestartToCheck: '"Click to Restart" to check again.'
     },
     ja: {
-        maxPlayerMessage: 'Preparing your session… (allocating resources)',
+        maxPlayerMessage: 'Preparing your session (allocating resources)…',
         controlsGuide: '操作ガイド',
         navidate3D: '以下の操作で3Dルームを移動できます',
         moveForward: '前進',
@@ -43,6 +46,9 @@ const translations: Record<string, Record<string, string>> = {
         lookAround: '見回す',
         rightClickDrag: '右クリック＋ドラッグ',
         pressAndHold: 'キーを押し続けると連続的に移動できます',
-        autoConnectingNow: 'Running connection checks… Almost there'
+        autoConnectingNow: 'Running connection checks… Almost there',
+        typically1Minute: 'Typically ~1 minute (times can vary).',
+        serverUnreachable: 'Your server is still starting (~1 minute to come online)',
+        clickRestartToCheck: '"Click to Restart" to check again.'
     }
 };

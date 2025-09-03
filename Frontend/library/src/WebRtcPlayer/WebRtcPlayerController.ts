@@ -254,7 +254,7 @@ export class WebRtcPlayerController {
             }
             let disconnectMessage = this.disconnectMessage ? this.disconnectMessage : event.reason;
             if (event.code === CODE_ERROR) {
-                disconnectMessage = 'Server unreachable';
+                disconnectMessage = 'serverUnreachable';
             }
 
             this.forceReconnect = false;

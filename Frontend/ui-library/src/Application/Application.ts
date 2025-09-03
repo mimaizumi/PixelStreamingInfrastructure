@@ -440,13 +440,15 @@ export class Application {
             let translatedMessage = message;
             if (translatedMessage === 'maxPlayerMessage') {
                 translatedMessage = I18n.t(translatedMessage, this.lang);
+                this.showLoadingWithText(I18n.t('typically1Minute', this.lang), translatedMessage);
                 setTimeout(() => {
                     const url = new URL(window.location.href);
                     url.searchParams.set('streaming_time', Date.now().toString());
                     window.location.href = url.toString();
                 }, 5000);
+            } else {
+                this.handleSubscribeFailedMessage(translatedMessage);
             }
-            this.handleSubscribeFailedMessage(translatedMessage);
         });
         this.stream.addEventListener('settingsChanged', (event) => this.onSettingsChanged(event));
         this.stream.addEventListener('playerCount', ({ data: { count } }) => this.onPlayerCount(count));
@@ -595,9 +597,14 @@ export class Application {
         this.currentOverlay = this.infoOverlay;
     }
 
-    showLoadingWithText(text: string) {
+    showLoadingWithText(text: string, loadingText: string = null) {
         this.hideCurrentOverlay();
         this.loadingOverlay.update(text);
+        if (loadingText) {
+            this.loadingOverlay.updateLoadingText(loadingText);
+        } else {
+            this.loadingOverlay.updateLoadingText('Streaming Live');
+        }
         this.loadingOverlay.show();
         this.currentOverlay = this.loadingOverlay;
     }
@@ -729,13 +736,24 @@ export class Application {
      * @param allowClickToReconnect - true if we want to allow the user to click to reconnect. Otherwise it's just a message.
      */
     onDisconnect(eventString: string, allowClickToReconnect: boolean) {
-        const overlayMessage = 'Disconnected' + (eventString ? `: ${eventString}` : '.');
+        let overlayMessage = 'Disconnected' + (eventString ? `: ${eventString}` : '.');
 
-        if (allowClickToReconnect) {
-            this.showDisconnectOverlay(`${overlayMessage} Click To Restart.`);
+        if (eventString === 'serverUnreachable') {
+            overlayMessage = I18n.t('serverUnreachable', this.lang);
+
+            if (allowClickToReconnect) {
+                this.showLoadingWithText(I18n.t('clickRestartToCheck'), overlayMessage);
+            } else {
+                this.showLoadingWithText('', overlayMessage);
+            }
         } else {
-            this.showErrorOverlay(overlayMessage);
+            if (allowClickToReconnect) {
+                this.showDisconnectOverlay(`${overlayMessage} Click To Restart.`);
+            } else {
+                this.showErrorOverlay(overlayMessage);
+            }
         }
+
         // disable starting a latency checks
         this.statsPanel?.onDisconnect();
     }

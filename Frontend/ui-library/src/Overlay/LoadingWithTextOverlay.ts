@@ -2,10 +2,11 @@
 import { OverlayBase } from './BaseOverlay';
 
 export class LoadingWithTextOverlay extends OverlayBase {
+    public loadingTextElement: HTMLElement;
     /**
      * @returns The created root element of this overlay.
      */
-    public static createRootElement(): HTMLElement {
+    public static createRootElement(loadingLabel: string = 'Streaming Live'): HTMLElement {
         const loadingOverlayHtml = document.createElement('div');
         loadingOverlayHtml.id = 'loadingOverlay';
 
@@ -14,8 +15,9 @@ export class LoadingWithTextOverlay extends OverlayBase {
         loadingOverlayHtml.appendChild(loadingIcon);
 
         const loadingText = document.createElement('div');
+        loadingText.id = 'rdesign-loading-text';
         loadingText.className = 'loadingText';
-        loadingText.innerText = 'Streaming Live';
+        loadingText.innerText = loadingLabel;
         loadingOverlayHtml.appendChild(loadingText);
 
         return loadingOverlayHtml;
@@ -39,6 +41,7 @@ export class LoadingWithTextOverlay extends OverlayBase {
         );
 
         this.textElement.style.fontSize = '16px';
+        this.loadingTextElement = this.rootElement.querySelector('#rdesign-loading-text') as HTMLElement;
     }
 
     /**
@@ -48,6 +51,12 @@ export class LoadingWithTextOverlay extends OverlayBase {
     public update(text: string): void {
         if (text != null || text != undefined) {
             this.textElement.innerHTML = text;
+        }
+    }
+
+    public updateLoadingText(text: string): void {
+        if (text != null || text != undefined) {
+            this.loadingTextElement.innerHTML = text;
         }
     }
 }
