@@ -811,6 +811,7 @@ export class PixelStreaming {
      * @returns true if succeeded, false if rejected
      */
     public emitUIInteraction(descriptor: object | string) {
+        Logger.RDesign('Video Player state ' + this._webRtcController.videoPlayer.readyState);
         if (!this._webRtcController.videoPlayer.isVideoReady()) {
             return false;
         }

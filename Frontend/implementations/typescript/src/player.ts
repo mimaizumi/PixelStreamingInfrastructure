@@ -31,7 +31,15 @@ document.body.onload = function() {
 				break;
 			case "Ready":
 				const payload = { JWT: config.getTextSettingValue(TextParameters.JWT) };
-        stream.emitUIInteraction(payload);
+        		let result = stream.emitUIInteraction(payload);
+        		Logger.RDesign('Send JWT Result: ' + result);
+        		if (!result) {
+        			Logger.RDesign('wait for 2s')
+        			setTimeout(() => {
+        				result = stream.emitUIInteraction(payload);
+						Logger.RDesign('Send JWT Result: ' + result);
+        			}, 2000)
+        		}
 				break;
 			default:
 				break;
