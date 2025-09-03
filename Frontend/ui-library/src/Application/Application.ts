@@ -121,6 +121,8 @@ export class Application {
 
     configUI: ConfigUI;
 
+    lang: string;
+
     onColorModeChanged: UIOptions['onColorModeChanged'];
     onHideControls: UIOptions['onHideControls'];
 
@@ -185,7 +187,9 @@ export class Application {
         this.rdesignCenter = new RDesignCenter();
         rdesignWrapperHtml.appendChild(this.rdesignCenter.rootElement);
 
-        this.guidePanel = new GuidePanel(this.stream.config.getTextSettingValue(TextParameters.Lang));
+        this.lang = this.stream.config.getTextSettingValue(TextParameters.Lang);
+
+        this.guidePanel = new GuidePanel(this.lang);
         this.uiFeaturesElement.appendChild(this.guidePanel.rootElement);
 
         this.questionIcon = new QuestionIcon();
@@ -435,7 +439,7 @@ export class Application {
         this.stream.addEventListener('subscribeFailed', ({ data: { message } }) => {
             let translatedMessage = message;
             if (translatedMessage === 'maxPlayerMessage') {
-                translatedMessage = I18n.t(translatedMessage);
+                translatedMessage = I18n.t(translatedMessage, this.lang);
                 setTimeout(() => {
                     const url = new URL(window.location.href);
                     url.searchParams.set('streaming_time', Date.now().toString());
@@ -687,7 +691,8 @@ export class Application {
      * Show the webRtcAutoConnect Overlay and connect
      */
     onWebRtcAutoConnect() {
-        this.showLoadingWithText('Auto Connecting Now');
+        // this.showLoadingWithText('Auto Connecting Now');
+        this.showLoadingWithText(I18n.t('autoConnectingNow', this.lang));
     }
 
     /**
