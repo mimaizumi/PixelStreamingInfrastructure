@@ -24,9 +24,9 @@ export class LoadingWithTextOverlay extends OverlayBase {
     }
 
     public static createContentElement(): HTMLElement {
-        const infoOverlayHtmlInner = document.createElement('div');
-        infoOverlayHtmlInner.id = 'messageOverlayInner';
-        return infoOverlayHtmlInner;
+        const loadingContentHtml = document.createElement('div');
+        loadingContentHtml.className = 'loadingContent';
+        return loadingContentHtml;
     }
 
     /**

@@ -29,7 +29,7 @@ export class PixelStreamingApplicationStyle {
 
     defaultDarkModePalette: ColorPalette = {
         '--color0': '#1d1f22e0',
-        '--color1': 'linear-gradient(135deg, #232d4d 0%, #4b286d 100%)',
+        '--color1': '#1c2530',
         '--color2': '#FFFFFF',
         '--color3': '#0585fe',
         '--color4': '#35b350',
@@ -53,6 +53,9 @@ export class PixelStreamingApplicationStyle {
             '--color10': '#2e0052',
             '--color11': 'rgba(65,0,139,1)',
             '--controlsDisplay': 'block'
+        },
+        body: {
+            fontFamily: 'Arial, sans-serif'
         },
         '.noselect': {
             userSelect: 'none'
@@ -524,7 +527,7 @@ export class PixelStreamingApplicationStyle {
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap'
         },
-        '#connectOverlay, #playOverlay, #infoOverlay, #errorOverlay, #afkOverlay, #disconnectOverlay, #loadingOverlay':
+        '#connectOverlay, #playOverlay, #infoOverlay, #errorOverlay, #afkOverlay, #disconnectOverlay, #loadingOverlay, #iconClickableTextOverlay':
             {
                 zIndex: '30',
                 position: 'absolute',
@@ -536,9 +539,13 @@ export class PixelStreamingApplicationStyle {
                 alignItems: 'center',
                 justifyContent: 'center'
             },
-        '#loadingOverlay': {
+        '#loadingOverlay, #iconClickableTextOverlay': {
             display: 'flex',
             flexDirection: 'column'
+        },
+        '#icon-clickable-icon': {
+            fontSize: '3em',
+            marginBottom: '1rem'
         },
         '@keyframes spin': {
             to: {
@@ -547,17 +554,23 @@ export class PixelStreamingApplicationStyle {
         },
         '.loadingIcon': {
             animation: 'spin 1s linear infinite',
-            borderLeft: '3px solid var(--color7)',
-            borderRight: '3px solid var(--color7)',
-            borderBottom: '3px solid var(--color7)',
-            borderTop: '3px solid var(--color2)',
-            width: '80px',
-            height: '80px',
+            borderLeft: '6px solid var(--color7)',
+            borderRight: '6px solid var(--color7)',
+            borderBottom: '6px solid var(--color7)',
+            borderTop: '6px solid var(--color2)',
+            width: '60px',
+            height: '60px',
             borderRadius: '50%',
             marginBottom: '20px'
         },
-        '.loadingText': {
-            marginBottom: '10px'
+        '.loadingText, #icon-clickable-title': {
+            fontSize: '1.2rem',
+            fontWeight: 600,
+            marginBottom: '8px'
+        },
+        '.loadingContent, #icon-clickable-content': {
+            fontSize: '0.9rem',
+            color: '#a0a0a0'
         },
         '.clickableState': {
             alignItems: 'center',

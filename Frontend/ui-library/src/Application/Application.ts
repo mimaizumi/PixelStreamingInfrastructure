@@ -45,6 +45,7 @@ import {
 import { FullScreenIconBase, FullScreenIconExternal } from '../UI/FullscreenIcon';
 import { RDesignCenter } from '../Overlay/RDesignCenter';
 import { LoadingWithTextOverlay } from '../Overlay/LoadingWithTextOverlay';
+import { IconWithClickableTextOverlay } from '../Overlay/IconWithClickableTextOverlay';
 import { StopIcon } from '../UI/StopIcon';
 import { QuestionIcon } from '../UI/QuestionIcon';
 import { GuidePanel } from '../UI/GuidePanel';
@@ -106,6 +107,7 @@ export class Application {
     errorOverlay: TextOverlay;
     afkOverlay: AFKOverlay;
     loadingOverlay: LoadingWithTextOverlay;
+    iconWithClickableTextOverlay: IconWithClickableTextOverlay;
 
     controls: Controls;
 
@@ -233,8 +235,10 @@ export class Application {
         this.errorOverlay = new ErrorOverlay(this.stream.videoElementParent);
         this.afkOverlay = new AFKOverlay(this.stream.videoElementParent);
         this.loadingOverlay = new LoadingWithTextOverlay(this.stream.videoElementParent);
+        this.iconWithClickableTextOverlay = new IconWithClickableTextOverlay(this.stream.videoElementParent);
 
         this.disconnectOverlay.onAction(() => void this.stream.reconnect());
+        this.iconWithClickableTextOverlay.onAction(() => void this.stream.reconnect());
 
         // Build the webRtc connect overlay Event Listener and show the connect overlay
         this.connectOverlay.onAction(() => this.stream.connect());
@@ -609,6 +613,15 @@ export class Application {
         this.currentOverlay = this.loadingOverlay;
     }
 
+    showIconWithClickableText(title: string, icon: string[], text: string) {
+        this.hideCurrentOverlay();
+        this.iconWithClickableTextOverlay.setTitle(title);
+        this.iconWithClickableTextOverlay.setIcon(icon);
+        this.iconWithClickableTextOverlay.update(text);
+        this.iconWithClickableTextOverlay.show();
+        this.currentOverlay = this.iconWithClickableTextOverlay;
+    }
+
     /**
      * Shows the error overlay
      * @param text - the text that will be shown in the overlay
@@ -736,21 +749,30 @@ export class Application {
      * @param allowClickToReconnect - true if we want to allow the user to click to reconnect. Otherwise it's just a message.
      */
     onDisconnect(eventString: string, allowClickToReconnect: boolean) {
+        this.stopIcon.hide();
         let overlayMessage = 'Disconnected' + (eventString ? `: ${eventString}` : '.');
 
         if (eventString === 'serverUnreachable') {
             overlayMessage = I18n.t('serverUnreachable', this.lang);
 
             if (allowClickToReconnect) {
-                this.showLoadingWithText(I18n.t('clickRestartToCheck'), overlayMessage);
+                this.showIconWithClickableText(
+                    overlayMessage,
+                    ['fa-solid', 'fa-triangle-exclamation'],
+                    I18n.t('clickRestartToCheck')
+                );
             } else {
                 this.showLoadingWithText('', overlayMessage);
             }
         } else {
             if (allowClickToReconnect) {
-                this.showDisconnectOverlay(`${overlayMessage} Click To Restart.`);
+                this.showIconWithClickableText(
+                    overlayMessage,
+                    ['fa-solid', 'fa-triangle-exclamation'],
+                    I18n.t('clickRestartToCheck')
+                );
             } else {
-                this.showErrorOverlay(overlayMessage);
+                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-circle-stop'], '');
             }
         }
 
