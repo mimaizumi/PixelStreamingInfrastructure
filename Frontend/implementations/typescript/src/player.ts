@@ -41,6 +41,14 @@ document.body.onload = function() {
         			}, 2000)
         		}
 				break;
+			case "Enable_AFK":
+				Logger.RDesign('Enable AFK')
+				config.setFlagEnabled(Flags.AFKDetection, true);
+				break;
+			case "Disable_AFK":
+				Logger.RDesign('Disable AFK')
+				config.setFlagEnabled(Flags.AFKDetection, false);
+				break;
 			default:
 				break;
 		}
