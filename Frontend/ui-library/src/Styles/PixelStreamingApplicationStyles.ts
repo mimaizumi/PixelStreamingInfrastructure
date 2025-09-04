@@ -544,7 +544,7 @@ export class PixelStreamingApplicationStyle {
             flexDirection: 'column'
         },
         '#icon-clickable-icon': {
-            fontSize: '3em',
+            fontSize: '1.5em',
             marginBottom: '1rem'
         },
         '@keyframes spin': {
