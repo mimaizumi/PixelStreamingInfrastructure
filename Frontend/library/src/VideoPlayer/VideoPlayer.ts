@@ -242,8 +242,4 @@ export class VideoPlayer {
     showVideo() {
         this.videoElement.style.display = 'block';
     }
-
-    readyState() {
-        this.videoElement.readyState;
-    }
 }

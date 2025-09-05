@@ -172,6 +172,13 @@ export class Application {
         this.stopIcon.hide();
         this.stopIcon.onClick = () => {
             this.stream.stop('Player stopped the stream', true);
+            API.pauseStream(this.stream.config.getTextSettingValue(TextParameters.JWT))
+                .then((result) => {
+                    Logger.RDesign('Pause: ' + result);
+                })
+                .catch(() => {
+                    Logger.RDesign('Pause failed');
+                });
         };
 
         this.stream.addEventListener('streamStop', () => {
