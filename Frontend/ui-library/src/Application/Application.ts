@@ -172,6 +172,7 @@ export class Application {
         this.stopIcon.hide();
         this.stopIcon.onClick = () => {
             this.stream.stop('Player stopped the stream', true);
+            this.iconWithClickableTextOverlay.update(I18n.t('clickToResume'));
             API.pauseStream(this.stream.config.getTextSettingValue(TextParameters.JWT))
                 .then((result) => {
                     Logger.RDesign('Pause: ' + result);
@@ -620,11 +621,13 @@ export class Application {
         this.currentOverlay = this.loadingOverlay;
     }
 
-    showIconWithClickableText(title: string, icon: string[], text: string) {
+    showIconWithClickableText(title: string, icon: string[], text: string = '') {
         this.hideCurrentOverlay();
         this.iconWithClickableTextOverlay.setTitle(title);
         this.iconWithClickableTextOverlay.setIcon(icon);
-        this.iconWithClickableTextOverlay.update(text);
+        if (text.length) {
+            this.iconWithClickableTextOverlay.update(text);
+        }
         this.iconWithClickableTextOverlay.show();
         this.currentOverlay = this.iconWithClickableTextOverlay;
     }
@@ -763,23 +766,16 @@ export class Application {
             overlayMessage = I18n.t('serverUnreachable', this.lang);
 
             if (allowClickToReconnect) {
-                this.showIconWithClickableText(
-                    overlayMessage,
-                    ['fa-solid', 'fa-triangle-exclamation'],
-                    I18n.t('clickRestartToCheck')
-                );
+                this.iconWithClickableTextOverlay.update(I18n.t('clickRestartToCheck'));
+                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-triangle-exclamation']);
             } else {
                 this.showLoadingWithText('', overlayMessage);
             }
         } else {
             if (allowClickToReconnect) {
-                this.showIconWithClickableText(
-                    overlayMessage,
-                    ['fa-solid', 'fa-triangle-exclamation'],
-                    I18n.t('clickRestartToCheck')
-                );
+                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-circle-stop']);
             } else {
-                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-circle-stop'], '');
+                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-circle-stop']);
             }
         }
 
