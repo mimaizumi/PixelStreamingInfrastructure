@@ -17,6 +17,8 @@ import {
     fetchPlayerDisconnect,
     fetchPlayerConnect
 } from './Utils';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * An interface describing the possible options to pass when creating
@@ -194,6 +196,17 @@ export class SignallingServer {
                     .catch(() => {
                         Logger.error(`Error fetching %s: %s`, 'fetchPlayerDisconnect');
                     });
+
+                setTimeout(() => {
+                    const filePath = path.join(__dirname, 'www', 'theinscot.txt');
+                    try {
+                        fs.accessSync(filePath, fs.constants.F_OK);
+                        Logger.info(`${filePath} exists.`);
+                        fs.writeFileSync(filePath, '0');
+                    } catch {
+                        Logger.info(`${filePath} does not exist.`);
+                    }
+                }, 500);
             }
         });
 
