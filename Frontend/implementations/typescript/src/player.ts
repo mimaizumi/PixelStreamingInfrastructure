@@ -25,21 +25,28 @@ document.body.onload = function() {
 
 	stream.addResponseEventListener("RDesign_Message", (response: string) => {
 		Logger.RDesign("Response received! " + response);
-		switch (response) {
+		let event = response
+		try {
+			event = JSON.parse(response).event
+		} catch (error) {
+			// Do nothing
+		}
+		switch (event) {
 			case "Stop":
-				stream.stop("Streamer stopped the stream", false);
+				let json = JSON.parse(response)
+				stream.stop(json.error_message, false);
 				break;
 			case "Ready":
 				const payload = { JWT: config.getTextSettingValue(TextParameters.JWT) };
-        		let result = stream.emitUIInteraction(payload);
-        		Logger.RDesign('Send JWT Result: ' + result);
-        		if (!result) {
-        			Logger.RDesign('wait for 2s')
-        			setTimeout(() => {
-        				result = stream.emitUIInteraction(payload);
+				let result = stream.emitUIInteraction(payload);
+				Logger.RDesign('Send JWT Result: ' + result);
+				if (!result) {
+					Logger.RDesign('wait for 2s')
+					setTimeout(() => {
+						result = stream.emitUIInteraction(payload);
 						Logger.RDesign('Send JWT Result: ' + result);
-        			}, 2000)
-        		}
+					}, 2000)
+				}
 				break;
 			case "Enable_AFK":
 				Logger.RDesign('Enable AFK')
