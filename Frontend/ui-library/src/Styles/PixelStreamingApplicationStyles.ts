@@ -781,6 +781,73 @@ export class PixelStreamingApplicationStyle {
             alignItems: 'center',
             borderRadius: '0.75em'
         },
+        '.feedback-container': {
+            position: 'relative',
+            width: '500px',
+            padding: '20px',
+            backgroundColor: 'var(--color0)',
+            borderRadius: '0.75em',
+            color: 'var(--color2)',
+            pointerEvents: 'fill'
+        },
+        '.feedback-header': {
+            fontSize: '18px',
+            fontWeight: 'bold',
+            marginBottom: '20px'
+        },
+        '.feedback-textarea-container': {
+            marginBottom: '15px'
+        },
+        '#feedback-text': {
+            width: '100%',
+            height: '150px',
+            padding: '10px',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            resize: 'none',
+            marginBottom: '5px',
+            fontFamily: 'inherit',
+            backgroundColor: 'var(--color1)',
+            color: 'var(--color2)',
+            boxSizing: 'border-box'
+        },
+        '.feedback-counter': {
+            textAlign: 'right',
+            fontSize: '12px',
+            color: '#aaa'
+        },
+        '#feedback .feedback-submit, #feedback .feedback-close': {
+            backgroundColor: 'var(--color3)',
+            color: 'white',
+            border: 'none',
+            padding: '10px 20px',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontWeight: 'bold',
+            width: 'auto',
+            height: 'auto'
+        },
+        '.feedback-star-rating': {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'start',
+            alignItems: 'center',
+            marginBottom: '15px',
+            gap: '6px'
+        },
+        '.fa-star': {
+            fontSize: '30px'
+        },
+        '#feedback .feedback-close': {
+            backgroundColor: 'var(--color7)',
+            color: 'var(--color2)',
+            marginLeft: '10px'
+        },
+        '#feedback .feedback-submit:hover, #feedback .feedback-close:hover': {
+            transition: 'none',
+            border: '0',
+            padding: '10px 20px'
+        },
         '.modalBtnContainer': {
             display: 'flex',
             flexDirection: 'row',

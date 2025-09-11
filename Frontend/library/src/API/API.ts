@@ -57,4 +57,23 @@ export class API {
         }
         return [true, ''];
     }
+
+    public static async sendFeedback(
+        jwt: string,
+        rating: number,
+        feedback: string
+    ): Promise<[boolean, string]> {
+        const apiClient = new API({
+            endpoint: `streaming/feedback`,
+            headers: { Authorization: `Token ${jwt}` },
+            method: 'POST',
+            body: JSON.stringify({ rating, feedback })
+        });
+        const response = await apiClient.call();
+        const { error } = response;
+        if (error) {
+            return [false, error];
+        }
+        return [true, ''];
+    }
 }

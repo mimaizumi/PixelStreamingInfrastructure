@@ -49,6 +49,7 @@ import { IconWithClickableTextOverlay } from '../Overlay/IconWithClickableTextOv
 import { StopIcon } from '../UI/StopIcon';
 import { QuestionIcon } from '../UI/QuestionIcon';
 import { GuidePanel } from '../UI/GuidePanel';
+import { Feedback } from '../UI/Feedback';
 
 /**
  * Configuration of the internal video QP indicator element.
@@ -120,6 +121,7 @@ export class Application {
     stopIcon: StopIcon;
     questionIcon: QuestionIcon;
     guidePanel: GuidePanel;
+    feedback: Feedback;
 
     configUI: ConfigUI;
 
@@ -198,6 +200,9 @@ export class Application {
         rdesignWrapperHtml.appendChild(this.rdesignCenter.rootElement);
 
         this.lang = this.stream.config.getTextSettingValue(TextParameters.Lang);
+
+        this.feedback = new Feedback(this.lang, this.stream.config.getTextSettingValue(TextParameters.JWT));
+        this.uiFeaturesElement.appendChild(this.feedback.rootElement);
 
         this.guidePanel = new GuidePanel(this.lang);
         this.uiFeaturesElement.appendChild(this.guidePanel.rootElement);
