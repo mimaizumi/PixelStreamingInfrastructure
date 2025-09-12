@@ -508,7 +508,7 @@ export class PixelStreamingApplicationStyle {
         '.setting': {
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'between',
+            justifyContent: 'space-between',
             padding: '0.15rem 10px 0.15rem 10px'
         },
         '.settings-text': {

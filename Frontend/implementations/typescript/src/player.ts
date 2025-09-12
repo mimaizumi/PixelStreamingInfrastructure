@@ -66,8 +66,7 @@ document.body.onload = function() {
 		onColorModeChanged: (isLightMode) => PixelStreamingApplicationStyles.setColorMode(isLightMode),
 		onHideControls: (isHidden) => PixelStreamingApplicationStyles.setHideControls(isHidden),
 		hideControlsInFullscreen: true,
-		videoQpIndicatorConfig: { disableIndicator: true },
-		settingsPanelConfig: { isEnabled: false }
+		videoQpIndicatorConfig: { disableIndicator: true }
 	});
 	document.body.appendChild(application.rootElement);
 
