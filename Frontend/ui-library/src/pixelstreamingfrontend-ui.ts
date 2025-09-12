@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 export { Application, UIOptions, VideoQPIndicatorConfig } from './Application/Application';
+export { BottomPanel } from './UI/BottomPanel';
 
 export { PixelStreamingApplicationStyle } from './Styles/PixelStreamingApplicationStyles';
 

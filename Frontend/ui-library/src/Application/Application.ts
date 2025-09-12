@@ -31,7 +31,6 @@ import { LabelledButton } from '../UI/LabelledButton';
 import { SettingsPanel } from '../UI/SettingsPanel';
 import { StatsPanel } from '../UI/StatsPanel';
 import { VideoQpIndicator } from '../UI/VideoQpIndicator';
-import { VideoQuality } from '../UI/VideoQuality';
 import { ConfigUI } from '../Config/ConfigUI';
 import { EditConfirmedEvent, EditTextModal } from '../UI/EditTextModal';
 import {
@@ -43,11 +42,8 @@ import {
     ExtraFlags
 } from '../UI/UIConfigurationTypes';
 import { FullScreenIconBase, FullScreenIconExternal } from '../UI/FullscreenIcon';
-import { RDesignCenter } from '../Overlay/RDesignCenter';
 import { LoadingWithTextOverlay } from '../Overlay/LoadingWithTextOverlay';
 import { IconWithClickableTextOverlay } from '../Overlay/IconWithClickableTextOverlay';
-import { StopIcon } from '../UI/StopIcon';
-import { QuestionIcon } from '../UI/QuestionIcon';
 import { GuidePanel } from '../UI/GuidePanel';
 import { Feedback } from '../UI/Feedback';
 
@@ -115,11 +111,7 @@ export class Application {
     settingsPanel: SettingsPanel;
     statsPanel: StatsPanel;
     videoQpIndicator: VideoQpIndicator;
-    videoQuality: VideoQuality;
     editTextModal: EditTextModal | null = null;
-    rdesignCenter: RDesignCenter;
-    stopIcon: StopIcon;
-    questionIcon: QuestionIcon;
     guidePanel: GuidePanel;
     feedback: Feedback;
 
@@ -165,27 +157,7 @@ export class Application {
             this.configureSettings();
         }
 
-        const rdesignWrapperHtml = document.createElement('div');
-        rdesignWrapperHtml.id = 'rdesignWrapper';
-        this.uiFeaturesElement.appendChild(rdesignWrapperHtml);
-
-        this.stopIcon = new StopIcon();
-        rdesignWrapperHtml.appendChild(this.stopIcon.rootElement);
-        this.stopIcon.hide();
-        this.stopIcon.onClick = () => {
-            this.stream.stop('Player stopped the stream', true);
-            this.iconWithClickableTextOverlay.update(I18n.t('clickToResume'));
-            API.pauseStream(this.stream.config.getTextSettingValue(TextParameters.JWT))
-                .then((result) => {
-                    Logger.RDesign('Pause: ' + result);
-                })
-                .catch(() => {
-                    Logger.RDesign('Pause failed');
-                });
-        };
-
         this.stream.addEventListener('streamStop', () => {
-            this.stopIcon.hide();
             this.stream.videoElementParent.classList.remove('bg-black');
             this.stream.hideVideo();
         });
@@ -193,11 +165,7 @@ export class Application {
         if (!options.videoQpIndicatorConfig || !options.videoQpIndicatorConfig.disableIndicator) {
             // Add the video stream QP indicator
             this.videoQpIndicator = new VideoQpIndicator(options.videoQpIndicatorConfig);
-            rdesignWrapperHtml.appendChild(this.videoQpIndicator.rootElement);
         }
-
-        this.rdesignCenter = new RDesignCenter();
-        rdesignWrapperHtml.appendChild(this.rdesignCenter.rootElement);
 
         this.lang = this.stream.config.getTextSettingValue(TextParameters.Lang);
 
@@ -207,20 +175,7 @@ export class Application {
         this.guidePanel = new GuidePanel(this.lang);
         this.uiFeaturesElement.appendChild(this.guidePanel.rootElement);
 
-        this.questionIcon = new QuestionIcon();
-        this.questionIcon.onClick = () => {
-            if (this.guidePanel.visible()) {
-                this.guidePanel.hide();
-            } else {
-                this.guidePanel.show();
-            }
-        };
-        rdesignWrapperHtml.appendChild(this.questionIcon.rootElement);
-
-        this.videoQuality = new VideoQuality();
-        this.uiFeaturesElement.appendChild(this.videoQuality.rootElement);
-
-        this.createButtons();
+        // this.createButtons();
 
         this.registerCallbacks();
 
@@ -409,7 +364,6 @@ export class Application {
         this.stream.addEventListener('afkWarningDeactivate', () => this.afkOverlay.hide());
         this.stream.addEventListener('afkTimedOut', () => {
             this.afkOverlay.hide();
-            this.stopIcon.hide();
         });
         this.stream.addEventListener('videoEncoderAvgQP', ({ data: { avgQP } }) =>
             this.onVideoEncoderAvgQP(avgQP)
@@ -764,7 +718,6 @@ export class Application {
      * @param allowClickToReconnect - true if we want to allow the user to click to reconnect. Otherwise it's just a message.
      */
     onDisconnect(eventString: string, allowClickToReconnect: boolean) {
-        this.stopIcon.hide();
         let overlayMessage = 'Disconnected' + (eventString ? `: ${eventString}` : '.');
 
         if (eventString === 'serverUnreachable') {
@@ -818,7 +771,6 @@ export class Application {
 
     onPlayStream() {
         this.hideCurrentOverlay();
-        this.stopIcon.show();
         this.stream.videoElementParent.classList.add('bg-black');
     }
 
@@ -859,35 +811,10 @@ export class Application {
     onStatsReceived(aggregatedStats: AggregatedStats) {
         // Grab all stats we can off the aggregated stats
         this.statsPanel?.handleStats(aggregatedStats);
-
-        let videoQuantityResult = '';
-        let frameRate = '';
-        const resolution =
-            aggregatedStats.inboundVideoStats.frameWidth !== undefined &&
-            aggregatedStats.inboundVideoStats.frameWidth > 0 &&
-            aggregatedStats.inboundVideoStats.frameHeight !== undefined &&
-            aggregatedStats.inboundVideoStats.frameHeight > 0
-                ? aggregatedStats.inboundVideoStats.frameWidth +
-                  'x' +
-                  aggregatedStats.inboundVideoStats.frameHeight
-                : 'Chrome only';
-        videoQuantityResult = this.videoQuality.displayResolution(resolution);
-        if (aggregatedStats.inboundVideoStats.framesPerSecond !== undefined) {
-            frameRate = aggregatedStats.inboundVideoStats.framesPerSecond.toString() + 'fps';
-            videoQuantityResult += ' - ' + frameRate;
-        }
-        this.videoQuality.updateQualityText(videoQuantityResult);
-
-        if (aggregatedStats.inboundVideoStats.bitrate !== undefined) {
-            const bitrate = aggregatedStats.inboundVideoStats.bitrate.toString();
-            this.rdesignCenter.updateStats(resolution, frameRate, bitrate);
-        }
     }
 
     onLatencyUpdate(latencyInfo: LatencyInfo) {
         this.statsPanel?.handleLatencyInfo(latencyInfo);
-
-        this.rdesignCenter.updateLatency(Math.ceil(latencyInfo.averageE2ELatency).toString() + 'ms');
     }
 
     onLatencyTestResults(latencyTimings: LatencyTestResults) {

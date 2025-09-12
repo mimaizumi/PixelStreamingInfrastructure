@@ -11,7 +11,6 @@ export class QuestionIcon {
     public get rootElement(): HTMLElement {
         if (!this._rootElement) {
             this._rootElement = document.createElement('div');
-            this._rootElement.classList.add('rdesignCenterButton');
             this._rootElement.id = 'questionBtn';
             this._rootElement.appendChild(this.questionIcon);
 

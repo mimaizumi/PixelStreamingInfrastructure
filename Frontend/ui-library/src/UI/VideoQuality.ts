@@ -22,6 +22,14 @@ export class VideoQuality {
         }
     }
 
+    public show() {
+        this._rootElement.style.display = 'block';
+    }
+
+    public hide() {
+        this._rootElement.style.display = 'none';
+    }
+
     public displayResolution(text: string): string {
         switch (text) {
             case '2560x1440':

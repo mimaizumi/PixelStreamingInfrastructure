@@ -191,17 +191,11 @@ export class PixelStreamingApplicationStyle {
             padding: '5px 10px'
         },
         '#videoQuality': {
-            position: 'absolute',
-            top: '3%',
-            right: '3%',
-            pointerEvents: 'all',
             display: 'flex',
             alignItems: 'center',
             gap: '0.5rem',
-            padding: '5px',
-            borderRadius: '5px',
-            backgroundColor: 'var(--color0)',
-            fontSize: '0.75rem'
+            fontSize: '0.75rem',
+            color: 'white'
         },
         '#rdesignWrapper': {
             position: 'absolute',
@@ -225,7 +219,7 @@ export class PixelStreamingApplicationStyle {
         '#rdesignCenterMenu': {
             position: 'absolute',
             bottom: '100%',
-            left: '0',
+            right: '0',
             backgroundColor: 'var(--color0)',
             borderRadius: '8px',
             marginBottom: '5px',
@@ -233,7 +227,7 @@ export class PixelStreamingApplicationStyle {
             boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
             fontFamily: 'inherit',
             overflow: 'hidden',
-            zIndex: 10
+            zIndex: 100
         },
         '.menuSection': {
             padding: '0',
@@ -505,16 +499,16 @@ export class PixelStreamingApplicationStyle {
         },
         '#stopBtn': {
             borderRadius: '50%',
-            backgroundColor: '#B71C1C !important'
-        },
-        '#stopBtn:hover': {
-            padding: '0 !important',
-            border: '0 !important'
+            backgroundColor: '#B71C1C !important',
+            width: '30px',
+            height: '30px',
+            border: '0 !important',
+            cursor: 'pointer'
         },
         '.setting': {
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'between',
             padding: '0.15rem 10px 0.15rem 10px'
         },
         '.settings-text': {
@@ -870,6 +864,25 @@ export class PixelStreamingApplicationStyle {
         },
         '.modal .btn-flat': {
             fontSize: '1.0rem'
+        },
+        '#bottomPanel': {
+            height: '50px',
+            backgroundColor: 'var(--color7)',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '5px 10px',
+            boxSizing: 'border-box'
+        },
+        '#bottomPanelLeftSection': {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
+        },
+        '#bottomPanelRightSection': {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px'
         }
     };
 

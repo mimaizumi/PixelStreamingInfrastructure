@@ -3,7 +3,7 @@
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 import { Config, PixelStreaming, Logger, LogLevel, TextParameters, Flags } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
-import { Application, PixelStreamingApplicationStyle } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
+import { Application, BottomPanel, PixelStreamingApplicationStyle } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 const PixelStreamingApplicationStyles =
     new PixelStreamingApplicationStyle();
 PixelStreamingApplicationStyles.applyStyleSheet();
@@ -65,9 +65,14 @@ document.body.onload = function() {
 		stream,
 		onColorModeChanged: (isLightMode) => PixelStreamingApplicationStyles.setColorMode(isLightMode),
 		onHideControls: (isHidden) => PixelStreamingApplicationStyles.setHideControls(isHidden),
-		hideControlsInFullscreen: true
+		hideControlsInFullscreen: true,
+		videoQpIndicatorConfig: { disableIndicator: true },
+		settingsPanelConfig: { isEnabled: false }
 	});
 	document.body.appendChild(application.rootElement);
+
+	const bottomPanel = new BottomPanel(application);
+	document.body.appendChild(bottomPanel.rootElement);
 
 	window.pixelStreaming = stream;
 	// helper
