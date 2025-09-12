@@ -778,9 +778,9 @@ export class Application {
             }
         } else {
             if (allowClickToReconnect) {
-                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-circle-stop']);
+                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-circle-play']);
             } else {
-                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-circle-stop']);
+                this.showIconWithClickableText(overlayMessage, ['fa-solid', 'fa-circle-play']);
             }
         }
 
