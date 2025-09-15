@@ -3,7 +3,7 @@
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 export * from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 import { Config, PixelStreaming, Logger, LogLevel, TextParameters, Flags } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
-import { Application, BottomPanel, PixelStreamingApplicationStyle } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
+import { Application, BottomPanel, PixelStreamingApplicationStyle, UIElementCreationMode } from '@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.6';
 const PixelStreamingApplicationStyles =
     new PixelStreamingApplicationStyle();
 PixelStreamingApplicationStyles.applyStyleSheet();
@@ -70,7 +70,11 @@ document.body.onload = function() {
 	});
 	document.body.appendChild(application.rootElement);
 
-	const bottomPanel = new BottomPanel(application);
+	const bottomPanel = new BottomPanel(
+		application,
+		{ disableIndicator: true },
+		{ fullScreenControlsConfig: { creationMode: UIElementCreationMode.UseCustomElement } }
+	);
 	document.body.appendChild(bottomPanel.rootElement);
 
 	window.pixelStreaming = stream;

@@ -1,5 +1,5 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-import { AggregatedStats, I18n, LatencyInfo } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
+import { AggregatedStats, I18n, LatencyInfo, Logger } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { StopIcon } from '../UI/StopIcon';
 import { Application, VideoQPIndicatorConfig } from '../pixelstreamingfrontend-ui';
 import { VideoQuality } from './VideoQuality';
@@ -7,14 +7,12 @@ import { VideoQpIndicator } from './VideoQpIndicator';
 import { QuestionIcon } from './QuestionIcon';
 import { RDesignCenter } from '../Overlay/RDesignCenter';
 import {
+    ExtraFlags,
     SettingsPanelConfiguration,
     StatsPanelConfiguration,
-    UIElementConfig,
-    UIElementCreationMode
+    UIElementConfig
 } from './UIConfigurationTypes';
-import { Controls, ControlsUIConfiguration } from './Controls';
-import { FullScreenIconBase, FullScreenIconExternal } from './FullscreenIcon';
-import { LabelledButton } from './LabelledButton';
+import { Controls } from './Controls';
 
 interface ControlOptions {
     /** By default, a settings panel and associate visibility toggle button will be made.
@@ -37,6 +35,8 @@ export class BottomPanel {
     _rootElement: HTMLElement;
     _leftSectionElement: HTMLElement;
     _rightSectionElement: HTMLElement;
+    _settingIcon: HTMLElement;
+    _stateIcon: HTMLElement;
 
     application: Application;
     stopIcon: StopIcon;
@@ -53,9 +53,7 @@ export class BottomPanel {
         controlOptions?: ControlOptions
     ) {
         this.application = application;
-        this.controlOptions = controlOptions;
-
-        // this.createButtons();
+        this.controlOptions = controlOptions || {};
 
         this.videoQuality = new VideoQuality();
         this.videoQpIndicator = new VideoQpIndicator(videoQpIndicatorConfig);
@@ -119,9 +117,12 @@ export class BottomPanel {
             this._leftSectionElement.appendChild(this.videoQpIndicator.rootElement);
             this._leftSectionElement.appendChild(this.videoQuality.rootElement);
 
-            // this._rightSectionElement.appendChild(this.controls.rootElement);
+            this._rightSectionElement.appendChild(this.settingIcon);
+            this._rightSectionElement.appendChild(this.stateIcon);
             this._rightSectionElement.appendChild(this.rdesignCenter.rootElement);
             this._rightSectionElement.appendChild(this.questionIcon.rootElement);
+
+            this.setHideControls(this.application.configUI.isCustomFlagEnabled(ExtraFlags.HideControls));
 
             this._rootElement.appendChild(this._leftSectionElement);
             this._rootElement.appendChild(this._rightSectionElement);
@@ -164,118 +165,45 @@ export class BottomPanel {
         this.rdesignCenter.updateLatency(Math.ceil(latencyInfo.averageE2ELatency).toString() + 'ms');
     }
 
-    public createButtons() {
-        const isIphone = /iPhone/.test(navigator.userAgent);
-        const isIpad =
-            /iPad/.test(navigator.userAgent) ||
-            (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document);
-        const isSafari =
-            navigator.vendor &&
-            navigator.vendor.indexOf('Apple') > -1 &&
-            navigator.userAgent &&
-            navigator.userAgent.indexOf('CriOS') == -1 &&
-            navigator.userAgent.indexOf('FxiOS') == -1;
+    public get settingIcon(): HTMLElement {
+        if (!this._settingIcon) {
+            this._settingIcon = document.createElement('div');
+            this._settingIcon.id = 'settingsBtn';
 
-        // In some cases we want to disable fullscreen button if it is not explicitly requested:
+            const icon = document.createElement('i');
+            icon.classList.add('fa', 'fa-cog');
+            icon.style.color = '#b0b0b0';
+            this._settingIcon.appendChild(icon);
 
-        // IPhone does not support fullscreen API as at 28th July 2024 (see: https://caniuse.com/fullscreen) so if
-        // we are on IPhone and user has not specified explicitly configured UI config for
-        // fullscreen button then we should disable this button as it doesn't work.
-
-        // Additionally iPad on non-Safari browsers doesn't really allow touch inputs and fullscreen video at the same time.
-        // If you do this the video gets dragged off back to normal non-fullscreen video and then the video is paused.
-        // See: https://github.com/EpicGamesExt/PixelStreamingInfrastructure/issues/219
-        const disableFullscreenButton = isIphone || (!isSafari && isIpad);
-
-        if (this.controlOptions.fullScreenControlsConfig === undefined && disableFullscreenButton) {
-            this.controlOptions.fullScreenControlsConfig = { creationMode: UIElementCreationMode.Disable };
-        }
-
-        const controlsUIConfig: ControlsUIConfiguration = {
-            statsButtonType: this.controlOptions.statsPanelConfig
-                ? this.controlOptions.statsPanelConfig.visibilityButtonConfig
-                : undefined,
-            settingsButtonType: this.controlOptions.settingsPanelConfig
-                ? this.controlOptions.settingsPanelConfig.visibilityButtonConfig
-                : undefined,
-            fullscreenButtonType: this.controlOptions.fullScreenControlsConfig,
-            xrIconType: this.controlOptions.xrControlsConfig,
-            hideControlsInFullscreen: this.controlOptions.hideControlsInFullscreen
-        };
-
-        // Setup controls
-        this.controls = new Controls(controlsUIConfig);
-
-        // When we fullscreen we want this element to be the root
-        const fullScreenButton: FullScreenIconBase | undefined =
-            // Depending on if we're creating an internal button, or using an external one
-            !!this.controlOptions.fullScreenControlsConfig &&
-            this.controlOptions.fullScreenControlsConfig.creationMode ===
-                UIElementCreationMode.UseCustomElement
-                ? // Either create a fullscreen class based on the external button
-                  new FullScreenIconExternal(this.controlOptions.fullScreenControlsConfig.customElement)
-                : // Or use the one created by the Controls initializer earlier
-                  this.controls.fullscreenIcon;
-        if (fullScreenButton) {
-            fullScreenButton.fullscreenElement = /iPad|iPhone|iPod/.test(navigator.userAgent)
-                ? this.application.stream.videoElementParent.getElementsByTagName('video')[0]
-                : this.rootElement;
-        }
-
-        // Add settings button to controls
-        const settingsButton: HTMLElement | undefined = this.controls.settingsIcon
-            ? this.controls.settingsIcon.rootElement
-            : this.controlOptions.settingsPanelConfig.visibilityButtonConfig.customElement;
-        if (settingsButton) settingsButton.onclick = () => this.application.settingsClicked();
-        if (this.application.settingsPanel)
-            this.application.settingsPanel.settingsCloseButton.onclick = () =>
+            this._settingIcon.addEventListener('click', () => {
                 this.application.settingsClicked();
-
-        // Add WebXR button to controls
-        const xrButton: HTMLElement | undefined = this.controls.xrIcon
-            ? this.controls.xrIcon.rootElement
-            : this.controlOptions.xrControlsConfig.creationMode === UIElementCreationMode.UseCustomElement
-              ? this.controlOptions.xrControlsConfig.customElement
-              : undefined;
-        if (xrButton) xrButton.onclick = () => this.application.stream.toggleXR();
-
-        // setup the stats/info button
-        const statsButton: HTMLElement | undefined = this.controls.statsIcon
-            ? this.controls.statsIcon.rootElement
-            : this.controlOptions.statsPanelConfig.visibilityButtonConfig.customElement;
-        if (statsButton) statsButton.onclick = () => this.application.statsClicked();
-
-        if (this.application.statsPanel) {
-            this.application.statsPanel.statsCloseButton.onclick = () => this.application.statsClicked();
+            });
         }
 
-        // Add command buttons (if we have somewhere to add them to)
-        if (this.application.settingsPanel) {
-            // Add button for toggle fps
-            const showFPSButton = new LabelledButton('Show FPS', 'Toggle');
-            showFPSButton.addOnClickListener(() => {
-                this.application.stream.requestShowFps();
-            });
+        return this._settingIcon;
+    }
 
-            // Add button for restart stream
-            const restartStreamButton = new LabelledButton('Restart Stream', 'Restart');
-            restartStreamButton.addOnClickListener(() => {
-                this.application.stream.reconnect();
-            });
+    public get stateIcon(): HTMLElement {
+        if (!this._stateIcon) {
+            this._stateIcon = document.createElement('div');
+            this._stateIcon.id = 'stateBtn';
 
-            // Add button for request keyframe
-            const requestKeyframeButton = new LabelledButton('Request keyframe', 'Request');
-            requestKeyframeButton.addOnClickListener(() => {
-                this.application.stream.requestIframe();
-            });
+            const icon = document.createElement('i');
+            icon.classList.add('fa', 'fa-info-circle');
+            icon.style.color = '#b0b0b0';
+            this._stateIcon.appendChild(icon);
 
-            const commandsSectionElem = this.application.configUI.buildSectionWithHeading(
-                this.application.settingsPanel.settingsContentElement,
-                'Commands'
-            );
-            commandsSectionElem.appendChild(showFPSButton.rootElement);
-            commandsSectionElem.appendChild(requestKeyframeButton.rootElement);
-            commandsSectionElem.appendChild(restartStreamButton.rootElement);
+            this._stateIcon.addEventListener('click', () => {
+                this.application.statsClicked();
+            });
         }
+
+        return this._stateIcon;
+    }
+
+    setHideControls(isHidden: boolean) {
+        Logger.RDesign('setHideControls: ' + isHidden);
+        this._settingIcon.style.display = isHidden ? 'none' : 'block';
+        this._stateIcon.style.display = isHidden ? 'none' : 'block';
     }
 }

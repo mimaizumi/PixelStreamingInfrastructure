@@ -39,41 +39,44 @@ export class RDesignCenter {
         controlsHeader.innerText = 'Streaming Controls';
         controlsSection.appendChild(controlsHeader);
 
-        // // Quality Settings Button
-        // const qualityBtn = document.createElement('div');
-        // qualityBtn.className = 'menuBtn';
-        // qualityBtn.innerHTML = '<i class="fa-solid fa-cog"></i> Quality Settings';
-        // controlsSection.appendChild(qualityBtn);
+        const isIphone = /iPhone/.test(navigator.userAgent);
+        const isIpad =
+            /iPad/.test(navigator.userAgent) ||
+            (/Macintosh/.test(navigator.userAgent) && 'ontouchend' in document);
+        const isSafari =
+            navigator.vendor &&
+            navigator.vendor.indexOf('Apple') > -1 &&
+            navigator.userAgent &&
+            navigator.userAgent.indexOf('CriOS') == -1 &&
+            navigator.userAgent.indexOf('FxiOS') == -1;
 
-        // // Audio Settings Button
-        // const audioBtn = document.createElement('div');
-        // audioBtn.className = 'menuBtn';
-        // audioBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i> Audio Settings';
-        // controlsSection.appendChild(audioBtn);
+        const disableFullscreenButton = isIphone || (!isSafari && isIpad);
 
-        // Fullscreen Button
-        const fullscreenBtn = document.createElement('div');
-        fullscreenBtn.className = 'menuBtn';
-        fullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i> Fullscreen';
-        controlsSection.appendChild(fullscreenBtn);
+        if (!disableFullscreenButton) {
+            // Fullscreen Button
+            const fullscreenBtn = document.createElement('div');
+            fullscreenBtn.className = 'menuBtn';
+            fullscreenBtn.innerHTML = '<i class="fa-solid fa-expand"></i> Fullscreen';
+            controlsSection.appendChild(fullscreenBtn);
 
-        fullscreenBtn.addEventListener('click', () => {
-            const element = document.getElementById('playerUI');
+            fullscreenBtn.addEventListener('click', () => {
+                const element = document.getElementById('playerUI');
 
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.mozRequestFullscreen) {
-                element.mozRequestFullscreen();
-            } else if (element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen();
-            } else if (element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            } else if (element.webkitEnterFullscreen) {
-                element.webkitEnterFullscreen(); //for iphone this code worked
-            }
-        });
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.mozRequestFullscreen) {
+                    element.mozRequestFullscreen();
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                } else if (element.webkitEnterFullscreen) {
+                    element.webkitEnterFullscreen(); //for iphone this code worked
+                }
+            });
 
-        rdesignCenterHtmlInner.appendChild(controlsSection);
+            rdesignCenterHtmlInner.appendChild(controlsSection);
+        }
 
         // Connection Info Section
         const infoSection = document.createElement('div');

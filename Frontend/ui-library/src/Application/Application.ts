@@ -175,7 +175,7 @@ export class Application {
         this.guidePanel = new GuidePanel(this.lang);
         this.uiFeaturesElement.appendChild(this.guidePanel.rootElement);
 
-        this.createButtons();
+        // this.createButtons();
 
         this.registerCallbacks();
 

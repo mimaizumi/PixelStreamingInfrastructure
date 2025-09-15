@@ -375,7 +375,7 @@ export class PixelStreamingApplicationStyle {
         '#minimizeIcon': {
             display: 'none'
         },
-        '#settingsBtn, #statsBtn': {
+        '#settingsBtn, #statsBtn, #rdesignCenter i, #questionBtn, #stateBtn': {
             cursor: 'pointer'
         },
         '#uiFeatures button': {
