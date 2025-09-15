@@ -6,30 +6,7 @@ import { VideoQuality } from './VideoQuality';
 import { VideoQpIndicator } from './VideoQpIndicator';
 import { QuestionIcon } from './QuestionIcon';
 import { RDesignCenter } from '../Overlay/RDesignCenter';
-import {
-    ExtraFlags,
-    SettingsPanelConfiguration,
-    StatsPanelConfiguration,
-    UIElementConfig
-} from './UIConfigurationTypes';
-import { Controls } from './Controls';
-
-interface ControlOptions {
-    /** By default, a settings panel and associate visibility toggle button will be made.
-     * If needed, this behaviour can be configured. */
-    settingsPanelConfig?: SettingsPanelConfiguration;
-    /** By default, a stats panel and associate visibility toggle button will be made.
-     * If needed, this behaviour can be configured. */
-    statsPanelConfig?: StatsPanelConfiguration;
-    /** If needed, the full screen button can be external or disabled. */
-    fullScreenControlsConfig?: UIElementConfig;
-    /** If needed, XR button can be external or disabled. */
-    xrControlsConfig?: UIElementConfig;
-    /** Configuration of the video QP indicator. */
-    videoQpIndicatorConfig?: VideoQPIndicatorConfig;
-    /** Hide the controls in fullscreen mode */
-    hideControlsInFullscreen?: boolean;
-}
+import { ExtraFlags } from './UIConfigurationTypes';
 
 export class BottomPanel {
     _rootElement: HTMLElement;
@@ -44,16 +21,9 @@ export class BottomPanel {
     videoQpIndicator: VideoQpIndicator;
     questionIcon: QuestionIcon;
     rdesignCenter: RDesignCenter;
-    controlOptions: ControlOptions;
-    controls: Controls;
 
-    constructor(
-        application: Application,
-        videoQpIndicatorConfig?: VideoQPIndicatorConfig,
-        controlOptions?: ControlOptions
-    ) {
+    constructor(application: Application, videoQpIndicatorConfig?: VideoQPIndicatorConfig) {
         this.application = application;
-        this.controlOptions = controlOptions || {};
 
         this.videoQuality = new VideoQuality();
         this.videoQpIndicator = new VideoQpIndicator(videoQpIndicatorConfig);
