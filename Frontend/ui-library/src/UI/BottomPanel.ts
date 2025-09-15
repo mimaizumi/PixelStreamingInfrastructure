@@ -1,12 +1,5 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-import {
-    AggregatedStats,
-    API,
-    I18n,
-    LatencyInfo,
-    Logger,
-    TextParameters
-} from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
+import { AggregatedStats, I18n, LatencyInfo } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { StopIcon } from '../UI/StopIcon';
 import { Application, VideoQPIndicatorConfig } from '../pixelstreamingfrontend-ui';
 import { VideoQuality } from './VideoQuality';
@@ -83,13 +76,6 @@ export class BottomPanel {
         this.stopIcon.onClick = () => {
             this.application.stream.stop('Player stopped the stream', true);
             this.application.iconWithClickableTextOverlay.update(I18n.t('clickToResume'));
-            API.pauseStream(this.application.stream.config.getTextSettingValue(TextParameters.JWT))
-                .then((result) => {
-                    Logger.RDesign('Pause: ' + result);
-                })
-                .catch(() => {
-                    Logger.RDesign('Pause failed');
-                });
         };
 
         this.application.stream.addEventListener('playStream', () => {

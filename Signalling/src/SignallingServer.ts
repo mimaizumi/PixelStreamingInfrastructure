@@ -11,7 +11,6 @@ import { PlayerRegistry } from './PlayerRegistry';
 import { Messages, MessageHelpers, SignallingProtocol } from '@epicgames-ps/lib-pixelstreamingcommon-ue5.6';
 import {
     extractDataFromJWT,
-    fetchPauseToken,
     fetchPlayersCount,
     stringify,
     fetchPlayerDisconnect,
@@ -173,14 +172,6 @@ export class SignallingServer {
             Logger.info(`Player %s (%s) disconnected.`, newPlayer.playerId, request.socket.remoteAddress);
 
             if (this.jwt && memberId && sessionId) {
-                fetchPauseToken(this.jwt)
-                    .then(() => {
-                        Logger.info(`RDesign: Pause token fetched.`);
-                    })
-                    .catch((error) => {
-                        Logger.error(`Error fetching %s: %s`, 'PauseToken', error);
-                    });
-
                 fetchPlayersCount(this.jwt, this.playerRegistry.count())
                     .then(() => {
                         Logger.info(`RDesign: Players count fetched.`);
