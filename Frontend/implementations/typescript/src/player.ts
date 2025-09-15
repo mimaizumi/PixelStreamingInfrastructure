@@ -72,8 +72,7 @@ document.body.onload = function() {
 
 	const bottomPanel = new BottomPanel(
 		application,
-		{ disableIndicator: true },
-		{ fullScreenControlsConfig: { creationMode: UIElementCreationMode.UseCustomElement } }
+		{ disableIndicator: true }
 	);
 	document.body.appendChild(bottomPanel.rootElement);
 
