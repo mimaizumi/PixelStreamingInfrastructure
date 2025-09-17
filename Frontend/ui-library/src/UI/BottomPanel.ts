@@ -45,9 +45,8 @@ export class BottomPanel {
             this.application.stream.stop('Player stopped the stream', true);
             this.application.iconWithClickableTextOverlay.update(I18n.t('clickToResume'));
 
-            const event = new CustomEvent('PixelStreamingMessage', { detail: { event: 'Stop' } });
             Logger.RDesign('PixelStreamingMessage: Stop');
-            window.parent.document.dispatchEvent(event);
+            window.parent.postMessage('PixelStreamingStop', '*');
         };
 
         this.application.stream.addEventListener('playStream', () => {
