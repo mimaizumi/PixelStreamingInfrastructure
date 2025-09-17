@@ -143,6 +143,9 @@ export class WebRtcPlayerController {
 
             this.videoPlayer.hideVideo();
             this.pixelStreaming.videoElementParent.classList.remove('bg-black');
+
+            Logger.RDesign('PixelStreamingMessage: Stop');
+            window.parent.postMessage('PixelStreamingStop', '*');
         };
 
         this.freezeFrameController = new FreezeFrameController(this.pixelStreaming.videoElementParent);
