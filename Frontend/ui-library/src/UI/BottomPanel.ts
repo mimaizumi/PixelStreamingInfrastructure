@@ -148,9 +148,14 @@ export class BottomPanel {
             icon.style.color = '#b0b0b0';
             this._settingIcon.appendChild(icon);
 
-            this._settingIcon.addEventListener('click', () => {
-                this.application.settingsClicked();
-            });
+            if (this.application.settingsPanel) {
+                this._settingIcon.addEventListener('click', () => {
+                    this.application.settingsClicked();
+                });
+                this.application.settingsPanel.settingsCloseButton.onclick = () =>
+                    this.application.settingsClicked();
+                this.application.createCommandSettingButtons();
+            }
         }
 
         return this._settingIcon;

@@ -303,32 +303,36 @@ export class Application {
 
         // Add command buttons (if we have somewhere to add them to)
         if (this.settingsPanel) {
-            // Add button for toggle fps
-            const showFPSButton = new LabelledButton('Show FPS', 'Toggle');
-            showFPSButton.addOnClickListener(() => {
-                this.stream.requestShowFps();
-            });
-
-            // Add button for restart stream
-            const restartStreamButton = new LabelledButton('Restart Stream', 'Restart');
-            restartStreamButton.addOnClickListener(() => {
-                this.stream.reconnect();
-            });
-
-            // Add button for request keyframe
-            const requestKeyframeButton = new LabelledButton('Request keyframe', 'Request');
-            requestKeyframeButton.addOnClickListener(() => {
-                this.stream.requestIframe();
-            });
-
-            const commandsSectionElem = this.configUI.buildSectionWithHeading(
-                this.settingsPanel.settingsContentElement,
-                'Commands'
-            );
-            commandsSectionElem.appendChild(showFPSButton.rootElement);
-            commandsSectionElem.appendChild(requestKeyframeButton.rootElement);
-            commandsSectionElem.appendChild(restartStreamButton.rootElement);
+            this.createCommandSettingButtons();
         }
+    }
+
+    createCommandSettingButtons() {
+        // Add button for toggle fps
+        const showFPSButton = new LabelledButton('Show FPS', 'Toggle');
+        showFPSButton.addOnClickListener(() => {
+            this.stream.requestShowFps();
+        });
+
+        // Add button for restart stream
+        const restartStreamButton = new LabelledButton('Restart Stream', 'Restart');
+        restartStreamButton.addOnClickListener(() => {
+            this.stream.reconnect();
+        });
+
+        // Add button for request keyframe
+        const requestKeyframeButton = new LabelledButton('Request keyframe', 'Request');
+        requestKeyframeButton.addOnClickListener(() => {
+            this.stream.requestIframe();
+        });
+
+        const commandsSectionElem = this.configUI.buildSectionWithHeading(
+            this.settingsPanel.settingsContentElement,
+            'Commands'
+        );
+        commandsSectionElem.appendChild(showFPSButton.rootElement);
+        commandsSectionElem.appendChild(requestKeyframeButton.rootElement);
+        commandsSectionElem.appendChild(restartStreamButton.rootElement);
     }
 
     /**
