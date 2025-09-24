@@ -883,6 +883,41 @@ export class PixelStreamingApplicationStyle {
             display: 'flex',
             alignItems: 'center',
             gap: '10px'
+        },
+        '#networkOptimizationQuality': {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
+        },
+        '#optimizedQualitySelector': {
+            position: 'relative'
+        },
+        '#optimizedQualitySelectorQualityOptions': {
+            position: 'absolute',
+            bottom: '100%',
+            left: '0',
+            background: '#777777',
+            borderRadius: '3px',
+            zIndex: 1000,
+            marginBottom: '5px',
+            width: 'max-content',
+            overflow: 'hidden'
+        },
+        '#optimizedQualitySelectorCurrentQuality': {
+            fontSize: '0.75rem',
+            padding: '5px',
+            background: '#777777',
+            borderRadius: '3px',
+            cursor: 'pointer'
+        },
+        '.optimizedQualitySelectorQualityOption': {
+            width: '100%',
+            padding: '5px 15px',
+            cursor: 'pointer',
+            boxSizing: 'border-box'
+        },
+        '.optimizedQualitySelectorQualityOption:hover': {
+            background: 'var(--color1)'
         }
     };
 

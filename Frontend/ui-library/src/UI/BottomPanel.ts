@@ -1,5 +1,11 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
-import { AggregatedStats, I18n, LatencyInfo, Logger } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
+import {
+    AggregatedStats,
+    I18n,
+    LatencyInfo,
+    Logger,
+    NumericParameters
+} from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { StopIcon } from '../UI/StopIcon';
 import { Application, VideoQPIndicatorConfig } from '../pixelstreamingfrontend-ui';
 import { VideoQuality } from './VideoQuality';
@@ -7,6 +13,7 @@ import { VideoQpIndicator } from './VideoQpIndicator';
 import { QuestionIcon } from './QuestionIcon';
 import { RDesignCenter } from '../Overlay/RDesignCenter';
 import { ExtraFlags } from './UIConfigurationTypes';
+import { OptimizedQualitySelector } from './OptimizedQualitySelector';
 
 export class BottomPanel {
     _rootElement: HTMLElement;
@@ -15,6 +22,7 @@ export class BottomPanel {
     _settingIcon: HTMLElement;
     _stateIcon: HTMLElement;
     _downlinkBitrate: HTMLElement;
+    _networkOptimizationQuality: HTMLElement;
 
     application: Application;
     stopIcon: StopIcon;
@@ -22,6 +30,7 @@ export class BottomPanel {
     videoQpIndicator: VideoQpIndicator;
     questionIcon: QuestionIcon;
     rdesignCenter: RDesignCenter;
+    optimizedQualitySelector: OptimizedQualitySelector;
 
     constructor(application: Application, videoQpIndicatorConfig?: VideoQPIndicatorConfig) {
         this.application = application;
@@ -50,17 +59,19 @@ export class BottomPanel {
             window.parent.postMessage('PixelStreamingStop', '*');
         };
 
+        this.optimizedQualitySelector = new OptimizedQualitySelector();
+        this.optimizedQualitySelector.onQualityChanged = (quality) => {
+            this.qualityChanged(quality);
+        };
+
         this.application.stream.addEventListener('playStream', () => {
-            this.videoQuality.show();
-            this.stopIcon.show();
+            this.showStreamInfo();
         });
         this.application.stream.addEventListener('streamStop', () => {
-            this.stopIcon.hide();
-            this.videoQuality.hide();
+            this.hideStreamInfo();
         });
         this.application.stream.addEventListener('webRtcDisconnected', () => {
-            this.stopIcon.hide();
-            this.videoQuality.hide();
+            this.hideStreamInfo();
         });
         this.application.stream.addEventListener('statsReceived', ({ data: { aggregatedStats } }) => {
             this.onStatsReceived(aggregatedStats);
@@ -91,6 +102,7 @@ export class BottomPanel {
             this._leftSectionElement.appendChild(this.videoQpIndicator.rootElement);
             this._leftSectionElement.appendChild(this.videoQuality.rootElement);
             this._leftSectionElement.appendChild(this.downlinkBitrate);
+            this._leftSectionElement.appendChild(this.networkOptimizationQuality);
 
             this._rightSectionElement.appendChild(this.settingIcon);
             this._rightSectionElement.appendChild(this.stateIcon);
@@ -174,6 +186,7 @@ export class BottomPanel {
             this._downlinkBitrate.id = 'downlinkBitrate';
             this._downlinkBitrate.style.color = 'white';
             this._downlinkBitrate.style.fontSize = '0.75rem';
+            this._downlinkBitrate.style.display = 'none';
         }
 
         return this._downlinkBitrate;
@@ -197,9 +210,87 @@ export class BottomPanel {
         return this._stateIcon;
     }
 
+    public get networkOptimizationQuality(): HTMLElement {
+        if (!this._networkOptimizationQuality) {
+            this._networkOptimizationQuality = document.createElement('div');
+            this._networkOptimizationQuality.id = 'networkOptimizationQuality';
+            this._networkOptimizationQuality.style.color = 'white';
+            this._networkOptimizationQuality.style.fontSize = '0.75rem';
+            this._networkOptimizationQuality.style.display = 'none';
+
+            const label = document.createElement('div');
+            label.id = 'networkOptimizationQualityLabel';
+            label.textContent = 'Network Optimized Quality:';
+            this._networkOptimizationQuality.appendChild(label);
+
+            this._networkOptimizationQuality.appendChild(this.optimizedQualitySelector.rootElement);
+        }
+
+        return this._networkOptimizationQuality;
+    }
+
     setHideControls(isHidden: boolean) {
         Logger.RDesign('setHideControls: ' + isHidden);
         this._settingIcon.style.display = isHidden ? 'none' : 'block';
         this._stateIcon.style.display = isHidden ? 'none' : 'block';
+    }
+
+    showStreamInfo() {
+        this.videoQuality.show();
+        this.stopIcon.show();
+        this.downlinkBitrate.style.display = 'block';
+        this.networkOptimizationQuality.style.display = 'flex';
+    }
+
+    hideStreamInfo() {
+        this.stopIcon.hide();
+        this.videoQuality.hide();
+        this.downlinkBitrate.style.display = 'none';
+        this.networkOptimizationQuality.style.display = 'none';
+    }
+
+    qualityChanged(quality: string) {
+        switch (quality) {
+            case 'Full HD':
+                this.application.stream.emitConsoleCommand('r.setres 1920x1080');
+                this.application.stream.emitConsoleCommand('t.maxfps 60');
+                this.application.stream.emitConsoleCommand('r.ScreenPercentage 100');
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 60);
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 200);
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 10000);
+                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 1);
+                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 100);
+                break;
+            case 'High Detail':
+                this.application.stream.emitConsoleCommand('r.setres 1280x720');
+                this.application.stream.emitConsoleCommand('t.maxfps 30');
+                this.application.stream.emitConsoleCommand('r.ScreenPercentage 95');
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 30);
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 900);
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 3000);
+                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 58);
+                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 90);
+                break;
+            case 'Balanced':
+                this.application.stream.emitConsoleCommand('r.setres 960x540');
+                this.application.stream.emitConsoleCommand('t.maxfps 27');
+                this.application.stream.emitConsoleCommand('r.ScreenPercentage 95');
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 27);
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 600);
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 2000);
+                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 50);
+                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 88);
+                break;
+            case 'Low Data':
+                this.application.stream.emitConsoleCommand('r.setres 640x360');
+                this.application.stream.emitConsoleCommand('t.maxfps 24');
+                this.application.stream.emitConsoleCommand('r.ScreenPercentage 90');
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 24);
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 300);
+                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 1000);
+                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 20);
+                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 80);
+                break;
+        }
     }
 }
