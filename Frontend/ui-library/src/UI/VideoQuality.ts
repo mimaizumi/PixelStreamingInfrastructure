@@ -43,10 +43,14 @@ export class VideoQuality {
                 return '1080p';
             case '1280x720':
                 return '720p';
+            case '960x540':
+                return '540p';
             case '800x600':
                 return '600p';
             case '640x480':
                 return '480p';
+            case '640x360':
+                return '360p';
             default:
                 return text;
         }
