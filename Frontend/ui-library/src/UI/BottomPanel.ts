@@ -14,6 +14,7 @@ export class BottomPanel {
     _rightSectionElement: HTMLElement;
     _settingIcon: HTMLElement;
     _stateIcon: HTMLElement;
+    _downlinkBitrate: HTMLElement;
 
     application: Application;
     stopIcon: StopIcon;
@@ -89,6 +90,7 @@ export class BottomPanel {
             this._leftSectionElement.appendChild(this.stopIcon.rootElement);
             this._leftSectionElement.appendChild(this.videoQpIndicator.rootElement);
             this._leftSectionElement.appendChild(this.videoQuality.rootElement);
+            this._leftSectionElement.appendChild(this.downlinkBitrate);
 
             this._rightSectionElement.appendChild(this.settingIcon);
             this._rightSectionElement.appendChild(this.stateIcon);
@@ -126,6 +128,11 @@ export class BottomPanel {
             this.rdesignCenter.updateStats(resolution, frameRate, bitrate);
         }
         this.videoQuality.updateQualityText(videoQuantityResult);
+
+        if (aggregatedStats.inboundVideoStats.bitrate) {
+            const bitrate = aggregatedStats.inboundVideoStats.bitrate.toString();
+            this.downlinkBitrate.textContent = `Downlink: ${bitrate}kbps`;
+        }
     }
 
     onVideoEncoderAvgQP(QP: number) {
@@ -159,6 +166,17 @@ export class BottomPanel {
         }
 
         return this._settingIcon;
+    }
+
+    public get downlinkBitrate(): HTMLElement {
+        if (!this._downlinkBitrate) {
+            this._downlinkBitrate = document.createElement('div');
+            this._downlinkBitrate.id = 'downlinkBitrate';
+            this._downlinkBitrate.style.color = 'white';
+            this._downlinkBitrate.style.fontSize = '0.75rem';
+        }
+
+        return this._downlinkBitrate;
     }
 
     public get stateIcon(): HTMLElement {
