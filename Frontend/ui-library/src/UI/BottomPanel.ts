@@ -256,41 +256,29 @@ export class BottomPanel {
                 this.application.stream.emitConsoleCommand('t.maxfps 60');
                 this.application.stream.emitConsoleCommand('r.ScreenPercentage 100');
                 this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 60);
-                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 200);
-                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 10000);
-                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 1);
-                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 100);
                 break;
             case 'High Detail':
                 this.application.stream.emitConsoleCommand('r.setres 1280x720');
                 this.application.stream.emitConsoleCommand('t.maxfps 30');
                 this.application.stream.emitConsoleCommand('r.ScreenPercentage 95');
                 this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 30);
-                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 900);
-                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 3000);
-                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 58);
-                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 90);
                 break;
             case 'Balanced':
                 this.application.stream.emitConsoleCommand('r.setres 960x540');
                 this.application.stream.emitConsoleCommand('t.maxfps 27');
                 this.application.stream.emitConsoleCommand('r.ScreenPercentage 95');
                 this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 27);
-                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 600);
-                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 2000);
-                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 50);
-                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 88);
                 break;
             case 'Low Data':
                 this.application.stream.emitConsoleCommand('r.setres 640x360');
                 this.application.stream.emitConsoleCommand('t.maxfps 24');
                 this.application.stream.emitConsoleCommand('r.ScreenPercentage 90');
                 this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 24);
-                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 300);
-                this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 1000);
-                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 20);
-                this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 80);
                 break;
         }
+        this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMinBitrate, 200);
+        this.application.stream.config.setNumericSetting(NumericParameters.WebRTCMaxBitrate, 10000);
+        this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMin, 1);
+        this.application.stream.config.setNumericSetting(NumericParameters.CompatQualityMax, 100);
     }
 }
