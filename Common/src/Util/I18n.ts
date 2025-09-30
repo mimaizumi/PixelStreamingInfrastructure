@@ -32,7 +32,9 @@ const translations: Record<string, Record<string, string>> = {
         waitingForStreamer: 'The server is ready; starting the app. You’ll be connected automatically.',
         gaveUpWaitingForStreamer:
             'The server is ready, but the app didn’t start in time. Click to try again.',
-        clickToResume: 'Click to resume'
+        clickToResume: 'Click to resume',
+        goodput: 'Goodput',
+        chooseQuality: 'Choose Quality'
     },
     ja: {
         maxPlayerMessage: 'セッションを準備しています（リソースを確保中）…',
@@ -57,6 +59,8 @@ const translations: Record<string, Record<string, string>> = {
         waitingForStreamer: 'サーバー準備は完了し、アプリを起動中です。接続は自動で開始します。',
         gaveUpWaitingForStreamer:
             'サーバー準備は完了しましたが、アプリが正常に起動しませんでした。ここをクリックしてもう一度お試し下さい。',
-        clickToResume: 'Click to resume'
+        clickToResume: 'Click to resume',
+        goodput: '実効下り',
+        chooseQuality: '画質を選ぶ'
     }
 };

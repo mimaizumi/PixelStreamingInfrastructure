@@ -19,7 +19,15 @@ export class OptimizedQualitySelector {
 
             const currentQuality = document.createElement('div');
             currentQuality.id = 'optimizedQualitySelectorCurrentQuality';
-            currentQuality.textContent = this._currentQuality;
+
+            const currentTextLabel = document.createElement('span');
+            currentTextLabel.textContent = this._currentQuality;
+            currentQuality.appendChild(currentTextLabel);
+
+            const icon = document.createElement('i');
+            icon.style.marginLeft = '5px';
+            icon.classList.add('fa-solid', 'fa-chevron-up');
+            currentQuality.appendChild(icon);
             currentQuality.addEventListener('click', () => {
                 const qualityOptions = document.getElementById('optimizedQualitySelectorQualityOptions');
                 if (qualityOptions) {
@@ -39,7 +47,7 @@ export class OptimizedQualitySelector {
                     this.onQualityChanged(quality);
                     this._currentQuality = quality;
                     const qualityOptions = document.getElementById('optimizedQualitySelectorQualityOptions');
-                    currentQuality.textContent = quality;
+                    currentTextLabel.textContent = quality;
                     if (qualityOptions) {
                         qualityOptions.style.display = 'none';
                     }

@@ -4,7 +4,8 @@ import {
     I18n,
     LatencyInfo,
     Logger,
-    NumericParameters
+    NumericParameters,
+    TextParameters
 } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { StopIcon } from '../UI/StopIcon';
 import { Application, VideoQPIndicatorConfig } from '../pixelstreamingfrontend-ui';
@@ -31,9 +32,11 @@ export class BottomPanel {
     questionIcon: QuestionIcon;
     rdesignCenter: RDesignCenter;
     optimizedQualitySelector: OptimizedQualitySelector;
+    lang: string;
 
     constructor(application: Application, videoQpIndicatorConfig?: VideoQPIndicatorConfig) {
         this.application = application;
+        this.lang = this.application.stream.config.getTextSettingValue(TextParameters.Lang);
 
         this.videoQuality = new VideoQuality();
         this.videoQpIndicator = new VideoQpIndicator(videoQpIndicatorConfig);
@@ -143,7 +146,7 @@ export class BottomPanel {
 
         if (aggregatedStats.inboundVideoStats.bitrate) {
             const bitrate = aggregatedStats.inboundVideoStats.bitrate.toString();
-            this.downlinkBitrate.textContent = `Downlink: ${bitrate}kbps`;
+            this.downlinkBitrate.textContent = `${I18n.t('goodput', this.lang)}: ${bitrate}kbps`;
         }
     }
 
@@ -187,6 +190,7 @@ export class BottomPanel {
             this._downlinkBitrate.style.color = 'white';
             this._downlinkBitrate.style.fontSize = '0.75rem';
             this._downlinkBitrate.style.display = 'none';
+            this._downlinkBitrate.style.marginLeft = '20px';
         }
 
         return this._downlinkBitrate;
@@ -217,10 +221,11 @@ export class BottomPanel {
             this._networkOptimizationQuality.style.color = 'white';
             this._networkOptimizationQuality.style.fontSize = '0.75rem';
             this._networkOptimizationQuality.style.display = 'none';
+            this._networkOptimizationQuality.style.marginLeft = '20px';
 
             const label = document.createElement('div');
             label.id = 'networkOptimizationQualityLabel';
-            label.textContent = 'Network Optimized Quality:';
+            label.textContent = I18n.t('chooseQuality', this.lang);
             this._networkOptimizationQuality.appendChild(label);
 
             this._networkOptimizationQuality.appendChild(this.optimizedQualitySelector.rootElement);
