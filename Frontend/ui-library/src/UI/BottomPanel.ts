@@ -191,7 +191,6 @@ export class BottomPanel {
             this._downlinkBitrate.style.color = 'white';
             this._downlinkBitrate.style.fontSize = '0.75rem';
             this._downlinkBitrate.style.display = 'none';
-            this._downlinkBitrate.style.marginLeft = '20px';
         }
 
         return this._downlinkBitrate;
@@ -222,7 +221,6 @@ export class BottomPanel {
             this._networkOptimizationQuality.style.color = 'white';
             this._networkOptimizationQuality.style.fontSize = '0.75rem';
             this._networkOptimizationQuality.style.display = 'none';
-            this._networkOptimizationQuality.style.marginLeft = '20px';
 
             const label = document.createElement('div');
             label.id = 'networkOptimizationQualityLabel';
