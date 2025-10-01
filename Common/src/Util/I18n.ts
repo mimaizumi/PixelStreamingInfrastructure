@@ -34,7 +34,15 @@ const translations: Record<string, Record<string, string>> = {
             'The server is ready, but the app didn’t start in time. Click to try again.',
         clickToResume: 'Click to resume',
         goodput: 'Goodput',
-        chooseQuality: 'Choose Quality'
+        chooseQuality: 'Choose Quality:',
+        fullHD: 'Full HD',
+        standard: 'Standard',
+        lowData: 'Low Data',
+        ultraLowData: 'Ultra Low Data',
+        notConnected: 'Not connected',
+        good: 'Good',
+        blocky: 'Blocky',
+        poor: 'Poor'
     },
     ja: {
         maxPlayerMessage: 'セッションを準備しています（リソースを確保中）…',
@@ -61,6 +69,14 @@ const translations: Record<string, Record<string, string>> = {
             'サーバー準備は完了しましたが、アプリが正常に起動しませんでした。ここをクリックしてもう一度お試し下さい。',
         clickToResume: 'Click to resume',
         goodput: '実効下り',
-        chooseQuality: '画質を選ぶ'
+        chooseQuality: '画質を選ぶ:',
+        fullHD: 'フルHD',
+        standard: '標準',
+        lowData: '省データ',
+        ultraLowData: '超省データ',
+        notConnected: '未接続',
+        good: '良好',
+        blocky: '粗い',
+        poor: '不安定'
     }
 };

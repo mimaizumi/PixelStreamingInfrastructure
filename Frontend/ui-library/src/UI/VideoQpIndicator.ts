@@ -1,5 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+import { I18n } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
 import { VideoQPIndicatorConfig } from '../Application/Application';
 
 /**
@@ -28,9 +29,18 @@ export class VideoQpIndicator {
     _outer: SVGElement;
     _middle: SVGElement;
     _inner: SVGElement;
+    _lang: string;
 
     constructor(config?: VideoQPIndicatorConfig) {
         this.config = config;
+    }
+
+    public set lang(lang: string) {
+        this._lang = lang;
+    }
+
+    public get lang(): string {
+        return this._lang;
     }
 
     /**
@@ -41,6 +51,11 @@ export class VideoQpIndicator {
             // make the root element that contains the svg for the connection
             this._rootElement = document.createElement('div');
             this._rootElement.id = 'connection';
+            if (this.lang === 'ja') {
+                this._rootElement.style.width = '77px';
+            } else {
+                this._rootElement.style.width = '130px';
+            }
             this._rootElement.classList.add('UiTool');
 
             // add svg icon for the connection strength
@@ -177,7 +192,7 @@ export class VideoQpIndicator {
         if (QP > this.redQP) {
             this.color = 'red';
             this.blinkVideoQualityStatus(2);
-            this.statsText = `<div style="color: ${this.color}">Poor</div>`;
+            this.statsText = `<div style="color: ${this.color}">${I18n.t('poor', this.lang)}</div>`;
             this.outer.setAttributeNS(null, 'fill', '#3c3b40');
             this.middle.setAttributeNS(null, 'fill', '#3c3b40');
             this.inner.setAttributeNS(null, 'fill', this.color);
@@ -185,7 +200,7 @@ export class VideoQpIndicator {
         } else if (QP > this.orangeQP) {
             this.color = 'orange';
             this.blinkVideoQualityStatus(1);
-            this.statsText = `<div style="color: ${this.color}">Blocky</div>`;
+            this.statsText = `<div style="color: ${this.color}">${I18n.t('blocky', this.lang)}</div>`;
             this.outer.setAttributeNS(null, 'fill', '#3c3b40');
             this.middle.setAttributeNS(null, 'fill', this.color);
             this.inner.setAttributeNS(null, 'fill', this.color);
@@ -196,11 +211,11 @@ export class VideoQpIndicator {
             this.middle.setAttributeNS(null, 'fill', '#3c3b40');
             this.inner.setAttributeNS(null, 'fill', '#3c3b40');
             this.dot.setAttributeNS(null, 'fill', '#3c3b40');
-            this.statsText = `<div style="color: ${this.color}">Not connected</div>`;
+            this.statsText = `<div style="color: ${this.color}">${I18n.t('notConnected', this.lang)}</div>`;
         } else {
             this.color = 'lime';
             this.qualityStatus.style.opacity = this.config?.hideWhenGood == true ? '0' : '1';
-            this.statsText = `<div style="color: ${this.color}">Good</div>`;
+            this.statsText = `<div style="color: ${this.color}">${I18n.t('good', this.lang)}</div>`;
             this.outer.setAttributeNS(null, 'fill', this.color);
             this.middle.setAttributeNS(null, 'fill', this.color);
             this.inner.setAttributeNS(null, 'fill', this.color);

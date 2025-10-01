@@ -1,12 +1,17 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
+import { I18n } from '@epicgames-ps/lib-pixelstreamingfrontend-ue5.6';
+
 export class OptimizedQualitySelector {
     _rootElement: HTMLElement;
     _currentQuality: string;
 
+    lang: string;
+
     onQualityChanged: (quality: string) => void;
 
-    constructor() {
-        this._currentQuality = 'Full HD';
+    constructor(lang: string) {
+        this._currentQuality = 'fullHD';
+        this.lang = lang;
     }
 
     public get rootElement(): HTMLElement {
@@ -20,12 +25,12 @@ export class OptimizedQualitySelector {
             const currentQuality = document.createElement('div');
             currentQuality.id = 'optimizedQualitySelectorCurrentQuality';
 
-            const currentTextLabel = document.createElement('span');
-            currentTextLabel.textContent = this._currentQuality;
+            const currentTextLabel = document.createElement('div');
+            currentTextLabel.textContent = I18n.t(this._currentQuality, this.lang);
             currentQuality.appendChild(currentTextLabel);
 
             const icon = document.createElement('i');
-            icon.style.marginLeft = '5px';
+            icon.style.marginTop = '3px';
             icon.classList.add('fa-solid', 'fa-chevron-up');
             currentQuality.appendChild(icon);
             currentQuality.addEventListener('click', () => {
@@ -39,15 +44,15 @@ export class OptimizedQualitySelector {
             qualityOptions.id = 'optimizedQualitySelectorQualityOptions';
             qualityOptions.style.display = 'none';
 
-            ['Full HD', 'High Detail', 'Balanced', 'Low Data'].forEach((quality) => {
+            ['fullHD', 'standard', 'lowData', 'ultraLowData'].forEach((quality) => {
                 const option = document.createElement('div');
                 option.className = 'optimizedQualitySelectorQualityOption';
-                option.textContent = quality;
+                option.textContent = I18n.t(quality, this.lang);
                 option.addEventListener('click', () => {
                     this.onQualityChanged(quality);
                     this._currentQuality = quality;
                     const qualityOptions = document.getElementById('optimizedQualitySelectorQualityOptions');
-                    currentTextLabel.textContent = quality;
+                    currentTextLabel.textContent = I18n.t(this._currentQuality, this.lang);
                     if (qualityOptions) {
                         qualityOptions.style.display = 'none';
                     }

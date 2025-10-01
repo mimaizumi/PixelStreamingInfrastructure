@@ -195,7 +195,11 @@ export class PixelStreamingApplicationStyle {
             alignItems: 'center',
             gap: '0.5rem',
             fontSize: '0.75rem',
-            color: 'white'
+            color: 'white',
+            width: '130px'
+        },
+        '#downlinkBitrate': {
+            width: '130px'
         },
         '#rdesignWrapper': {
             position: 'absolute',
@@ -908,7 +912,10 @@ export class PixelStreamingApplicationStyle {
             padding: '5px',
             background: '#777777',
             borderRadius: '3px',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
         },
         '.optimizedQualitySelectorQualityOption': {
             width: '100%',

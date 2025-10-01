@@ -40,6 +40,7 @@ export class BottomPanel {
 
         this.videoQuality = new VideoQuality();
         this.videoQpIndicator = new VideoQpIndicator(videoQpIndicatorConfig);
+        this.videoQpIndicator.lang = this.lang;
 
         this.questionIcon = new QuestionIcon();
         this.questionIcon.onClick = () => {
@@ -62,7 +63,7 @@ export class BottomPanel {
             window.parent.postMessage('PixelStreamingStop', '*');
         };
 
-        this.optimizedQualitySelector = new OptimizedQualitySelector();
+        this.optimizedQualitySelector = new OptimizedQualitySelector(this.lang);
         this.optimizedQualitySelector.onQualityChanged = (quality) => {
             this.qualityChanged(quality);
         };
@@ -256,25 +257,25 @@ export class BottomPanel {
 
     qualityChanged(quality: string) {
         switch (quality) {
-            case 'Full HD':
+            case 'fullHD':
                 this.application.stream.emitConsoleCommand('r.setres 1920x1080');
                 this.application.stream.emitConsoleCommand('t.maxfps 60');
                 this.application.stream.emitConsoleCommand('r.ScreenPercentage 100');
                 this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 60);
                 break;
-            case 'High Detail':
+            case 'standard':
                 this.application.stream.emitConsoleCommand('r.setres 1280x720');
                 this.application.stream.emitConsoleCommand('t.maxfps 30');
                 this.application.stream.emitConsoleCommand('r.ScreenPercentage 95');
                 this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 30);
                 break;
-            case 'Balanced':
+            case 'lowData':
                 this.application.stream.emitConsoleCommand('r.setres 960x540');
                 this.application.stream.emitConsoleCommand('t.maxfps 27');
                 this.application.stream.emitConsoleCommand('r.ScreenPercentage 95');
                 this.application.stream.config.setNumericSetting(NumericParameters.WebRTCFPS, 27);
                 break;
-            case 'Low Data':
+            case 'ultraLowData':
                 this.application.stream.emitConsoleCommand('r.setres 640x360');
                 this.application.stream.emitConsoleCommand('t.maxfps 24');
                 this.application.stream.emitConsoleCommand('r.ScreenPercentage 90');
