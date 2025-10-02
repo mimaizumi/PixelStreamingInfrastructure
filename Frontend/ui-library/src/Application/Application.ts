@@ -743,6 +743,8 @@ export class Application {
 
         // disable starting a latency checks
         this.statsPanel?.onDisconnect();
+
+        window.parent.postMessage('PixelStreamingStop', '*');
     }
 
     /**
