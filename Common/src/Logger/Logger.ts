@@ -113,7 +113,17 @@ export class LoggerType implements ILogger {
      * @param message - the message to be logged.
      */
     private CommonLog(level: string, message: string) {
-        let logMessage = `[${level}] - ${message}`;
+        const now = new Date();
+
+        const dd = String(now.getDate()).padStart(2, '0');
+        const MM = String(now.getMonth() + 1).padStart(2, '0');
+        const yyyy = now.getFullYear();
+
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mm = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+
+        let logMessage = `[${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}] [${level}] - ${message}`;
         if (this.context!.includeStack) {
             logMessage += `\nStack: ${this.GetStackTrace()}`;
         }
