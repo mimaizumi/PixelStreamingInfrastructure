@@ -78,7 +78,7 @@ export class SignallingServer {
      * @param config - A collection of options for this server.
      */
     constructor(config: IServerConfig) {
-        Logger.debug('Started SignallingServer with config: %s', stringify(config));
+        Logger.info('Started SignallingServer with config: %s', stringify(config));
 
         this.config = config;
         this.streamerRegistry = new StreamerRegistry();
