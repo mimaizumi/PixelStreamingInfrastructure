@@ -14,7 +14,7 @@ declare global {
 }
 
 document.body.onload = function() {
-  Logger.InitLogging(LogLevel.RDesign, false);
+  Logger.InitLogging(LogLevel.Debug, false);
 	Logger.RDesign("Welcome! Pixel Streaming");
 
 	// Create a config object
