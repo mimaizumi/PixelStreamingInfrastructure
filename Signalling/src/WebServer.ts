@@ -126,6 +126,7 @@ export class WebServer {
             // Try a few paths, see if any resolve to a homepage file the user has set
             const p = path.resolve(path.join(config.root, config.homepageFile));
             if (fs.existsSync(p)) {
+                Logger.info(`Sending file to Browser: ${p}`);
                 // Send the file for browser to display it
                 res.sendFile(p);
                 return;
